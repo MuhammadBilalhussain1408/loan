@@ -1,0 +1,28 @@
+name: Deploy to Ubuntu Server
+
+on:
+  workflow_dispatch:
+    # branches:
+    #   - master  # Change this to your deployment branch if different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install SSH client and sshpass
+      run: sudo apt-get install -y openssh-client sshpass
+
+    - name: Copy files to server
+      run: |
+        sudo sshpass -p "${{ secrets.SSH_PASSWORD }}" sudo rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/www/wwwroot/mopado.co.sz/members
+
+    - name: SSH into server and run deployment script
+      run: |
+        sudo sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          cd /www/wwwroot/mopado.co.sz/members
+          sudo ./deploy.sh
+        EOF
