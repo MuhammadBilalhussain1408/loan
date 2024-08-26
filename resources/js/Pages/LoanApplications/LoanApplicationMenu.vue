@@ -1,12 +1,12 @@
 <template>
-    <div class="print:hidden bg-white p-4 shadow rounded">
+    <div class="bg-white p-4 shadow rounded">
         <div class="flex justify-between">
             <h3>{{ application.product.name }} (#{{ application.id }})</h3>
             <div class="flex justify-end mb-4">
                 <inertia-link v-if="can('loans.index') && application.status==='disbursed' && application.loan"
                               :href="route('loans.show', application.loan.id)"
                               tabindex="-1"
-                              class="px-4 py-2 border  text-white font-semibold bg-green-600 hover:bg-green-700"
+                              class="inertia-link px-4 py-2 border  text-white font-semibold bg-green-600 hover:bg-green-700"
                               title="View Loan">
                     View Loan
                 </inertia-link>
@@ -19,7 +19,7 @@
                 <inertia-link v-if="can('loans.applications.update') && application.status==='pending'"
                               :href="route('loans.applications.edit', application.id)"
                               tabindex="-1"
-                              class="px-4 py-2 border  text-white font-semibold bg-blue-600 hover:bg-blue-700"
+                              class="inertia-link  px-4 py-2 border  text-white font-semibold bg-blue-600 hover:bg-blue-700"
                               title="Edit">
                     <font-awesome-icon icon="edit"/>
                     Edit
@@ -29,6 +29,12 @@
                         class="px-4 py-2  text-white font-semibold bg-red-600 hover:bg-red-700">
                     <font-awesome-icon icon="trash"/>
                     Delete
+                </button>
+                <button title="Print"
+                        @click="printSection()"
+                        class="px-4 py-2 ms-1 text-white font-semibold bg-orange-500 hover:bg-orange-600">
+                    <font-awesome-icon icon="print"/>
+                    Print
                 </button>
             </div>
         </div>
@@ -165,7 +171,7 @@
             </div>
         </div>
     </div>
-    <div class="mt-4 bg-white">
+    <div class="mt-4 bg-white" id="TabLinks">
         <div class="border-b border-gray-200">
             <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500">
                 <li>
@@ -485,11 +491,35 @@ export default {
                     })
                 }
             });
+        },
+        printSection(){
+            window.print();
         }
     },
 }
 </script>
 
 <style scoped>
+@media print {
+  body {
+    visibility: hidden;
+  }
+  #TabLinks{
+    visibility: hidden;
+  }
+
+  button{
+    visibility: hidden;
+  }
+  .inertia-link {
+    visibility: hidden
+  }
+  /* #printDiv {
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+  } */
+}
 
 </style>
