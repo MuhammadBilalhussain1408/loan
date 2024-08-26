@@ -34,7 +34,6 @@
                                 :required="true"
                             />
                         </div>
-
                     </div>
                     <div v-if="selectedProduct">
                         <h3 class="mt-4 font-bold">Terms</h3>
