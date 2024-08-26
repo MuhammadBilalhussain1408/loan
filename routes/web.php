@@ -58,6 +58,7 @@ use App\Http\Controllers\LoanApplicationController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\LoanScheduleController;
 use App\Http\Controllers\MemberBeneficiaryController;
+use App\Http\Controllers\MemberContributionController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MemberRelationshipController;
 use App\Http\Controllers\OtherLoanController;
@@ -226,6 +227,7 @@ Route::group(['prefix' => 'custom_field', 'as' => 'custom_fields.'], function ()
     Route::put('/{field}/update', [CustomFieldController::class, 'update'])->name('update');
     Route::delete('/{field}/destroy', [CustomFieldController::class, 'destroy'])->name('destroy');
 });
+
 //loans
 Route::group(['prefix' => 'loan', 'as' => 'loans.'], function () {
     Route::get('/', [LoanController::class, 'index'])->name('index');
@@ -553,6 +555,16 @@ Route::prefix('communication')->group(function () {
     });
 });
 
+ //member contribution
+ Route::group(['prefix' => 'contribution', 'as' => 'contribution.'], function () {
+    Route::get('/', [MemberContributionController::class, 'index'])->name('index');
+    Route::get('create', [MemberContributionController::class, 'create'])->name('create');
+    Route::post('store', [MemberContributionController::class, 'store'])->name('store');
+    Route::get('{stage}/show', [MemberContributionController::class, 'show'])->name('show');
+    Route::get('{stage}/edit', [MemberContributionController::class, 'edit'])->name('edit');
+    Route::put('{stage}/update', [MemberContributionController::class, 'update'])->name('update');
+    Route::delete('{stage}/destroy', [MemberContributionController::class, 'destroy'])->name('destroy');
+});
 
 //settings
 Route::group(['prefix' => 'setting'], function () {
@@ -625,6 +637,7 @@ Route::group(['prefix' => 'portal', 'as' => 'portal.'], function () {
         Route::get('show', [MemberPortalController::class, 'show'])->name('show');
         Route::get('edit', [MemberPortalController::class, 'edit'])->name('edit');
         Route::put('update', [MemberPortalController::class, 'update'])->name('update');
+
 
         //member identification
         Route::get('beneficiary', [MemberPortalMemberBeneficiaryController::class, 'index'])->name('beneficiaries.index');
