@@ -19,7 +19,7 @@
                 <inertia-link v-if="can('loans.applications.update') && application.status==='pending'"
                               :href="route('loans.applications.edit', application.id)"
                               tabindex="-1"
-                              class="inertia-link  px-4 py-2 border  text-white font-semibold bg-blue-600 hover:bg-blue-700"
+                              class="inertia-link px-4 py-2 border  text-white font-semibold bg-blue-600 hover:bg-blue-700"
                               title="Edit">
                     <font-awesome-icon icon="edit"/>
                     Edit

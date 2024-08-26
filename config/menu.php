@@ -116,7 +116,6 @@ return [
                     'children' => [],
                     'order' => 6,
                 ],
-               
             ],
             'order' => 2,
         ],
@@ -162,6 +161,25 @@ return [
                     'dropdown' => false,
                     'children' => [],
                     'order' => 3,
+                ],
+            ],
+            'order' => 4,
+        ],
+        [
+            'name' => 'Contributions',
+            'icon' => 'mail-bulk',
+            'route' => '',
+            'permissions' => '',
+            'dropdown' => true,
+            'children' => [
+                [
+                    'name' => 'Contributions List',
+                    'icon' => 'circle',
+                    'route' => 'contribution.index',
+                    'permissions' => '',
+                    'dropdown' => false,
+                    'children' => [],
+                    'order' => 1,
                 ],
             ],
             'order' => 4,

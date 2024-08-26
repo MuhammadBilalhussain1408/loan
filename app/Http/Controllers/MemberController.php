@@ -355,7 +355,7 @@ class MemberController extends Controller
         $id = $request->id;
         $withSavings = $request->with_savings;
         $withLoans = $request->with_loans;
-        $query = Member::with(['country', 'branch'])->where(function ($query) use ($search) {
+        $query = Member::with(['country', 'branch','category'])->where(function ($query) use ($search) {
             $query->where('first_name', 'like', "%$search%");
             $query->orWhere('last_name', 'like', "%$search%");
             $query->orWhere('middle_name', 'like', "%$search%");
