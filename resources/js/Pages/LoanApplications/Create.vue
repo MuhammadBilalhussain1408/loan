@@ -466,7 +466,7 @@ export default {
         changeLoanProduct() {
             if (this.selectedProduct) {
                 this.form.loan_product_id = this.selectedProduct.id;
-                this.form.applied_amount = this.selectedProduct.default_principal;
+                this.form.applied_amount = '00.000';
                 this.form.loan_term = this.selectedProduct.default_loan_term;
                 this.form.repayment_frequency = this.selectedProduct.repayment_frequency;
                 this.form.repayment_frequency_type = this.selectedProduct.repayment_frequency_type;
