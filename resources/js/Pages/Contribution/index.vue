@@ -76,9 +76,9 @@
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Surname</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Name</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Member Category</th>
-                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Id no</th>
-                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Contri 15 per</th>
-                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Contri 30 per</th>
+                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">ID No</th>
+                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">15% Employee Contri</th>
+                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">30% Employer Contri</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Total contribution</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Action</th>
                     </tr>

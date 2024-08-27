@@ -45,19 +45,19 @@
                     memberContribution.member_category }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Id no
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">ID No
                                 </th>
                                 <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
                     memberContribution.id_no }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Contri 15 per
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">15% Employee Contri
                                 </th>
                                 <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
                     memberContribution.contri_15_per }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Contri 30 per</th>
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">30% Employer Contri</th>
                                 <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
                     memberContribution.contri_30_per }}</td>
                             </tr>
