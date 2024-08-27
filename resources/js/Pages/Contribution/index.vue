@@ -123,12 +123,12 @@
                         </td>
                         <td class="border-t w-px pr-2">
                             <div class=" flex gap-4">
-                                <inertia-link :href="route('loans.stop_loan.show', result.id)"
+                                <inertia-link :href="route('contribution.show', result.id)"
                                               tabindex="-1" class="text-green-600 hover:text-green-900" title="View">
                                     <font-awesome-icon icon="search"/>
                                 </inertia-link>
                                 <inertia-link
-                                              :href="route('loans.stop_loan.edit', result.id)"
+                                              :href="route('contribution.edit', result.id)"
                                               tabindex="-1" class="text-green-600 hover:text-green-900" title="Edit">
                                     <font-awesome-icon icon="edit"/>
                                 </inertia-link>

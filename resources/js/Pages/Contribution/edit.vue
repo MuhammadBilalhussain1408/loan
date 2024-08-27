@@ -14,89 +14,76 @@
                 <form @submit.prevent="submit">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 ">
                         <div>
-                            <jet-label for="member_id" value="Member"/>
-                            <Multiselect
-                                v-model="selectedMember"
-                                @select="changeMember"
-                                v-bind="membersMultiSelect"
-                            />
+                            <jet-label for="member_id" value="Member" />
+                            <Multiselect v-model="selectedMember" @select="changeMember" v-bind="membersMultiSelect" />
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-                              <div>
-                                <jet-label for="account_holder" value="Account Holder"/>
-                                <jet-input id="account_holder" type="text"
-                                           class="block w-full" v-model="form.account_holder"/>
-                                <jet-input-error :message="form.errors.account_holder" class="mt-2"/>
+                            <div>
+                                <jet-label for="name" value="Name" />
+                                <jet-input id="name" type="text" class="block w-full" v-model="form.name" />
+                                <jet-input-error :message="form.errors.name" class="mt-2" />
                             </div>
                             <div>
-                                <jet-label for="account_number" value="Account Number"/>
-                                <jet-input id="account_number" type="text"
-                                           class="block w-full" v-model="form.account_number"/>
-                                <jet-input-error :message="form.errors.account_number" class="mt-2"/>
+                                <jet-label for="surname" value="Surname" />
+                                <jet-input id="surname" type="text" class="block w-full" v-model="form.surname" />
+                                <jet-input-error :message="form.errors.surname" class="mt-2" />
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-                              <div>
-                                <jet-label for="branch_code" value="Branch Code"/>
-                                <jet-input id="branch_code" type="text"
-                                           class="block w-full" v-model="form.branch_code"/>
-                                <jet-input-error :message="form.errors.branch_code" class="mt-2"/>
+
+                            <div>
+                                <jet-label for="member_category" value="Member Category" />
+                                <jet-input id="member_category" type="text" class="block w-full"
+                                    v-model="form.member_category" />
+                                <jet-input-error :message="form.errors.member_category" class="mt-2" />
                             </div>
                             <div>
-                                <jet-label for="member_account_holder" value="Member Account Holder"/>
-                                <jet-input id="member_account_holder" type="text"
-                                           class="block w-full" v-model="form.member_account_holder"/>
-                                <jet-input-error :message="form.errors.member_account_holder" class="mt-2"/>
+                                <jet-label for="gender" value="Gender" />
+                                <jet-input id="gender" type="text" class="block w-full" v-model="form.gender" />
+                                <jet-input-error :message="form.errors.gender" class="mt-2" />
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
+
                             <div>
-                                <jet-label for="member_account_number" value="Member Account Number"/>
-                                <jet-input id="member_account_number" type="text"
-                                           class="block w-full" v-model="form.member_account_number"/>
-                                <jet-input-error :message="form.errors.member_account_number" class="mt-2"/>
+                                <jet-label for="id_no" value="Id No" />
+                                <jet-input id="id_no" type="text" class="block w-full" v-model="form.id_no" />
+                                <jet-input-error :message="form.errors.id_no" class="mt-2" />
                             </div>
                             <div>
-                                <jet-label for="monthly_installment" value="Monthly Installment"/>
-                                <jet-input id="monthly_installment" type="text"
-                                           class="block w-full" v-model="form.monthly_installment"/>
-                                <jet-input-error :message="form.errors.monthly_installment" class="mt-2"/>
+                                <jet-label for="basic_salary" value="Basic Salary" />
+                                <jet-input id="basic_salary" type="text" class="block w-full"
+                                    v-model="form.basic_salary" />
+                                <jet-input-error :message="form.errors.basic_salary" class="mt-2" />
                             </div>
+
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
                             <div>
-                                <jet-label for="stop_order_date" value="Stop Order Date"/>
-                                <jet-input id="stop_order_date" type="date"
-                                           class="block w-full" v-model="form.stop_order_date"/>
-                                <jet-input-error :message="form.errors.stop_order_date" class="mt-2"/>
+                                <jet-label for="contri_15_per" value="15% Employee Contrbution" />
+                                <jet-input id="contri_15_per" type="text" class="block w-full"
+                                    v-model="form.contri_15_per" />
+                                <jet-input-error :message="form.errors.contri_15_per" class="mt-2" />
                             </div>
+
                             <div>
-                                <jet-label for="member_branch_code" value="Member Branch code"/>
-                                <jet-input id="member_branch_code" type="text"
-                                           class="block w-full" v-model="form.member_branch_code"/>
-                                <jet-input-error :message="form.errors.member_branch_code" class="mt-2"/>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-                              <div>
-                                <jet-label for="reference" value="Reference"/>
-                                <jet-input id="reference" type="text"
-                                           class="block w-full" v-model="form.reference"/>
-                                <jet-input-error :message="form.errors.reference" class="mt-2"/>
+                                <jet-label for="contri_30_per" value="30% Employee Contrbution" />
+                                <jet-input id="contri_30_per" type="text" class="block w-full"
+                                    v-model="form.contri_30_per" />
+                                <jet-input-error :message="form.errors.contri_30_per" class="mt-2" />
                             </div>
                         </div>
                     </div>
                     <div class="flex items-center justify-end mt-4">
 
-                                 <!-- Print Button -->
-                   <!-- Print Button -->
+                        <!-- Print Button -->
+                        <!-- Print Button -->
                         <!-- <jet-button class="ml-4" @click="printForm" :style="{ backgroundColor: 'blue', color: 'white' }">
                             Print
                         </jet-button> -->
-                        <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }"
-                                    :disabled="form.processing">
+                        <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                             Save
                         </jet-button>
                     </div>
@@ -121,7 +108,7 @@ const fetchUsers = async (query) => {
 
     const data = await response.json(); // Here you have the data that you need
     return data.map((item) => {
-        return {value: item.id, label: item.name + ('(#' + item.id + ')')}
+        return { value: item.id, label: item.name + ('(#' + item.id + ')') }
     })
 }
 const fetchMembers = async (query) => {
@@ -158,7 +145,7 @@ export default {
         categories: Object,
         designations: Object,
         member_id: String,
-        stop_loan:Object
+        memberContribution: Object
     },
     components: {
         SelectInput,
@@ -176,16 +163,16 @@ export default {
         return {
             form: this.$inertia.form({
                 member_type: 'member',
-                member_id:this.stop_loan.member_id,
-                account_holder: this.stop_loan.account_holder,
-                account_number: this.stop_loan.account_number,
-                branch_code: this.stop_loan.branch_code,
-                monthly_installment: this.stop_loan.monthly_installment,
-                stop_order_date: this.stop_loan.stop_order_date,
-                member_account_holder: this.stop_loan.member_account_holder,
-                member_account_number: this.stop_loan.member_account_number,
-                member_branch_code: this.stop_loan.member_branch_code,
-                reference: this.stop_loan.reference,
+                member_id: this.memberContribution.member_id,
+                name: this.memberContribution.name,
+                surname: this.memberContribution.Surname,
+                member_category: this.memberContribution.member_category,
+                gender: this.memberContribution.gender,
+                id_no: this.memberContribution.id_no,
+                basic_salary: this.memberContribution.basic_salary,
+                contri_15_per: this.memberContribution.contri_15_per,
+                contri_30_per: this.memberContribution.contri_30_per,
+                reference: this.memberContribution.reference,
             }),
             usersMultiSelect: {
                 placeholder: 'Search for Staff',
@@ -226,7 +213,7 @@ export default {
     },
     methods: {
         submit() {
-            this.form.put(this.route('loans.stop_loan.update', this.stop_loan.id), {})
+            this.form.put(this.route('contribution.update', this.memberContribution.id), {})
 
         },
         printForm() {
@@ -254,12 +241,12 @@ export default {
             this.updateItems();
         },
         changeMember() {
-//             member_account_holder
-// member_account_number
-// member_branch_code
+            //             member_account_holder
+            // member_account_number
+            // member_branch_code
             //this.form.member_account_number = this.selectedMember.account_number;
             this.form.member_id = this.selectedMember.id;
-            this.form.member_account_holder = this.selectedMember.first_name+' '+this.selectedMember.middle_name+' '+this.selectedMember.last_name;
+            this.form.member_account_holder = this.selectedMember.first_name + ' ' + this.selectedMember.middle_name + ' ' + this.selectedMember.last_name;
             //this.form.reference = this.selectedMember.reference;
         },
         changeLoanProduct() {
@@ -296,6 +283,4 @@ export default {
     watch: {}
 }
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>

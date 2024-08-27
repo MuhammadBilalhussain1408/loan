@@ -6,74 +6,18 @@
                     Contribution
                 </inertia-link>
                 <span class="text-indigo-400 font-medium">/</span>
-                Contribution #{{ stopLoan.id }}
+                Contribution #{{ memberContribution.id }}
             </h2>
         </template>
         <div class=" mx-auto">
             <div class="bg-white rounded shadow p-6">
                 <div class="text-right">
-                                <button class="btn btn-primary" type="button" @click="printDiv()" id="print_btn">Print</button>
-                            </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-                    <div>
-
-                    </div>
-                    <div>
-                        <h2>Member of Parliment And Desiginated Office Bearers Pension Fund</h2>
-                        <table>
-                            <tr>
-                                <td class="p-2 font-medium text-gray-500">
-                                    4<sup>th</sup> Floor, Liqagha House
-                                </td>
-                                <td class="p-2 font-medium text-gray-500">
-                                    P.O. Box 4639
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p-2 font-medium text-gray-500">
-                                    Office No. 401, Manzini
-                                </td>
-                                <td class="p-2 font-medium text-gray-500">
-                                    Manzini Swaziland
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p-2 font-medium text-gray-500">
-                                    Nkoseluhlaza Street
-                                </td>
-                                <td class="p-2 font-medium text-gray-500">
-                                    Tel:(00268) 2505 7033/4
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="p-2 font-medium text-gray-500">
-
-                                </td>
-                                <td class="p-2 font-medium text-gray-500">
-                                    Fax:(00268) 2505 7034
-                                </td>
-                            </tr>
-                        </table>
-                        <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-                            <div>
-                                <p>4<sup>th</sup> Floor, Liqagha House</p>
-                                <p>Office No. 401, Manzini</p>
-                                <p>Nkoseluhlaza Street</p>
-                            </div>
-                            <div>
-                                <p>P.O. Box 4639</p>
-                                <p>Manzini Swaziland</p>
-                                <p>Tel:(00268) 2505 7033/4</p>
-                                <p>Fax:(00268) 2505 7034</p>
-                            </div>
-                        </div> -->
-                    </div>
+                    <button class="btn btn-primary" type="button" @click="printDiv()" id="print_btn">Print</button>
                 </div>
-                <hr />
                 <ol class="relative border-s border-gray-200">
                     <li class="mb-10 ms-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-                            <div>{{ stopLoan.member_account_holder }}</div>
+                            <div>{{ memberContribution.member_account_holder }}</div>
 
                         </div>
                     </li>
@@ -86,37 +30,47 @@
                     <div id="printDiv">
                         <table class="w-full border-collapse border border-gray-200">
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Account Holder</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.account_holder }}</td>
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Surname</th>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
+                    memberContribution.Surname }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Account Number</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.account_number }}</td>
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Name</th>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
+                    memberContribution.name }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Branch Code</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.branch_code }}</td>
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Member Category</th>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
+                    memberContribution.member_category }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Member Account Number</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.member_account_holder }}</td>
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Id no
+                                </th>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
+                    memberContribution.id_no }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Monthly Installment</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.monthly_installment }}</td>
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Contri 15 per
+                                </th>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
+                    memberContribution.contri_15_per }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Stop Order Date</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.stop_order_date }}</td>
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Contri 30 per</th>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
+                    memberContribution.contri_30_per }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Reference</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.reference }}</td>
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Total contribution</th>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
+                    memberContribution.total_contribution
+                                    }}</td>
                             </tr>
-                            <tr class="text-left bg-slate-50">
+                            <!-- <tr class="text-left bg-slate-50">
                                 <th class="border border-gray-200 p-2 font-medium text-gray-500">Signature</th>
                                 <td class="border border-gray-200 p-2 font-medium text-gray-500"></td>
-                            </tr>
+                            </tr> -->
                         </table>
                     </div>
                 </div>
@@ -148,7 +102,7 @@ import JetDangerButton from '@/Jetstream/DangerButton.vue'
 import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
 import JetSuccessButton from '@/Jetstream/SuccessButton.vue'
 import JetPrimaryButton from '@/Jetstream/PrimaryButton.vue'
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import JetDialogModal from '@/Jetstream/DialogModal.vue'
 
 const fetchUsers = async (query) => {
@@ -160,7 +114,7 @@ const fetchUsers = async (query) => {
 
     const data = await response.json(); // Here you have the data that you need
     return data.map((item) => {
-        return {value: item.id, label: item.name + ('(#' + item.id + ')')}
+        return { value: item.id, label: item.name + ('(#' + item.id + ')') }
     })
 }
 
@@ -180,13 +134,13 @@ export default {
         JetSuccessButton,
     },
     props: {
-        stopLoan: Object,
+        memberContribution: Object,
         paymentTypes: Object,
     },
     data() {
         return {
             form: this.$inertia.form({
-                status: this.stopLoan.status,
+                status: this.memberContribution.status,
             }),
             assigned_to_id: '',
             selectedStage: '',
@@ -215,7 +169,7 @@ export default {
     },
     watch: {},
     methods: {
-        printDiv(){
+        printDiv() {
             const printDiv = document.getElementById('printDiv');
             // Create a new window object
             // const printWindow = window.open('', 'Print Window');
@@ -324,13 +278,15 @@ export default {
 
 <style scoped>
 @media print {
-  body {
-    visibility: hidden;
-  }
-  #print_btn{
-    visibility: hidden;
-  }
-  /* #printDiv {
+    body {
+        visibility: hidden;
+    }
+
+    #print_btn {
+        visibility: hidden;
+    }
+
+    /* #printDiv {
     visibility: visible;
     position: absolute;
     left: 0;
