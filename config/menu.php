@@ -173,7 +173,7 @@ return [
             'dropdown' => true,
             'children' => [
                 [
-                    'name' => 'Contributions List',
+                    'name' => 'View Contributions',
                     'icon' => 'circle',
                     'route' => 'contribution.index',
                     'permissions' => '',
