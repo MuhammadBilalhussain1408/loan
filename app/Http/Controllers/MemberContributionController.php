@@ -73,10 +73,12 @@ class MemberContributionController extends Controller
     public function store(Request $request)
     {
         // dd($request->except('member_type'));
-        $arr = $request->except('member_type','surname');
+        $arr = $request->except('member_type', 'surname');
         $arr['total_contribution'] = $arr['contri_15_per'] + $arr['contri_30_per'];
         $oldMemContribution = MemberContribution::where('member_id', $arr['member_id'])->latest()->first();
-        $arr['balance'] = $oldMemContribution->balance + $arr['total_contribution'];
+        if ($oldMemContribution) {
+            $arr['balance'] = $oldMemContribution->balance + $arr['total_contribution'];
+        }
         $arr['Surname'] = $request->surname;
 
         MemberContribution::create($arr);
@@ -89,7 +91,7 @@ class MemberContributionController extends Controller
     public function show($memberContribution)
     {
         // dd($memberContribution);
-        $memberContribution = MemberContribution::where('id',$memberContribution)->first();
+        $memberContribution = MemberContribution::where('id', $memberContribution)->first();
 
         return Inertia::render('Contribution/show', [
             'memberContribution' => $memberContribution,
@@ -109,7 +111,7 @@ class MemberContributionController extends Controller
             $item->field_value = '';
             return $item;
         });
-        $memberContribution = MemberContribution::where('id',$memberContribution)->first();
+        $memberContribution = MemberContribution::where('id', $memberContribution)->first();
         return Inertia::render('Contribution/edit', [
             'memberContribution' => $memberContribution,
             'member_id' => request('member_id'),
@@ -134,7 +136,7 @@ class MemberContributionController extends Controller
         $arr['balance'] = $oldMemContribution->balance + $arr['total_contribution'];
         $arr['Surname'] = $request->surname;
 
-        MemberContribution::where('id',$memberContribution)->update($arr);
+        MemberContribution::where('id', $memberContribution)->update($arr);
         return redirect()->route('contribution.index')->with('success', 'Successfully updated');
     }
 
@@ -144,8 +146,7 @@ class MemberContributionController extends Controller
     public function destroy($memberContribution)
     {
         // dd($memberContribution);
-        MemberContribution::where('id',$memberContribution)->delete();
+        MemberContribution::where('id', $memberContribution)->delete();
         return redirect()->route('contribution.index')->with('success', 'Successfully Delete');
-
     }
 }
