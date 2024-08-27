@@ -73,7 +73,7 @@ class MemberContributionController extends Controller
     public function store(Request $request)
     {
         // dd($request->except('member_type'));
-        $arr = $request->except('member_type');
+        $arr = $request->except('member_type','surname');
         $arr['total_contribution'] = $arr['contri_15_per'] + $arr['contri_30_per'];
         $oldMemContribution = MemberContribution::where('member_id', $arr['member_id'])->latest()->first();
         $arr['balance'] = $oldMemContribution->balance + $arr['total_contribution'];
