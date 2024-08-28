@@ -57,6 +57,7 @@ use App\Http\Controllers\FilesController;
 use App\Http\Controllers\LoanApplicationController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\LoanScheduleController;
+use App\Http\Controllers\LoanStatementController;
 use App\Http\Controllers\MemberBeneficiaryController;
 use App\Http\Controllers\MemberContributionController;
 use App\Http\Controllers\MemberController;
@@ -119,13 +120,13 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/role/{role}/edit', [RolesController::class, 'edit'])->name('users.roles.edit');
     Route::put('/role/{role}/update', [RolesController::class, 'update'])->name('users.roles.update');
     Route::delete('/role/{role}/destroy', [RolesController::class, 'destroy'])->name('users.roles.destroy');
-
 });
 //activity log
 Route::group(['prefix' => 'activity_log', 'as' => 'activity_logs.'], function () {
     Route::get('/', [ActivityLogController::class, 'index'])->name('index');
     Route::get('/{activity}/show', [ActivityLogController::class, 'show'])->name('show');
 });
+
 
 //members
 Route::group(['prefix' => 'member', 'as' => 'members.'], function () {
@@ -178,7 +179,7 @@ Route::group(['prefix' => 'member', 'as' => 'members.'], function () {
         Route::delete('{title}/destroy', [TitleController::class, 'destroy'])->name('destroy');
     });
 
-//member relationship
+    //member relationship
     Route::group(['prefix' => 'relationship', 'as' => 'relationships.'], function () {
         Route::get('/', [MemberRelationshipController::class, 'index'])->name('index');
         Route::get('create', [MemberRelationshipController::class, 'create'])->name('create');
@@ -215,7 +216,6 @@ Route::group(['prefix' => 'member', 'as' => 'members.'], function () {
         Route::put('{profession}/update', [ProfessionController::class, 'update'])->name('update');
         Route::delete('{profession}/destroy', [ProfessionController::class, 'destroy'])->name('destroy');
     });
-
 });
 //custom fields
 Route::group(['prefix' => 'custom_field', 'as' => 'custom_fields.'], function () {
@@ -288,8 +288,6 @@ Route::group(['prefix' => 'loan', 'as' => 'loans.'], function () {
         Route::get('note/{note}/edit', [LoanApplicationNoteController::class, 'edit'])->name('notes.edit');
         Route::put('note/{note}/update', [LoanApplicationNoteController::class, 'update'])->name('notes.update');
         Route::delete('note/{note}/destroy', [LoanApplicationNoteController::class, 'destroy'])->name('notes.destroy');
-
-
     });
     //loan files
     Route::get('{loan}/file', [LoanFileController::class, 'index'])->name('files.index');
@@ -424,7 +422,6 @@ Route::group(['prefix' => 'loan', 'as' => 'loans.'], function () {
         Route::put('{provisioning}/update', [LoanProvisioningController::class, 'update'])->name('update');
         Route::delete('{provisioning}/destroy', [LoanProvisioningController::class, 'destroy'])->name('destroy');
     });
-
 });
 //files
 Route::group(['prefix' => 'file', 'as' => 'files.'], function () {
@@ -555,8 +552,8 @@ Route::prefix('communication')->group(function () {
     });
 });
 
- //member contribution
- Route::group(['prefix' => 'contribution', 'as' => 'contribution.'], function () {
+//member contribution
+Route::group(['prefix' => 'contribution', 'as' => 'contribution.'], function () {
     Route::get('/', [MemberContributionController::class, 'index'])->name('index');
     Route::get('create', [MemberContributionController::class, 'create'])->name('create');
     Route::post('store', [MemberContributionController::class, 'store'])->name('store');
@@ -565,7 +562,11 @@ Route::prefix('communication')->group(function () {
     Route::put('{stage}/update', [MemberContributionController::class, 'update'])->name('update');
     Route::delete('{stage}/destroy', [MemberContributionController::class, 'destroy'])->name('destroy');
 });
-
+// Loan Statement
+Route::group(['prefix' => 'statement', 'as' => 'statement.'], function () {
+    Route::get('/', [LoanStatementController::class, 'index'])->name('index');
+    Route::get('/get-loan-statement', [LoanStatementController::class, 'getLoanStatement'])->name('getLoanStatement');
+});
 //settings
 Route::group(['prefix' => 'setting'], function () {
     Route::get('/', [SettingsController::class, 'index'])->name('settings.index');
@@ -619,7 +620,6 @@ Route::group(['prefix' => 'report', 'as' => 'reports.'], function () {
 Route::group(['prefix' => 'license'], function () {
     Route::get('/', [LicenseController::class, 'index'])->name('license.index');
     Route::post('/verify', [LicenseController::class, 'verify'])->name('license.verify');
-
 });
 
 //member portal
@@ -654,7 +654,6 @@ Route::group(['prefix' => 'portal', 'as' => 'portal.'], function () {
         Route::get('file/show', [MemberPortalMemberFileController::class, 'show'])->name('files.show');
         Route::get('file/{file}/edit', [MemberPortalMemberFileController::class, 'edit'])->name('files.edit');
         Route::put('file/{file}/update', [MemberPortalMemberFileController::class, 'update'])->name('files.update');
-
     });
     //loans
     Route::group(['prefix' => 'loan', 'as' => 'loans.'], function () {
@@ -690,7 +689,6 @@ Route::group(['prefix' => 'portal', 'as' => 'portal.'], function () {
         Route::get('transaction/{transaction}/print', [MemberPortalLoanTransactionController::class, 'printTransaction'])->name('transactions.print');
         //charges
         Route::get('{loan}/charge', [MemberPortalLoanLinkedChargesController::class, 'index'])->name('linked_charges.index');
-
     });
 });
 Route::prefix('webhooks')->name('webhooks.')->group(function () {
