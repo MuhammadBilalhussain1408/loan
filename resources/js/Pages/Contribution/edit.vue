@@ -203,8 +203,8 @@ export default {
             selectedMember: null,
             selectedProduct: null,
             selectedCharge: null,
-            pageTitle: "Create Loan Application",
-            pageDescription: "Create Loan Application",
+            pageTitle: "Create Contribution",
+            pageDescription: "Create Contribution",
         }
 
     },

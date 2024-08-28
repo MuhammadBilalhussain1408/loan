@@ -2,7 +2,7 @@
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('loans.applications.index')">
+                <inertia-link class="text-indigo-400 hover:text-indigo-600" :href="route('contribution.index')">
                     Contribution
                 </inertia-link>
                 <span class="text-indigo-400 font-medium">/</span>
@@ -51,18 +51,18 @@
                     memberContribution.id_no }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">15% Employee Contri
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">15% Employee Contribution
                                 </th>
                                 <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
                     memberContribution.contri_15_per }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">30% Employer Contri</th>
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">30% Employer Contribution</th>
                                 <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
                     memberContribution.contri_30_per }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Total contribution</th>
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Total Contribution</th>
                                 <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
                     memberContribution.total_contribution
                                     }}</td>
