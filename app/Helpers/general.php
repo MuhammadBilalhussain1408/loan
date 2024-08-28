@@ -746,7 +746,7 @@ function generate_loan_application_schedule(LoanApplication $application)
 
     $installment_fees = 0;
     $disbursement_fees = 0;
-    
+    $totaladmincharges = 0;
     foreach ($application->charges as $key) {
         //disbursement
         $admincharges = $admincharges + $key->amount;
@@ -783,6 +783,7 @@ function generate_loan_application_schedule(LoanApplication $application)
             $disbursement_fees = $disbursement_fees + $amount;
         }
         //installment_fee
+
         if ($key->charge->type->name === 'Installment Fees') {
             $amount = 0;
             if ($key->charge->option->name === 'Flat') {
@@ -812,7 +813,7 @@ function generate_loan_application_schedule(LoanApplication $application)
           
             $installment_fees = $installment_fees + $amount ;
             //add the charges to the schedule
-            $totaladmincharges = 0;
+         
             foreach ($schedules as &$temp) {
                 $totaladmincharges = $totaladmincharges + $admincharges;
                 $temp['fees'] = $admincharges;
