@@ -242,7 +242,7 @@ export default {
             // Create a link element to download the Blob
             const link = document.createElement('a');
             link.setAttribute('href', url);
-            link.setAttribute('download', 'table.csv'); // Change the file extension for Excel
+            link.setAttribute('download', 'loan_statment.csv'); // Change the file extension for Excel
             document.body.appendChild(link);
             link.click(); // Programmatically click the link to trigger download
             document.body.removeChild(link); // Remove the link after downloading

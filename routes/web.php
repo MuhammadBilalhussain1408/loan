@@ -378,7 +378,7 @@ Route::group(['prefix' => 'loan', 'as' => 'loans.'], function () {
         Route::delete('{stage}/destroy', [LoanApplicationApprovalStageController::class, 'destroy'])->name('destroy');
     });
     //stop loan
-    Route::group(['prefix' => 'stop_loan', 'as' => 'stop_loan.'], function () {
+    Route::group(['prefix' => 'stop_order', 'as' => 'stop_loan.'], function () {
         Route::get('/', [StopLoanController::class, 'index'])->name('index');
         Route::get('create', [StopLoanController::class, 'create'])->name('create');
         Route::post('store', [StopLoanController::class, 'store'])->name('store');
