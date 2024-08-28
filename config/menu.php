@@ -45,6 +45,15 @@ return [
                     'order' => 0,
                 ],
                 [
+                    'name' => 'Loan Statement',
+                    'icon' => 'circle',
+                    'route' => 'statement.index',
+                    'permissions' => 'loan.index',
+                    'dropdown' => false,
+                    'children' => [],
+                    'order' => 0,
+                ],
+                [
                     'name' => 'Loan Repayments',
                     'icon' => 'circle',
                     'route' => 'loans.repayments.index',
