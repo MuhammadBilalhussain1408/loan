@@ -19,6 +19,7 @@
                                 v-model="selectedMember"
                                 @select="changeMember"
                                 v-bind="membersMultiSelect"
+                                :required="true"
                             />
                         </div>
                     </div>
