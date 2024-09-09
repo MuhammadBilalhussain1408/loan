@@ -69,7 +69,7 @@
                             </div>
 
                             <div>
-                                <jet-label for="contri_30_per" value="30% Employee Contrbution" />
+                                <jet-label for="contri_30_per" value="30% Employer Contrbution" />
                                 <jet-input id="contri_30_per" type="text" class="block w-full"
                                     v-model="form.contri_30_per" />
                                 <jet-input-error :message="form.errors.contri_30_per" class="mt-2" />
