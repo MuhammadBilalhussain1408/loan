@@ -14,6 +14,7 @@ use App\Models\LoanPurpose;
 use App\Models\MemberCategory;
 use App\Models\MemberDesignation;
 use App\Models\StopLoan;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -28,9 +29,68 @@ class MemberContributionController extends Controller
         $perPage = $request->per_page ?: 20;
         $orderBy = $request->order_by ?: 'created_at';
         $orderByDir = $request->order_by_dir ?: 'desc';
-
-        $results = MemberContribution::paginate($perPage)
-            ->appends($request->input());
+        $start_date = null;
+        $end_date = null;
+        $results = null;
+        $duration = $request->duration;
+        switch ($duration) {
+            case 'This Month':
+                $start_date = Carbon::now()->startOfMonth();
+                $end_date = Carbon::now()->endOfMonth();
+                break;
+            case 'Previous Month':
+                $start_date = Carbon::now()->subMonth()->startOfMonth();
+                $end_date = Carbon::now()->subMonth()->endOfMonth();
+                break;
+            case 'This Year':
+                $start_date = Carbon::now()->startOfYear();
+                $end_date = Carbon::now()->endOfYear();
+                break;
+            case 'Previous Year':
+                $start_date = Carbon::now()->subYear()->startOfYear();
+                $end_date = Carbon::now()->subYear()->endOfYear();
+                break;
+        }
+        if ($request->member_id && $start_date && $end_date && $request->member_category) {
+            $results = MemberContribution::where('member_id', $request->member_id)
+                ->whereBetween('created_at', [$start_date, $end_date])
+                ->where('member_category', $request->member_category)
+                ->paginate($perPage)
+                ->appends($request->input());
+        }
+        if ($request->member_id && $start_date && $end_date && is_null($results)) {
+            $results = MemberContribution::where('member_id', $request->member_id)
+                ->whereBetween('created_at', [$start_date, $end_date])
+                ->paginate($perPage)
+                ->appends($request->input());
+        }
+        if ($request->member_id && $request->member_category  && is_null($results)) {
+            $results = MemberContribution::where('member_id', $request->member_id)
+                ->where('member_category', $request->member_category)
+                ->paginate($perPage)
+                ->appends($request->input());
+        }
+        if ($request->member_category && $start_date && $end_date && is_null($results)) {
+            $results = MemberContribution::where('member_category', $request->member_category)
+                ->whereBetween('created_at', [$start_date, $end_date])
+                ->paginate($perPage)
+                ->appends($request->input());
+        }
+        if ($request->member_category && is_null($results)) {
+            $results = MemberContribution::where('member_category', $request->member_category)
+                ->paginate($perPage)
+                ->appends($request->input());
+        }
+        if ($request->member_id && is_null($results)) {
+            $results = MemberContribution::where('member_id', $request->member_id)
+                ->paginate($perPage)
+                ->appends($request->input());
+        }
+        if (is_null($results)) {
+            $results = MemberContribution::paginate($perPage)
+                ->appends($request->input());
+        }
+        $memberCategories = MemberCategory::all();
         // $products = LoanProduct::where('active', 1)->get();
         $currencies = Currency::where('active', 1)->get();
         $approvalStages = LoanApplicationApprovalStage::get();
@@ -39,6 +99,7 @@ class MemberContributionController extends Controller
             'results' => $results,
             'currencies' => $currencies,
             'approvalStages' => $approvalStages,
+            'memberCategories' => $memberCategories
         ]);
     }
 
