@@ -33,6 +33,7 @@
                                 <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Institution</th>
                                 <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Loan Amount</th>
                                 <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Monthly Installment</th>
+                                <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Status</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -53,6 +54,9 @@
                                 </td>
                                 <td class="border-t">
                                     {{ item.monthly_installment }}
+                                </td>
+                                <td class="border-t">
+                                    {{ item.status }}
                                 </td>
                             </tr>
                             </tbody>
