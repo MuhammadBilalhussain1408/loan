@@ -10,7 +10,7 @@
         <div class=" mx-auto">
             <form @submit.prevent="submit">
                 <div class="bg-white shadow-xl sm:rounded-lg p-4">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 hideOnPrint">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-2 hideOnPrint">
                         <div>
                             <jet-label for="member_id" value="Member" />
                             <Multiselect v-model="selectedMember" @select="changeMember" v-bind="membersMultiSelect" />
@@ -26,17 +26,30 @@
                                 <jet-input id="end_date" type="date" class="block w-full" v-model="form.end_date" />
                                 <jet-input-error :message="form.errors.end_date" class="mt-2" />
                             </div>
+
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-1 gap-2 ">
+                            <div>
+                                <jet-label for="duration" value="Duration" />
+                                <select id="duration" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-full" v-model="form.duration">
+                                    <option value="This Month">This Month</option>
+                                    <option value="Previous Month">Previous Month</option>
+                                    <option value="This Year">This Year</option>
+                                    <option value="Previous Year">Previous Year</option>
+                                </select>
+
+                            </div>
                         </div>
                         <div>
-                            <jet-button class="ml-4 mr-5 mt-5" :class="{ 'opacity-25': form.processing }"
+                            <jet-button class="mt-5" :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing" @click="submit()">
                                 Search
                             </jet-button>
-                            <jet-button class="ml-5 mt-5" :class="{ 'opacity-25': form.processing }"
+                            <jet-button class="mt-5" :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing" @click="downloadFile()" type="button" v-if="LoanStatement">
                                 Download
                             </jet-button>
-                            <jet-button class="ml-2 mt-5" :class="{ 'opacity-25': form.processing }"
+                            <jet-button class="mt-5" :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing" type="button" @click="printReport()" v-if="LoanStatement">
                                 Print
                             </jet-button>
@@ -168,6 +181,7 @@ export default {
                 member_id: null,
                 start_date: null,
                 end_date: null,
+                duration: null
             }),
             usersMultiSelect: {
                 placeholder: 'Search for Staff',

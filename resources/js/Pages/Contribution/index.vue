@@ -112,11 +112,11 @@
                             {{ result.id_no }}
                         </td>
                         <td class="border-t px-6 py-4 ">
-                            {{ result.contri_15_per }}
+                            {{ result.contri_15_per.toFixed(2) }}
                         </td>
 
                         <td class="border-t">
-                           {{ result.contri_30_per }}
+                           {{ result.contri_30_per.toFixed(2) }}
                         </td>
                         <td class="border-t">
                            {{ result.total_contribution }}
