@@ -14,13 +14,13 @@
                 </div>
                 <div>
                     <jet-label for="category" value="Member Category" />
-                        <select id="category"
-                            class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-full"
-                            v-model="form.member_category">
-                            <option :value="cat.name" v-for="cat in memberCategories" :key="cat.id">
-                                {{ cat.name }}
-                            </option>
-                        </select>
+                    <select id="category"
+                        class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-full"
+                        v-model="form.member_category">
+                        <option :value="cat.name" v-for="cat in memberCategories" :key="cat.id">
+                            {{ cat.name }}
+                        </option>
+                    </select>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-1 gap-2 ">
                     <div>
@@ -42,12 +42,8 @@
                         Search
                     </jet-button>
                     <jet-button class="mt-5" :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
-                        @click="downloadFile()" type="button" v-if="LoanStatement">
-                        Download
-                    </jet-button>
-                    <jet-button class="mt-5" :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
-                        type="button" @click="printReport()" v-if="LoanStatement">
-                        Print
+                        @click="importModal()" type="button">
+                        Import
                     </jet-button>
                 </div>
             </div>
@@ -136,6 +132,29 @@
             </div>
             <pagination :links="results.links" />
         </div>
+        <jet-dialog-modal :show="showCreateFieldModal" @close="showCreateFieldModal = false">
+            <template #title>
+                Import data
+            </template>
+            <template #content>
+                <div class="">
+                    <jet-label for="name" value="Select File" />
+                    <jet-input id="name" type="file" class="mt-1 block w-full" @change="handleFileChange" required />
+                </div>
+            </template>
+            <template #footer>
+                <div>
+                    <jet-secondary-button @click.native="showCreateFieldModal = false">
+                        Cancel
+                    </jet-secondary-button>
+
+                    <jet-secondary-button class="ml-2" :class="{ 'opacity-25': processing }"
+                        :disabled="processing" @click="submitImport()">
+                        Import
+                    </jet-secondary-button>
+                </div>
+            </template>
+        </jet-dialog-modal>
         <jet-confirmation-modal :show="confirmingDeletion" @close="confirmingDeletion = false">
             <template #title>
                 Delete Record
@@ -203,6 +222,7 @@ import JetConfirmationModal from '@/Jetstream/ConfirmationModal.vue'
 import JetDangerButton from '@/Jetstream/DangerButton.vue'
 import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
 import JetButton from "@/Jetstream/Button.vue";
+import JetDialogModal from '@/Jetstream/DialogModal.vue'
 
 
 export default {
@@ -217,7 +237,8 @@ export default {
         JetSecondaryButton,
         JetInput,
         JetInputError,
-        JetButton
+        JetButton,
+        JetDialogModal
     },
     props: {
         results: Object,
@@ -226,7 +247,7 @@ export default {
         approvalStages: Object,
         purposes: Object,
         products: Object,
-        memberCategories:Object
+        memberCategories: Object
 
     },
     data() {
@@ -238,25 +259,8 @@ export default {
                 end_date: null,
                 duration: null
             }),
-            // form: {
-            //     search: this.filters.search,
-            //     status: this.filters.status,
-            //     currency_id: this.filters.currency_id,
-            //     loan_product_id: this.filters.loan_product_id,
-            //     loan_purpose_id: this.filters.loan_purpose_id,
-            //     loan_officer_id: this.filters.loan_officer_id,
-            //     member_id: this.filters.member_id,
-            //     fund_id: this.filters.fund_id,
-            //     loan_application_checklist_id: this.filters.loan_application_checklist_id,
-            //     current_stage_id: this.filters.current_stage_id,
-            //     next_stage_id: this.filters.next_stage_id,
-            //     branch_id: this.filters.branch_id,
-            //     date_range: this.filters.date_range,
-            //     start_date: null,
-            //     end_date: null,
-            //     duration: null,
-            //     processing: false
-            // },
+            importFile:null,
+            showCreateFieldModal: false,
             usersMultiSelect: {
                 placeholder: 'Search for Loan Officer',
                 filterResults: false,
@@ -286,18 +290,36 @@ export default {
 
         }
     },
-    // watch: {
-    //     form: {
-    //         handler: _.debounce(function () {
-    //             let query = pickBy(this.form)
-    //             this.$inertia.get(this.route('contribution.index', Object.keys(query).length ? query : {}))
-    //         }, 1000),
-    //         deep: true,
-    //     },
-    // },
     methods: {
+        importModal(isOpen = true) {
+            this.showCreateFieldModal = isOpen;
+        },
         submit() {
             this.form.get(this.route('contribution.index'), {})
+        },
+        handleFileChange(event) {
+            this.importFile = event.target.files[0];
+        },
+        submitImport() {
+            const formData = new FormData();
+            formData.append('file', this.importFile);
+            console.log(this.importFile);
+
+            this.$inertia.form({
+                file: this.importFile
+            }).post(this.route('contribution.import'), {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            // this.$inertia.form({
+            //     formData: formData
+            // });
+            // Inertia.post('/upload', formData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data',
+            //     },
+            // });
         },
         reset() {
             this.form = mapValues(this.form, () => null)

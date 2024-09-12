@@ -210,4 +210,8 @@ class MemberContributionController extends Controller
         MemberContribution::where('id', $memberContribution)->delete();
         return redirect()->route('contribution.index')->with('success', 'Successfully Delete');
     }
+
+    public function import(Request $request){
+        dd($request);
+    }
 }

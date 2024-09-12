@@ -557,6 +557,7 @@ Route::group(['prefix' => 'contribution', 'as' => 'contribution.'], function () 
     Route::get('/', [MemberContributionController::class, 'index'])->name('index');
     Route::get('create', [MemberContributionController::class, 'create'])->name('create');
     Route::post('store', [MemberContributionController::class, 'store'])->name('store');
+    Route::post('import', [MemberContributionController::class, 'import'])->name('import');
     Route::get('{stage}/show', [MemberContributionController::class, 'show'])->name('show');
     Route::get('{stage}/edit', [MemberContributionController::class, 'edit'])->name('edit');
     Route::put('{stage}/update', [MemberContributionController::class, 'update'])->name('update');
