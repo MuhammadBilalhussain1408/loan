@@ -145,7 +145,7 @@ class LoanApplicationController extends Controller
         $application->created_by_id = Auth::id();
 
         $application->applied_amount = $request->applied_amount;
-        
+
         $application->loan_term = $request->loan_term;
         $application->repayment_frequency = $request->repayment_frequency;
         $application->repayment_frequency_type = $request->repayment_frequency_type;
@@ -157,6 +157,9 @@ class LoanApplicationController extends Controller
         $application->interest_methodology = $product->interest_methodology;
         $application->amortization_method = $product->amortization_method;
         $application->auto_disburse = $product->auto_disburse;
+        if ($request->admin_charges) {
+            $application->admin_charges = ($request->applied_amount * $request->admin_charges) / 100;
+        }
         $application->status = 'pending';
         $application->save();
         //save custom fields
@@ -197,24 +200,23 @@ class LoanApplicationController extends Controller
         // }
 
         if ($request->admin_charges) {
-           
-                $charge = LoanCharge::first();
-                $linkedCharge = new LoanApplicationLinkedCharge();
-                $linkedCharge->loan_application_id = $application->id;
-                $linkedCharge->name = $charge->name;
-                $linkedCharge->loan_charge_id = $charge->id;
-               // if ($charge->allow_override == 1) {
-                    $linkedCharge->amount = ($request->applied_amount * $request->admin_charges)/100;
 
-                    //dd($linkedCharge->amount);
-               // } else {
-                    //$linkedCharge->amount = $charge->amount;
-                //}
-                $linkedCharge->loan_charge_type_id = $charge->loan_charge_type_id;
-                $linkedCharge->loan_charge_option_id = $charge->loan_charge_option_id;
-                $linkedCharge->is_penalty = $charge->is_penalty;
-                $linkedCharge->save();
-         
+            //         $charge = LoanCharge::first();
+            $linkedCharge = new LoanApplicationLinkedCharge();
+            //         $linkedCharge->loan_application_id = $application->id;
+            //         $linkedCharge->name = $charge->name;
+            //         $linkedCharge->loan_charge_id = $charge->id;
+            // if ($charge->allow_override == 1) {
+            $linkedCharge->amount = ($request->applied_amount * $request->admin_charges) / 100;
+
+            //dd($linkedCharge->amount);
+            // } else {
+            //$linkedCharge->amount = $charge->amount;
+            //}
+            // $linkedCharge->loan_charge_type_id = $charge->loan_charge_type_id;
+            // $linkedCharge->loan_charge_option_id = $charge->loan_charge_option_id;
+            // $linkedCharge->is_penalty = $charge->is_penalty;
+            $linkedCharge->save();
         }
 
 
@@ -589,6 +591,4 @@ class LoanApplicationController extends Controller
 
         return redirect()->back()->with('success', 'Successfully disbursed application. Loan is now processing in the background.');
     }
-
-
 }
