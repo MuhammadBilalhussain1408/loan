@@ -651,7 +651,7 @@ function generate_loan_application_schedule(LoanApplication $application)
   //  dd($application);
     $product = $application->product;
     $loan_details = [];
-    $admincharges= 0;
+    $admincharges= $application->admin_charges;
     $loan_details['principal'] = $application->applied_amount;
     $loan_details['disbursement_date'] = Carbon::today()->format('Y-m-d');
     $schedules = [];
@@ -664,6 +664,7 @@ function generate_loan_application_schedule(LoanApplication $application)
     $total_principal = 0;
     $total_interest = 0;
     $total_days = 0;
+    $totaladmincharges = 0;
     for ($i = 1; $i <= $period; $i++) {
         $schedule = [];
 
@@ -671,7 +672,8 @@ function generate_loan_application_schedule(LoanApplication $application)
 
         $schedule['due_date'] = $next_payment_date;
         $schedule['from_date'] = $payment_from_date;
-        $schedule['fees'] = 0;
+        $schedule['fees'] = $admincharges;
+        $totaladmincharges = $totaladmincharges + $admincharges;
         $schedule['days'] = Carbon::parse($schedule['due_date'])->diffInDays(Carbon::parse($schedule['from_date']));
         $total_days = $total_days + $schedule['days'];
         //flat  method
@@ -746,7 +748,7 @@ function generate_loan_application_schedule(LoanApplication $application)
 
     $installment_fees = 0;
     $disbursement_fees = 0;
-    $totaladmincharges = 0;
+
     foreach ($application->charges as $key) {
         //disbursement
        // $admincharges = $admincharges + $key->amount;
@@ -810,10 +812,10 @@ function generate_loan_application_schedule(LoanApplication $application)
             // if ($key->charge->option->name === 'Admin Fee Charges') {
             //     $amount = round($admincharges, $application->decimals);
             // }
-          
+
             $installment_fees = $installment_fees + $amount ;
             //add the charges to the schedule
-         
+
             foreach ($schedules as &$temp) {
                // $totaladmincharges = $totaladmincharges + $admincharges;
                // $temp['fees'] = $admincharges;
@@ -826,7 +828,7 @@ function generate_loan_application_schedule(LoanApplication $application)
                 }
             // //  elseif ($key->charge->option->name === 'Admin Fee Charges') {
             //     $temp['fees'] = $temp['fees'] + round($admincharges, $application->decimals);
-            // } 
+            // }
             else {
                     $temp['fees'] = $temp['fees'] + $key->charge->amount;
                 }
