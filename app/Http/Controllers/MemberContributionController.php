@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\MemberContributionImport;
 use App\Models\MemberContribution;
 use App\Models\Currency;
 use App\Models\CustomField;
@@ -18,6 +19,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MemberContributionController extends Controller
 {
@@ -212,6 +214,16 @@ class MemberContributionController extends Controller
     }
 
     public function import(Request $request){
-        dd($request);
+        // dd($request);
+        $import = new MemberContributionImport;
+
+        Excel::import($import, request()->file('file'));
+        return redirect()->route('contribution.index')->with('success', 'Successfully imported');
+        // Check for validation errors
+    // if ($import->getErrors()) {
+    //     dd($import->getErrors());
+    //     // return redirect('/')->withErrors($import->getErrors());
+    // }
+
     }
 }

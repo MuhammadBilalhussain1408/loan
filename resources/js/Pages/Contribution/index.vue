@@ -141,6 +141,9 @@
                     <jet-label for="name" value="Select File" />
                     <jet-input id="name" type="file" class="mt-1 block w-full" @change="handleFileChange" required />
                 </div>
+                <!-- <div class="mt-5 text-blue-600">
+                    <a href="./contribution_sample.csv" download="./contribution_sample.csv" >Download Sample File</a>
+                </div> -->
             </template>
             <template #footer>
                 <div>
@@ -148,8 +151,8 @@
                         Cancel
                     </jet-secondary-button>
 
-                    <jet-secondary-button class="ml-2" :class="{ 'opacity-25': processing }"
-                        :disabled="processing" @click="submitImport()">
+                    <jet-secondary-button class="ml-2" :class="{ 'opacity-25': processing }" :disabled="processing"
+                        @click="submitImport()">
                         Import
                     </jet-secondary-button>
                 </div>
@@ -259,7 +262,7 @@ export default {
                 end_date: null,
                 duration: null
             }),
-            importFile:null,
+            importFile: null,
             showCreateFieldModal: false,
             usersMultiSelect: {
                 placeholder: 'Search for Loan Officer',
@@ -312,6 +315,8 @@ export default {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            this.showCreateFieldModal = false;
+
             // this.$inertia.form({
             //     formData: formData
             // });
