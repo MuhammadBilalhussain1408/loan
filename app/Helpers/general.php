@@ -672,8 +672,7 @@ function generate_loan_application_schedule(LoanApplication $application)
 
         $schedule['due_date'] = $next_payment_date;
         $schedule['from_date'] = $payment_from_date;
-        $schedule['fees'] = $admincharges;
-        $totaladmincharges = $totaladmincharges + $admincharges;
+        $schedule['fees'] = 0;
         $schedule['days'] = Carbon::parse($schedule['due_date'])->diffInDays(Carbon::parse($schedule['from_date']));
         $total_days = $total_days + $schedule['days'];
         //flat  method
@@ -739,6 +738,9 @@ function generate_loan_application_schedule(LoanApplication $application)
 
         }
         $schedule['balance'] = (double)$balance;
+        $fee=($schedule['principal'] * $admincharges)/100;
+        $schedule['fees'] = $fee;
+        $totaladmincharges = $totaladmincharges + $fee;
         $payment_from_date = Carbon::parse($next_payment_date)->add(1, 'day')->format("Y-m-d");
         $next_payment_date = Carbon::parse($next_payment_date)->add($application->repayment_frequency, $application->repayment_frequency_type)->format("Y-m-d");
         $total_principal = $total_principal + $schedule['principal'];
@@ -843,12 +845,15 @@ function generate_loan_application_schedule(LoanApplication $application)
     }
     $loan_details['total_days'] = $total_days;
     $loan_details['total_principal'] = $total_principal;
+    $loan_details['principal'] = $loan_details['principal'] + $totaladmincharges;
     $loan_details['total_interest'] = $total_interest;
     $loan_details['decimals'] = $application->decimals;
     $loan_details['disbursement_fees'] = $disbursement_fees;
-    $loan_details['total_fees'] = $disbursement_fees + $installment_fees + $totaladmincharges ;
-    $loan_details['total_due'] = $disbursement_fees + $installment_fees + $total_interest + $total_principal + $totaladmincharges ;
+    $loan_details['total_fees'] = $disbursement_fees + $installment_fees + $totaladmincharges;
+    $loan_details['total_due'] = $disbursement_fees + $installment_fees + $total_interest + $total_principal  + $totaladmincharges;
     $loan_details['maturity_date'] = $next_payment_date;
+
+    // dd($loan_details,$totaladmincharges, $total_principal, $schedules);
     return [
         'loan_details' => $loan_details,
         'schedules' => $schedules,
