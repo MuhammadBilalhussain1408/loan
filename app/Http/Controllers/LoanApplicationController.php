@@ -158,7 +158,7 @@ class LoanApplicationController extends Controller
         $application->amortization_method = $product->amortization_method;
         $application->auto_disburse = $product->auto_disburse;
         if ($request->admin_charges) {
-            $application->admin_charges = ($request->applied_amount * $request->admin_charges) / 100;
+            $application->admin_charges = $request->admin_charges;
         }
         $application->status = 'pending';
         $application->save();
