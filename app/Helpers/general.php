@@ -845,7 +845,7 @@ function generate_loan_application_schedule(LoanApplication $application)
     }
     $loan_details['total_days'] = $total_days;
     $loan_details['total_principal'] = $total_principal;
-    $loan_details['principal'] = $loan_details['principal'] + $totaladmincharges;
+    $loan_details['principal'] = $loan_details['principal'];
     $loan_details['total_interest'] = $total_interest;
     $loan_details['decimals'] = $application->decimals;
     $loan_details['disbursement_fees'] = $disbursement_fees;
