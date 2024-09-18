@@ -89,6 +89,7 @@ class StopLoanController extends Controller
 
         return Inertia::render('StopLoan/show', [
             'stopLoan' => $stopLoan,
+            'assetUrl' => asset('/')
         ]);
     }
 

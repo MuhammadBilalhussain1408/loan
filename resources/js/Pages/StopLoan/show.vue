@@ -16,7 +16,7 @@
                             </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
                     <div>
-
+                        <img :src="this.assetUrl+'images/mopado-high-resolution-logo-1.png'" style="height: 200px; margin:0; padding: 0;" alt="">
                     </div>
                     <div>
                         <h2>Member of Parliment And Desiginated Office Bearers Pension Fund</h2>
@@ -113,12 +113,27 @@
                                 <th class="border border-gray-200 p-2 font-medium text-gray-500">Reference</th>
                                 <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.reference }}</td>
                             </tr>
-                            <tr class="text-left bg-slate-50">
+                            <!-- <tr class="text-left bg-slate-50">
                                 <th class="border border-gray-200 p-2 font-medium text-gray-500">Signature</th>
                                 <td class="border border-gray-200 p-2 font-medium text-gray-500"></td>
-                            </tr>
+                            </tr> -->
                         </table>
                     </div>
+                </div>
+                <p class="mt-5">I understand that this stop order instructions shall remain in force until advised otherwise by MOPADO only.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-5">
+                    <div>_____________________<br>Account Holder</div>
+                    <div>_____________________<br>MOPADO</div>
+                    <div>
+                        <div style="border: 1px solid black; height: 60px; width: 100px; text-align: center;">Stamp</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-5">
+                    <div></div>
+                    <div>
+                        <div style="border: 1px solid black; height: 100px; width: 150px; text-align: center;">BANK STAMP</div>
+                    </div>
+                    <div></div>
                 </div>
             </div>
         </div>
@@ -181,7 +196,7 @@ export default {
     },
     props: {
         stopLoan: Object,
-        paymentTypes: Object,
+        assetUrl: Object,
     },
     data() {
         return {
