@@ -141,7 +141,7 @@
                     <div class="child-div">_____________________<br>Account Holder</div>
                     <div class="child-div">_____________________<br>MOPADO</div>
                     <div class="child-div">
-                        <div style="border: 1px solid black; height: 60px; width: 100px; text-align: center; margin: 0;">Stamp
+                        <div style="border: 1px solid black; height: 100px; width: 150px; text-align: center; margin: 0;">Stamp
                         </div>
                     </div>
                 </div>
