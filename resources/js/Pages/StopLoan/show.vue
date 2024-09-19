@@ -12,11 +12,12 @@
         <div class=" mx-auto">
             <div class="bg-white rounded shadow p-6">
                 <div class="text-right">
-                                <button class="btn btn-primary" type="button" @click="printDiv()" id="print_btn">Print</button>
-                            </div>
+                    <button class="btn btn-primary" type="button" @click="printDiv()" id="print_btn">Print</button>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
                     <div>
-                        <img :src="this.assetUrl+'images/mopado-high-resolution-logo-1.png'" style="height: 200px; margin:0; padding: 0;" alt="">
+                        <img :src="this.assetUrl + 'images/mopado-high-resolution-logo-1.png'"
+                            style="height: 200px; margin:0; padding: 0;" alt="">
                     </div>
                     <div>
                         <h2>Member of Parliment And Desiginated Office Bearers Pension Fund</h2>
@@ -87,31 +88,44 @@
                         <table class="w-full border-collapse border border-gray-200">
                             <tr class="text-left bg-slate-50">
                                 <th class="border border-gray-200 p-2 font-medium text-gray-500">Account Holder</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.account_holder }}</td>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
+                                    stopLoan.account_holder }}
+                                </td>
                             </tr>
                             <tr class="text-left bg-slate-50">
                                 <th class="border border-gray-200 p-2 font-medium text-gray-500">Account Number</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.account_number }}</td>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
+                                    stopLoan.account_number }}
+                                </td>
                             </tr>
                             <tr class="text-left bg-slate-50">
                                 <th class="border border-gray-200 p-2 font-medium text-gray-500">Branch Code</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.branch_code }}</td>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.branch_code
+                                    }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Member Account Number</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.member_account_holder }}</td>
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Member Account Number
+                                </th>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
+                                    stopLoan.member_account_holder }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Monthly Installment</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.monthly_installment }}</td>
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Monthly Installment
+                                </th>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
+                                    stopLoan.monthly_installment
+                                    }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
                                 <th class="border border-gray-200 p-2 font-medium text-gray-500">Stop Order Date</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.stop_order_date }}</td>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
+                                    stopLoan.stop_order_date }}
+                                </td>
                             </tr>
                             <tr class="text-left bg-slate-50">
                                 <th class="border border-gray-200 p-2 font-medium text-gray-500">Reference</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.reference }}</td>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.reference
+                                    }}</td>
                             </tr>
                             <!-- <tr class="text-left bg-slate-50">
                                 <th class="border border-gray-200 p-2 font-medium text-gray-500">Signature</th>
@@ -120,20 +134,24 @@
                         </table>
                     </div>
                 </div>
-                <p class="mt-5">I understand that this stop order instructions shall remain in force until advised otherwise by MOPADO only.</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-5">
-                    <div>_____________________<br>Account Holder</div>
-                    <div>_____________________<br>MOPADO</div>
-                    <div>
-                        <div style="border: 1px solid black; height: 60px; width: 100px; text-align: center;">Stamp</div>
+                <p class="mt-5">I understand that this stop order instructions shall remain in force until advised
+                    otherwise by
+                    MOPADO only.</p>
+                <div class="main-div" style="">
+                    <div class="child-div">_____________________<br>Account Holder</div>
+                    <div class="child-div">_____________________<br>MOPADO</div>
+                    <div class="child-div">
+                        <div style="border: 1px solid black; height: 60px; width: 100px; text-align: center; margin: 0;">Stamp
+                        </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-5">
-                    <div></div>
-                    <div>
-                        <div style="border: 1px solid black; height: 100px; width: 150px; text-align: center;">BANK STAMP</div>
+                <div class="main-div">
+                    <div class="child-div"></div>
+                    <div class="child-div">
+                        <div style="border: 1px solid black; height: 100px; width: 150px; text-align: center;">BANK
+                            STAMP</div>
                     </div>
-                    <div></div>
+                    <div class="child-div"></div>
                 </div>
             </div>
         </div>
@@ -163,7 +181,7 @@ import JetDangerButton from '@/Jetstream/DangerButton.vue'
 import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
 import JetSuccessButton from '@/Jetstream/SuccessButton.vue'
 import JetPrimaryButton from '@/Jetstream/PrimaryButton.vue'
-import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import JetDialogModal from '@/Jetstream/DialogModal.vue'
 
 const fetchUsers = async (query) => {
@@ -175,7 +193,7 @@ const fetchUsers = async (query) => {
 
     const data = await response.json(); // Here you have the data that you need
     return data.map((item) => {
-        return {value: item.id, label: item.name + ('(#' + item.id + ')')}
+        return { value: item.id, label: item.name + ('(#' + item.id + ')') }
     })
 }
 
@@ -230,7 +248,7 @@ export default {
     },
     watch: {},
     methods: {
-        printDiv(){
+        printDiv() {
             const printDiv = document.getElementById('printDiv');
             // Create a new window object
             // const printWindow = window.open('', 'Print Window');
@@ -339,17 +357,53 @@ export default {
 
 <style scoped>
 @media print {
-  body {
-    visibility: hidden;
-  }
-  #print_btn{
-    visibility: hidden;
-  }
-  /* #printDiv {
+    body {
+        visibility: hidden;
+    }
+
+    #print_btn {
+        visibility: hidden;
+    }
+
+    /* #printDiv {
     visibility: visible;
     position: absolute;
     left: 0;
     top: 0;
   } */
+}
+
+.main-div {
+    width: 100%;
+    /* Full width of parent */
+    padding: 10px;
+    /* border: 1px solid #000; */
+    /* Optional: border for visualization */
+    box-sizing: border-box;
+    /* Include padding in width calculation */
+}
+
+.child-div {
+    display: inline-block;
+    /* Use inline-block for horizontal layout */
+    width: 30%;
+    /* Set width of each child div */
+    margin: 0 1%;
+    /* Space between divs */
+    padding: 20px;
+    /* background-color: #f0f0f0; */
+    /* Light gray background */
+    text-align: center;
+    box-sizing: border-box;
+    /* Include padding in width calculation */
+}
+
+@media (max-width: 600px) {
+    .child-div {
+        width: 100%;
+        /* Stack divs on smaller screens */
+        margin: 10px 0;
+        /* Vertical space for stacked divs */
+    }
 }
 </style>
