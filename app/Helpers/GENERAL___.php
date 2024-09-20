@@ -753,7 +753,7 @@ function generate_loan_application_schedule(LoanApplication $application)
     $disbursement_fees = 0;
 
     foreach ($application->charges as $key) {
-       
+
         if ($key->charge->type->name === 'Disbursement') {
             $amount = 0;
             if ($key->charge->loan_charge_option_id == 1) {
