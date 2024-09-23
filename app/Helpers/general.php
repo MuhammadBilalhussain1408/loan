@@ -738,8 +738,8 @@ function generate_loan_application_schedule(LoanApplication $application)
 
         }
         $schedule['balance'] = (double)$balance;
-        //$fee=($schedule['principal'] * $admincharges)/100;
-        $fee=($balance * $admincharges)/100;
+        //$fee=($schedule['principal']) * ($admincharges)/100;
+        $fee=($balance) * ($admincharges)/100;
         $schedule['fees'] = $fee;
         $totaladmincharges = $totaladmincharges + $fee;
         $payment_from_date = Carbon::parse($next_payment_date)->add(1, 'day')->format("Y-m-d");
