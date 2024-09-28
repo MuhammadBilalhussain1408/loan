@@ -49,6 +49,7 @@
                             <td>{{ $filters.formatNumber(loan_details["disbursement_fees"], loan_details["decimals"]) }}</td>
                             <td>{{ $filters.formatNumber(loan_details["disbursement_fees"], loan_details["decimals"]) }}</td>
                         </tr>
+                        <!-- {{ schedules }} -->
                         <tr v-for="(item,index) in schedules">
                             <td scope="row">{{ index+1 }}</td>
                             <td>{{ item['due_date'] }}</td>

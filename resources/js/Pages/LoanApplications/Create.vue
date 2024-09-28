@@ -77,6 +77,7 @@
                                     <option value="days">Days</option>
                                     <option value="weeks">Weeks</option>
                                     <option value="months">Months</option>
+                                    <option value="ballon_payment">Ballon Payment</option>
                                 </select-input>
                                 <jet-input-error :message="form.errors.repayment_frequency_type" class="mt-2"/>
                             </div>
@@ -161,7 +162,7 @@
                                     <div class=" ">
                                     <jet-label for="Signature" value="Signature"/>
                                     <jet-label for="" value="___________________"/>
-                                    
+
                                   </div>
                             </div>
                         </div>
@@ -284,7 +285,7 @@
                         </div>
                     </div>
                     <div class="flex items-center justify-end mt-4">
-                     
+
                                  <!-- Print Button -->
                    <!-- Print Button -->
                         <jet-button class="ml-4" @click="printForm" :style="{ backgroundColor: 'blue', color: 'white' }">
@@ -295,7 +296,7 @@
                             Save
                         </jet-button>
                     </div>
-                    
+
                 </form>
             </div>
         </div>

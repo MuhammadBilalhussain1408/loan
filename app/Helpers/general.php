@@ -64,8 +64,10 @@ if (!function_exists('send_sms')) {
     function send_sms(string $to, string $msg, $gateway_id = null)
     {
         if (!$gateway_id) {
-            $active_sms_gateway = SmsGateway::find(Setting::where('setting_key',
-                'active_sms_gateway')->first()->setting_value);
+            $active_sms_gateway = SmsGateway::find(Setting::where(
+                'setting_key',
+                'active_sms_gateway'
+            )->first()->setting_value);
         } else {
             $active_sms_gateway = SmsGateway::find($gateway_id);
         }
@@ -90,7 +92,6 @@ if (!function_exists('send_sms')) {
                             'body' => $msg
                         ]
                     );
-
                 }
             } else {
                 $append = "&";
@@ -99,11 +100,8 @@ if (!function_exists('send_sms')) {
                 $url = $active_sms_gateway->url . $append;
                 //send sms here
                 $response = Http::get($url);
-
             }
-
         }
-
     }
 }
 
@@ -262,7 +260,6 @@ if (!function_exists('template_replace_tags')) {
             $body = str_replace('{{loanTransactionDescription}', $loan_transaction->paymentDetail->description ?? '', $body);
             $body = str_replace('{{loanTransactionPaymentType}}', $loan_transaction->paymentDetail->payment_type->name ?? '', $body);
             $body = str_replace('{{loanTransactionCreatedBy}}', $loan_transaction->createdBy->name ?? '', $body);
-
         }
         if (array_key_exists('loan_application_id', $args)) {
             $application = LoanApplication::with(['category', 'designation', 'product', 'loanOfficer'])->find($args['loan_application_id']);
@@ -275,7 +272,7 @@ if (!function_exists('template_replace_tags')) {
         if (array_key_exists('loan_application_linked_approval_stage_id', $args)) {
             $approvalStage = LoanApplicationLinkedApprovalStage::with(['stage'])->find($args['loan_application_linked_approval_stage_id']);
             $body = str_replace('{{loanApplicationApprovalStageStatus}}', $approvalStage->status, $body);
-            $body = str_replace('{{loanApplicationApprovalStageName}}', $approvalStage->stage->name??'', $body);
+            $body = str_replace('{{loanApplicationApprovalStageName}}', $approvalStage->stage->name ?? '', $body);
             $body = str_replace('{{loanApplicationApprovalStageNotes}}', $approvalStage->description, $body);
             $body = str_replace('{{loanApplicationApprovalStageID}}', $approvalStage->id, $body);
         }
@@ -307,7 +304,6 @@ if (!function_exists('log_campaign')) {
             $communication_campaign_log->$key = $value;
         }
         $communication_campaign_log->save();
-
     }
 }
 if (!function_exists('determine_period_interest_rate')) {
@@ -372,6 +368,17 @@ if (!function_exists('determine_period_interest_rate')) {
                 $interest_rate = $interest_rate * $days_in_year;
             }
         }
+        if ($repayment_frequency_type == "ballon_payment") {
+            if ($interest_rate_type == 'month') {
+                $interest_rate = $interest_rate * 48;
+            }
+            if ($interest_rate_type == 'week') {
+                $interest_rate = $interest_rate * $weeks_in_year * 48;
+            }
+            if ($interest_rate_type == 'day') {
+                $interest_rate = $interest_rate * $days_in_year * 48;
+            }
+        }
         return $interest_rate * $repayment_frequency / 100;
     }
 }
@@ -391,7 +398,8 @@ if (!function_exists('determine_amortized_payment')) {
     {
 
         return ($interest_rate * $balance * pow((1 + $interest_rate), $period)) / (pow((1 + $interest_rate),
-                    $period) - 1);
+            $period
+        ) - 1);
     }
 }
 if (!function_exists('compare_multi_dimensional_array')) {
@@ -648,10 +656,11 @@ function currentQuarterRange()
 
 function generate_loan_application_schedule(LoanApplication $application)
 {
-  //  dd($application);
+    //  dd($application);
+
     $product = $application->product;
     $loan_details = [];
-    $admincharges= $application->admin_charges;
+    $admincharges = $application->admin_charges;
     $loan_details['principal'] = $application->applied_amount;
     $loan_details['disbursement_date'] = Carbon::today()->format('Y-m-d');
     $schedules = [];
@@ -665,194 +674,214 @@ function generate_loan_application_schedule(LoanApplication $application)
     $total_interest = 0;
     $total_days = 0;
     $totaladmincharges = 0;
-    for ($i = 1; $i <= $period; $i++) {
-        $schedule = [];
+    if ($application->repayment_frequency_type != 'ballon_payment') {
+        for ($i = 1; $i <= $period; $i++) {
+            $schedule = [];
 
-        $schedule['installment'] = $i;
+            $schedule['installment'] = $i;
 
-        $schedule['due_date'] = $next_payment_date;
-        $schedule['from_date'] = $payment_from_date;
-        $schedule['fees'] = 0;
-        $schedule['days'] = Carbon::parse($schedule['due_date'])->diffInDays(Carbon::parse($schedule['from_date']));
-        $total_days = $total_days + $schedule['days'];
-        //flat  method
-        if ($application->interest_methodology == 'flat') {
-            $principal = round($loan_principal / $period, $application->decimals);
-            $interest = round($interest_rate * $loan_principal, $application->decimals);
-            if ($application->grace_on_interest_charged >= $i) {
-                $schedule['interest'] = 0;
-            } else {
-                $schedule['interest'] = $interest;
-            }
-            if ($i == $period) {
-                //account for values lost during rounding
-                $schedule['principal'] = round($balance, $application->decimals);
-            } else {
-                $schedule['principal'] = $principal;
-            }
-            //determine next balance
-            $balance = ($balance - $principal);
-        }
-        //reducing balance
-        if ($application->interest_methodology == 'declining_balance') {
-            if ($application->amortization_method == 'equal_installments') {
-                $amortized_payment = round(determine_amortized_payment($interest_rate, $loan_principal, $period), $application->decimals);
-                //determine if we have grace period for interest
-                $interest = round($interest_rate * $balance, $application->decimals);
-                $principal = round(($amortized_payment - $interest), $application->decimals);
-                if ($application->grace_on_interest_charged >= $i) {
-                    $schedule['interest'] = 0;
-                } else {
-                    $schedule['interest'] = $interest;
-                }
-                if ($i == $period) {
-                    //account for values lost during rounding
-                    $schedule['principal'] = round($balance, $application->decimals);
-                    $balance = 0;
-                } else {
-                    $schedule['principal'] = $principal;
-                    $balance = ($balance - $principal);
-                }
-            }
-            if ($application->amortization_method == 'equal_principal_payments') {
+            $schedule['due_date'] = $next_payment_date;
+            $schedule['from_date'] = $payment_from_date;
+            $schedule['fees'] = 0;
+            $schedule['days'] = Carbon::parse($schedule['due_date'])->diffInDays(Carbon::parse($schedule['from_date']));
+            $total_days = $total_days + $schedule['days'];
+            //flat  method
+            if ($application->interest_methodology == 'flat') {
                 $principal = round($loan_principal / $period, $application->decimals);
-                //determine if we have grace period for interest
-                $interest = round($interest_rate * $balance, $application->decimals);
+                $interest = round($interest_rate * $loan_principal, $application->decimals);
                 if ($application->grace_on_interest_charged >= $i) {
                     $schedule['interest'] = 0;
                 } else {
                     $schedule['interest'] = $interest;
                 }
-
                 if ($i == $period) {
                     //account for values lost during rounding
                     $schedule['principal'] = round($balance, $application->decimals);
-                    $balance = 0;
                 } else {
                     $schedule['principal'] = $principal;
-                    $balance = ($balance - $principal);
                 }
                 //determine next balance
-
+                $balance = ($balance - $principal);
             }
+            //reducing balance
+            if ($application->interest_methodology == 'declining_balance') {
+                if ($application->amortization_method == 'equal_installments') {
+                    $amortized_payment = round(determine_amortized_payment($interest_rate, $loan_principal, $period), $application->decimals);
+                    //determine if we have grace period for interest
+                    $interest = round($interest_rate * $balance, $application->decimals);
+                    $principal = round(($amortized_payment - $interest), $application->decimals);
+                    if ($application->grace_on_interest_charged >= $i) {
+                        $schedule['interest'] = 0;
+                    } else {
+                        $schedule['interest'] = $interest;
+                    }
+                    if ($i == $period) {
+                        //account for values lost during rounding
+                        $schedule['principal'] = round($balance, $application->decimals);
+                        $balance = 0;
+                    } else {
+                        $schedule['principal'] = $principal;
+                        $balance = ($balance - $principal);
+                    }
+                }
+                if ($application->amortization_method == 'equal_principal_payments') {
+                    $principal = round($loan_principal / $period, $application->decimals);
+                    //determine if we have grace period for interest
+                    $interest = round($interest_rate * $balance, $application->decimals);
+                    if ($application->grace_on_interest_charged >= $i) {
+                        $schedule['interest'] = 0;
+                    } else {
+                        $schedule['interest'] = $interest;
+                    }
 
+                    if ($i == $period) {
+                        //account for values lost during rounding
+                        $schedule['principal'] = round($balance, $application->decimals);
+                        $balance = 0;
+                    } else {
+                        $schedule['principal'] = $principal;
+                        $balance = ($balance - $principal);
+                    }
+                    //determine next balance
+
+                }
+            }
+            $schedule['balance'] = (float)$balance;
+            //$fee=($schedule['principal']) * ($admincharges)/100;
+            $fee = ($balance) * ($admincharges) / 100;
+            $schedule['fees'] = $fee;
+            $totaladmincharges = $totaladmincharges + $fee;
+            $payment_from_date = Carbon::parse($next_payment_date)->add(1, 'day')->format("Y-m-d");
+            $next_payment_date = Carbon::parse($next_payment_date)->add($application->repayment_frequency, $application->repayment_frequency_type)->format("Y-m-d");
+            $total_principal = $total_principal + $schedule['principal'];
+            $total_interest = $total_interest + $schedule['interest'];
+            $schedules[] = $schedule;
         }
-        $schedule['balance'] = (double)$balance;
-        //$fee=($schedule['principal']) * ($admincharges)/100;
-        $fee=($balance) * ($admincharges)/100;
-        $schedule['fees'] = $fee;
-        $totaladmincharges = $totaladmincharges + $fee;
-        $payment_from_date = Carbon::parse($next_payment_date)->add(1, 'day')->format("Y-m-d");
-        $next_payment_date = Carbon::parse($next_payment_date)->add($application->repayment_frequency, $application->repayment_frequency_type)->format("Y-m-d");
-        $total_principal = $total_principal + $schedule['principal'];
-        $total_interest = $total_interest + $schedule['interest'];
-        $schedules[] = $schedule;
-    }
 
-    $installment_fees = 0;
-    $disbursement_fees = 0;
+        $installment_fees = 0;
+        $disbursement_fees = 0;
 
-    foreach ($application->charges as $key) {
-       
-        if ($key->charge->type->name === 'Disbursement') {
-            $amount = 0;
-            if ($key->charge->loan_charge_option_id == 1) {
-                $amount = $key->charge->amount;
+        foreach ($application->charges as $key) {
 
+            if ($key->charge->type->name === 'Disbursement') {
+                $amount = 0;
+                if ($key->charge->loan_charge_option_id == 1) {
+                    $amount = $key->charge->amount;
+                }
+                if ($key->charge->loan_charge_option_id == 2) {
+                    $amount = round(($key->charge->amount * $total_principal / 100), $application->decimals);
+                }
+                if ($key->charge->loan_charge_option_id == 3) {
+                    $amount = round(($key->charge->amount * ($total_interest + $total_principal) / 100), $application->decimals);
+                }
+                if ($key->charge->loan_charge_option_id == 4) {
+                    $amount = round(($key->charge->amount * $total_interest / 100), $application->decimals);
+                }
+                if ($key->charge->loan_charge_option_id == 5) {
+                    $amount = round(($key->charge->amount * $total_principal / 100), $application->decimals);
+                }
+                if ($key->charge->loan_charge_option_id == 6) {
+                    $amount = round(($key->charge->amount * $total_principal / 100), $application->decimals);
+                }
+                if ($key->charge->loan_charge_option_id == 7) {
+                    $amount = round(($key->charge->amount * $loan_principal / 100), $application->decimals);
+                }
+                $disbursement_fees = $disbursement_fees + $amount;
             }
-            if ($key->charge->loan_charge_option_id == 2) {
-                $amount = round(($key->charge->amount * $total_principal / 100), $application->decimals);
-            }
-            if ($key->charge->loan_charge_option_id == 3) {
-                $amount = round(($key->charge->amount * ($total_interest + $total_principal) / 100), $application->decimals);
+            //installment_fee
 
-            }
-            if ($key->charge->loan_charge_option_id == 4) {
-                $amount = round(($key->charge->amount * $total_interest / 100), $application->decimals);
-
-            }
-            if ($key->charge->loan_charge_option_id == 5) {
-                $amount = round(($key->charge->amount * $total_principal / 100), $application->decimals);
-
-            }
-            if ($key->charge->loan_charge_option_id == 6) {
-                $amount = round(($key->charge->amount * $total_principal / 100), $application->decimals);
-
-            }
-            if ($key->charge->loan_charge_option_id == 7) {
-                $amount = round(($key->charge->amount * $loan_principal / 100), $application->decimals);
-
-            }
-            $disbursement_fees = $disbursement_fees + $amount;
-        }
-        //installment_fee
-
-        if ($key->charge->type->name === 'Installment Fees') {
-            $amount = 0;
-            if ($key->charge->option->name === 'Flat') {
-                $amount = $key->charge->amount;
-            }
-            if ($key->charge->option->name === 'Principal due on installment') {
-                $amount = round(($key->charge->amount * $total_principal / 100), $application->decimals);
-            }
-            if ($key->charge->option->name === 'Principal + Interest due on installment') {
-                $amount = round(($key->charge->amount * ($total_interest + $total_principal) / 100), $application->decimals);
-            }
-            if ($key->charge->option->name === 'Interest due on installment') {
-                $amount = round(($key->charge->amount * $total_interest / 100), $application->decimals);
-            }
-            if ($key->charge->option->name === 'Total Outstanding Loan Principal') {
-                $amount = round(($key->charge->amount * $total_principal / 100), $application->decimals);
-            }
-            if ($key->charge->option->name === 'Percentage of Original Loan Principal per Installment') {
-                $amount = round(($key->charge->amount * $total_principal / 100), $application->decimals);
-            }
-            if ($key->charge->option->name === 'Original Loan Principal') {
-                $amount = round(($key->charge->amount * $loan_principal / 100), $application->decimals);
-            }
-            // if ($key->charge->option->name === 'Admin Fee Charges') {
-            //     $amount = round($admincharges, $application->decimals);
-            // }
-
-            $installment_fees = $installment_fees + $amount ;
-            //add the charges to the schedule
-
-            foreach ($schedules as &$temp) {
-               // $totaladmincharges = $totaladmincharges + $admincharges;
-               // $temp['fees'] = $admincharges;
+            if ($key->charge->type->name === 'Installment Fees') {
+                $amount = 0;
+                if ($key->charge->option->name === 'Flat') {
+                    $amount = $key->charge->amount;
+                }
                 if ($key->charge->option->name === 'Principal due on installment') {
-                    $temp['fees'] = $temp['fees'] +  round(($key->charge->amount * $temp['principal'] / 100), $application->decimals);
-                } elseif ($key->charge->option->name === 'Principal + Interest due on installment') {
-                    $temp['fees'] = $temp['fees'] + round(($key->charge->amount * ($temp['interest'] + $temp['principal']) / 100), $application->decimals);
-                } elseif ($key->charge->option->name === 'Interest due on installment') {
-                    $temp['fees'] = $temp['fees'] + round(($key->charge->amount * $temp['interest'] / 100), $application->decimals);
+                    $amount = round(($key->charge->amount * $total_principal / 100), $application->decimals);
                 }
-            // //  elseif ($key->charge->option->name === 'Admin Fee Charges') {
-            //     $temp['fees'] = $temp['fees'] + round($admincharges, $application->decimals);
-            // }
-            else {
-                    $temp['fees'] = $temp['fees'] + $key->charge->amount;
+                if ($key->charge->option->name === 'Principal + Interest due on installment') {
+                    $amount = round(($key->charge->amount * ($total_interest + $total_principal) / 100), $application->decimals);
                 }
+                if ($key->charge->option->name === 'Interest due on installment') {
+                    $amount = round(($key->charge->amount * $total_interest / 100), $application->decimals);
+                }
+                if ($key->charge->option->name === 'Total Outstanding Loan Principal') {
+                    $amount = round(($key->charge->amount * $total_principal / 100), $application->decimals);
+                }
+                if ($key->charge->option->name === 'Percentage of Original Loan Principal per Installment') {
+                    $amount = round(($key->charge->amount * $total_principal / 100), $application->decimals);
+                }
+                if ($key->charge->option->name === 'Original Loan Principal') {
+                    $amount = round(($key->charge->amount * $loan_principal / 100), $application->decimals);
+                }
+                // if ($key->charge->option->name === 'Admin Fee Charges') {
+                //     $amount = round($admincharges, $application->decimals);
+                // }
 
+                $installment_fees = $installment_fees + $amount;
+                //add the charges to the schedule
+
+                foreach ($schedules as &$temp) {
+                    // $totaladmincharges = $totaladmincharges + $admincharges;
+                    // $temp['fees'] = $admincharges;
+                    if ($key->charge->option->name === 'Principal due on installment') {
+                        $temp['fees'] = $temp['fees'] +  round(($key->charge->amount * $temp['principal'] / 100), $application->decimals);
+                    } elseif ($key->charge->option->name === 'Principal + Interest due on installment') {
+                        $temp['fees'] = $temp['fees'] + round(($key->charge->amount * ($temp['interest'] + $temp['principal']) / 100), $application->decimals);
+                    } elseif ($key->charge->option->name === 'Interest due on installment') {
+                        $temp['fees'] = $temp['fees'] + round(($key->charge->amount * $temp['interest'] / 100), $application->decimals);
+                    }
+                    // //  elseif ($key->charge->option->name === 'Admin Fee Charges') {
+                    //     $temp['fees'] = $temp['fees'] + round($admincharges, $application->decimals);
+                    // }
+                    else {
+                        $temp['fees'] = $temp['fees'] + $key->charge->amount;
+                    }
+                }
             }
-
         }
+        foreach ($schedules as $key => $value) {
+            $schedules[$key]['total_due'] = $value['principal'] + $value['interest'] + $value['fees'];
+        }
+        $loan_details['total_days'] = $total_days;
+        $loan_details['total_principal'] = $total_principal;
+        $loan_details['principal'] = $loan_details['principal'];
+        $loan_details['total_interest'] = $total_interest;
+        $loan_details['decimals'] = $application->decimals;
+        $loan_details['disbursement_fees'] = $disbursement_fees;
+        $loan_details['total_fees'] = $disbursement_fees + $installment_fees + $totaladmincharges;
+        $loan_details['total_due'] = $disbursement_fees + $installment_fees + $total_interest + $total_principal  + $totaladmincharges;
+        $loan_details['maturity_date'] = $next_payment_date;
 
-    }
-    foreach ($schedules as $key => $value) {
-        $schedules[$key]['total_due'] = $value['principal'] + $value['interest'] + $value['fees'] ;
-    }
-    $loan_details['total_days'] = $total_days;
-    $loan_details['total_principal'] = $total_principal;
-    $loan_details['principal'] = $loan_details['principal'];
-    $loan_details['total_interest'] = $total_interest;
-    $loan_details['decimals'] = $application->decimals;
-    $loan_details['disbursement_fees'] = $disbursement_fees;
-    $loan_details['total_fees'] = $disbursement_fees + $installment_fees + $totaladmincharges;
-    $loan_details['total_due'] = $disbursement_fees + $installment_fees + $total_interest + $total_principal  + $totaladmincharges;
-    $loan_details['maturity_date'] = $next_payment_date;
+        // dd($loan_details,$totaladmincharges, $total_principal, $schedules);
+    } else {
 
-    // dd($loan_details,$totaladmincharges, $total_principal, $schedules);
+        $loan_principal = $application->applied_amount;
+        $interest_rate = determine_period_interest_rate($application->interest_rate, $application->repayment_frequency_type, $application->interest_rate_type);
+        $balance = round($loan_principal, $application->decimals);
+        $interest = round($interest_rate * $balance, $application->decimals);
+        $fee = (($loan_principal * 0.05) / 100) * 48;
+        $schedules[0] = [
+            'installment' => 1,
+            'due_date' => '',
+            'from_date' => '',
+            'fees' => $fee,
+            'days' => 365 * 48,
+            'interest' => $interest,
+            'principal' => $loan_principal,
+            'balance' => $balance,
+            'total_due' => $loan_principal + $fee,
+        ];
+        $loan_details['total_days'] = 48 * 365;
+        $loan_details['total_principal'] =  $loan_principal;
+        $loan_details['principal'] =  $loan_principal;
+        $loan_details['total_interest'] = $interest;
+        $loan_details['decimals'] = $application->decimals;
+        $loan_details['disbursement_fees'] = 0;
+        $loan_details['total_fees'] = $fee;
+        $loan_details['total_due'] = $loan_principal + $fee;
+        $loan_details['maturity_date'] = '';
+    }
+    // dd($loan_details, $schedules);
     return [
         'loan_details' => $loan_details,
         'schedules' => $schedules,
