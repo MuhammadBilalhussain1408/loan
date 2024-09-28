@@ -10,11 +10,18 @@
                 <div class="w-80 mt-2 px-4 py-6 shadow-xl bg-white rounded">
                 </div>
             </filter-search>
-            <inertia-link v-if="can('loans.transactions.create')" class="btn btn-blue"
+            <div>
+                <inertia-link v-if="can('loans.transactions.create')" class="btn btn-blue"
                           :href="route('loans.repayments.create_bulk_repayment')">
                 <span>Add </span>
                 <span class="hidden md:inline">Bulk Repayments</span>
             </inertia-link>
+            <inertia-link v-if="can('loans.transactions.create')" class="btn btn-blue ml-1"
+                          :href="route('loans.repayments.add')">
+                <span>Add </span>
+                <span class="hidden md:inline">Add Transaction</span>
+            </inertia-link>
+            </div>
         </div>
         <div class=" mx-auto">
             <div class="bg-white rounded shadow overflow-x-auto">

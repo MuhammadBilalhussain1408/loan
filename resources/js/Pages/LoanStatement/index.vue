@@ -10,12 +10,12 @@
         <div class=" mx-auto">
             <form @submit.prevent="submit">
                 <div class="bg-white shadow-xl sm:rounded-lg p-4">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-2 hideOnPrint">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 hideOnPrint">
                         <div>
                             <jet-label for="member_id" value="Member" />
                             <Multiselect v-model="selectedMember" @select="changeMember" v-bind="membersMultiSelect" />
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 ">
+                        <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-2 ">
                             <div>
                                 <jet-label for="start_date" value="Start Date" />
                                 <jet-input id="start_date" type="date" class="block w-full" v-model="form.start_date" />
@@ -39,65 +39,162 @@
                                 </select>
 
                             </div>
-                        </div>
+                        </div> -->
                         <div>
-                            <jet-button class="mt-5" :class="{ 'opacity-25': form.processing }"
+                            <jet-button class="mt-5 mx-1" :class="{ 'opacity-25': form.processing }"
                                 :disabled="form.processing" @click="submit()">
                                 Search
                             </jet-button>
-                            <jet-button class="mt-5" :class="{ 'opacity-25': form.processing }"
-                                :disabled="form.processing" @click="downloadFile()" type="button" v-if="LoanStatement">
+                            <jet-button class="mt-5 mx-1" :class="{ 'opacity-25': form.processing }"
+                                :disabled="form.processing" @click="downloadFile()" type="button" v-if="loan">
                                 Download
                             </jet-button>
-                            <jet-button class="mt-5" :class="{ 'opacity-25': form.processing }"
-                                :disabled="form.processing" type="button" @click="printReport()" v-if="LoanStatement">
+                            <jet-button class="mt-5 mx-1" :class="{ 'opacity-25': form.processing }"
+                                :disabled="form.processing" type="button" @click="printReport()" v-if="loan">
                                 Print
                             </jet-button>
                         </div>
                     </div>
-                    <div class="mt-5 mx-auto" v-if="LoanStatement">
+                    <div class="mt-5 mx-auto" v-if="loan">
                         <div class="bg-white rounded shadow overflow-x-auto">
-                            <table class="w-full whitespace-no-wrap" id="reportTable">
-                                <thead class="bg-gray-50">
-                                    <tr class="text-left font-bold">
-                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">#</th>
-                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Applied Amount</th>
-                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Approved Amount</th>
-                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Interest Rate</th>
-                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Applied Date</th>
-                                        <!--<th class="px-6 pt-4 pb-4 font-medium text-gray-500">Monthly Installment</th>
-                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Reference</th>
-                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Stop Order Date</th>
-                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Action</th> -->
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+                                <div>
+                                    <h3>Name: <span style="text-decoration: underline">{{ (CurrentMember.first_name?CurrentMember.first_name:'') +' '+ (CurrentMember.middle_name?CurrentMember.middle_name:'') +' '+(CurrentMember.last_name?CurrentMember.last_name:'') }}</span></h3>
+                                </div>
+                                <div>
+                                    <h3>ID: <span style="text-decoration: underline">{{ CurrentMember.identification_number }}</span></h3>
+                                </div>
+                                <div>
+                                    <h3>Cell: <span style="text-decoration: underline">{{ CurrentMember.contact_number }}</span></h3>
+                                </div>
+                                <div>
+                                    <h3>Address: <span style="text-decoration: underline">{{ CurrentMember.address }}</span></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded shadow overflow-x-auto">
+                            <table id="reportTable" class="mt-4 pretty displayschedule" >
+                                <thead>
+                                    <tr>
+                                        <th class="empty"></th>
+                                        <th>Contract</th>
+                                        <th>Paid</th>
+                                        <th>Waived</th>
+                                        <th>Written off</th>
+                                        <th>Outstanding</th>
+                                        <th>Overdue</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="result in LoanStatement" :key="result.id"
+                                    <tr>
+                                        <th>Principal</th>
+                                        <td>{{ $filters.formatNumber(loan.principal_disbursed_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.principal_repaid_derived) }}</td>
+                                        <td>0</td>
+                                        <td>{{ $filters.formatNumber(loan.principal_written_off_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.principal_outstanding_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.principal_overdue) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Interest</th>
+                                        <td>{{ $filters.formatNumber(loan.interest_disbursed_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.interest_repaid_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.interest_waived_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.interest_written_off_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.interest_outstanding_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.interest_overdue) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Fees</th>
+                                        <td>{{ $filters.formatNumber(loan.fees_disbursed_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.fees_repaid_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.fees_waived_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.fees_written_off_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.fees_outstanding_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.fees_overdue) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Penalties</th>
+                                        <td>{{ $filters.formatNumber(loan.penalties_disbursed_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.penalties_repaid_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.penalties_waived_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.penalties_written_off_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.penalties_outstanding_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.penalties_overdue) }}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Total</th>
+                                        <th>{{ $filters.formatNumber(loan.total_disbursed_derived) }}</th>
+                                        <th>{{ $filters.formatNumber(loan.total_repaid_derived) }}</th>
+                                        <th>{{ $filters.formatNumber(loan.total_waived_derived) }}</th>
+                                        <th>{{ $filters.formatNumber(loan.total_written_off_derived) }}</th>
+                                        <th>{{ $filters.formatNumber(loan.total_outstanding_derived) }}</th>
+                                        <th>{{ $filters.formatNumber(loan.arrears_amount) }}</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="mt-4 relative overflow-x-auto">
+                            <table class=" whitespace-no-wrap table-auto">
+                                <thead class="bg-gray-50">
+                                    <tr class="text-left font-bold">
+                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">ID</th>
+                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Date</th>
+                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Submitted on</th>
+                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Transaction Type</th>
+                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Debit</th>
+                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Credit</th>
+                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-if="!results.length">
+                                        <td colspan="8" class="px-6 py-4 text-center">
+                                            No records Yet
+                                        </td>
+                                    </tr>
+                                    <tr v-for="result in results" :key="result.id"
                                         class="hover:bg-gray-100 focus-within:bg-gray-100">
-                                        <td class="border-t">
-                                            <span class="px-6 py-4 flex items-center">
-                                                <inertia-link :href="route('loans.applications.show', result.id)"
-                                                    tabindex="-1" class="text-indigo-600 hover:text-indigo-900">
-                                                    {{ result.id }}
-                                                </inertia-link>
+                                        <td class="border-t px-6 py-4">
+                                            <span>
+                                                {{ result.id }}
                                             </span>
                                         </td>
-                                        <td>{{ result.applied_amount }}</td>
-                                        <td>{{ result.applied_amount }}</td>
-                                        <td>{{ result.interest_rate }}</td>
-                                        <td>{{ new Date(result.created_at).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit'
-                })
-                                            }}</td>
-                                    </tr>
-                                    <tr v-if="LoanStatement.length === 0">
-                                        <td class="border-t px-6 py-4 text-center" colspan="9">No records found.</td>
+                                        <td class="border-t px-6 py-4">
+                                            <span>
+                                                {{ result.created_on }}
+                                            </span>
+                                        </td>
+                                        <td class="border-t px-6 py-4">
+                                            <span>
+                                                {{ result.submitted_on }}
+                                            </span>
+                                        </td>
+                                        <td class="border-t px-6 py-4">
+                                            <span v-if="result.type">
+                                                {{ result.type.name }}
+                                            </span>
+                                        </td>
+                                        <td class="border-t px-6 py-4">
+                                            <span>
+                                                {{ $filters.currency(result.debit) }}
+                                            </span>
+                                        </td>
+                                        <td class="border-t px-6 py-4">
+                                            <span>
+                                                {{ $filters.currency(result.credit) }}
+                                            </span>
+                                        </td>
+                                        <td class="border-t px-6 py-4">
+                                            <span>
+                                                {{ $filters.currency(result.balance) }}
+                                            </span>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                     <div class="flex items-center justify-end mt-4">
@@ -161,8 +258,14 @@ import TextareaInput from "@/Jetstream/TextareaInput.vue";
 
 export default {
     props: {
-        LoanStatement: Object
+        loan: Object,
+        results: Object,
+        paymentTypes: Object,
+        CurrentMember: Object
     },
+    // props: {
+    //     LoanStatement: Object
+    // },
     components: {
         SelectInput,
         AppLayout,
@@ -179,9 +282,6 @@ export default {
             form: this.$inertia.form({
                 // member_type: 'member',
                 member_id: null,
-                start_date: null,
-                end_date: null,
-                duration: null
             }),
             usersMultiSelect: {
                 placeholder: 'Search for Staff',
@@ -245,7 +345,7 @@ export default {
 
             // Loop through each row of the table
             for (let row of table.rows) {
-                const rowData = Array.from(row.cells).map(cell => cell.innerText).join(',');
+                const rowData = Array.from(row.cells).map(cell => cell.innerText.replace(/,/g, '')).join(',');
                 csvContent += rowData + '\n'; // Add a new line after each row
             }
 
@@ -280,5 +380,35 @@ export default {
     left: 0;
     top: 0;
   } */
+  body {
+        margin: 0; /* Remove default margins */
+        padding: 0; /* Remove default padding */
+    }
+
+    table {
+        width: 100%; /* Make the table take full width */
+        table-layout: auto; /* Allow the table to adjust its layout */
+    }
+
+    th, td {
+        overflow: hidden; /* Hide overflow for cells */
+        white-space: nowrap; /* Prevent text wrapping */
+        text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+    }
+
+    /* Optional: Hide horizontal scrollbars */
+    * {
+        overflow-x: hidden !important;
+    }
+  table {
+        width: 100%; /* Make the table take full width */
+        table-layout: auto; /* Allow the table to adjust its layout */
+    }
+
+    th, td {
+        overflow: hidden; /* Hide overflow for cells */
+        white-space: nowrap; /* Prevent text wrapping */
+        text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+    }
 }
 </style>

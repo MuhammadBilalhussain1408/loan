@@ -38,7 +38,6 @@ class LoanRepaymentController extends Controller
         $this->middleware(['permission:loans.calculator'])->only(['calculator']);
         $this->middleware(['permission:loans.transactions.create'])->only(['create_repayment', 'store_repayment', 'create_loan_linked_charge', 'store_loan_linked_charge']);
         $this->middleware(['permission:loans.transactions.edit'])->only(['edit_repayment', 'reverse_repayment', 'update_repayment', 'waive_interest', 'waive_charge']);
-
     }
 
     /**
@@ -76,6 +75,13 @@ class LoanRepaymentController extends Controller
         ]);
     }
 
+    public function add()
+    {
+        return Inertia::render('LoanRepayments/create', []);
+    }
+    public function storeRepayment(Request $request) {
+        dd($request);
+    }
     /**
      * Store a newly created resource in storage.
      * @param Request $request

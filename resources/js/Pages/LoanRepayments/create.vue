@@ -14,98 +14,93 @@
                 <form @submit.prevent="submit">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 ">
                         <div>
-                            <!-- <jet-label for="member_id" value="Member"/> -->
-                            <!-- <Multiselect
-                                v-model="selectedMember"
-                                @select="changeMember"
-                                v-bind="membersMultiSelect"
-                                :required="true"
-                            /> -->
+                            <jet-label for="member_id" value="Member" />
+                            <Multiselect v-model="selectedMember" @select="changeMember" v-bind="membersMultiSelect"
+                                :required="true" />
+                        </div>
+                        <div>
+                            <jet-label for="c" value="Loan_id" />
+                            <jet-input id="Loan" type="number" class="block w-full" v-model="form.Loan_id" />
+                            <jet-input-error :message="form.errors.Loan_id" class="mt-2" />
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-                              <div>
-                                <jet-label for="c" value="Amount"/>
-                                <jet-input id="amount" type="number"
-                                           class="block w-full" v-model="form.amount"/>
-                                <jet-input-error :message="form.errors.amount" class="mt-2"/>
+                            <div>
+                                <jet-label for="c" value="Amount" />
+                                <jet-input id="amount" type="number" class="block w-full" v-model="form.amount" />
+                                <jet-input-error :message="form.errors.amount" class="mt-2" />
                             </div>
                             <div>
-                                <jet-label for="date" value="Date"/>
-                                <jet-input id="date" type="date"
-                                           class="block w-full" v-model="form.date"/>
-                                <jet-input-error :message="form.errors.date" class="mt-2"/>
+                                <jet-label for="date" value="Date" />
+                                <jet-input id="date" type="date" class="block w-full" v-model="form.date" />
+                                <jet-input-error :message="form.errors.date" class="mt-2" />
                             </div>
                             <div>
-                                <jet-label for="repayment_type" value="Repayment Type"/>
+                                <jet-label for="repayment_type" value="Repayment Type" />
                                 <select id="repayment_type" class="block w-full" v-model="form.repayment_type">
-                                    
+
                                     <option value="EFT">EFT</option>
                                     <option value="Stop Order">Stop Order</option>
                                 </select>
-                                <jet-input-error :message="form.errors.repayment_type" class="mt-2"/>
+                                <jet-input-error :message="form.errors.repayment_type" class="mt-2" />
                             </div>
                             <div>
-                                <jet-label for="receipt" value="Receipt #"/>
-                                <jet-input id="receipt" type="text"
-                                           class="block w-full" v-model="form.receipt"/>
-                                <jet-input-error :message="form.errors.receipt" class="mt-2"/>
+                                <jet-label for="receipt" value="Receipt #" />
+                                <jet-input id="receipt" type="text" class="block w-full" v-model="form.receipt" />
+                                <jet-input-error :message="form.errors.receipt" class="mt-2" />
                             </div>
-                            
+
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-                        
+
                             <div>
-                                <jet-label for="account_number" value="Account Number"/>
-                                <jet-input id="account_number" type="text"
-                                           class="block w-full" v-model="form.account_number"/>
-                                <jet-input-error :message="form.errors.account_number" class="mt-2"/>
+                                <jet-label for="account_number" value="Account Number" />
+                                <jet-input id="account_number" type="text" class="block w-full"
+                                    v-model="form.account_number" />
+                                <jet-input-error :message="form.errors.account_number" class="mt-2" />
                             </div>
                             <div>
-                                <jet-label for="cheque" value="Cheque #"/>
-                                <jet-input id="cheque" type="text"
-                                           class="block w-full" v-model="form.cheque"/>
-                                <jet-input-error :message="form.errors.cheque" class="mt-2"/>
+                                <jet-label for="cheque" value="Cheque #" />
+                                <jet-input id="cheque" type="text" class="block w-full" v-model="form.cheque" />
+                                <jet-input-error :message="form.errors.cheque" class="mt-2" />
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-                         
+
                             <div>
-                                <jet-label for="routing_code" value="Routing Code"/>
-                                <jet-input id="routing_code" type="text"
-                                           class="block w-full" v-model="form.routing_code"/>
-                                <jet-input-error :message="form.errors.routing_code" class="mt-2"/>
+                                <jet-label for="routing_code" value="Banking Code" />
+                                <jet-input id="routing_code" type="text" class="block w-full"
+                                    v-model="form.routing_code" />
+                                <jet-input-error :message="form.errors.routing_code" class="mt-2" />
                             </div>
                             <div>
-                                <jet-label for="bank" value="Bank"/>
-                                <jet-input id="bank" type="text"
-                                           class="block w-full" v-model="form.bank"/>
-                                <jet-input-error :message="form.errors.bank" class="mt-2"/>
+                                <jet-label for="bank" value="Bank" />
+                                <jet-input id="bank" type="text" class="block w-full" v-model="form.bank" />
+                                <jet-input-error :message="form.errors.bank" class="mt-2" />
                             </div>
                         </div>
                         <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-                        
-                            
+
+
                         </div> -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-                              <div>
-                                <jet-label for="description" value="Description"/>
-                                <jet-input id="description" type="text"
-                                           class="block w-full" v-model="form.description"/>
-                                <jet-input-error :message="form.errors.description" class="mt-2"/>
+                            <div>
+                                <jet-label for="description" value="Description" />
+                                <jet-input id="description" type="text" class="block w-full"
+                                    v-model="form.description" />
+                                <jet-input-error :message="form.errors.description" class="mt-2" />
                             </div>
                         </div>
                     </div>
                     <div class="flex items-center justify-end mt-4">
 
-                                 <!-- Print Button -->
-                   <!-- Print Button -->
+                        <!-- Print Button -->
+                        <!-- Print Button -->
                         <!-- <jet-button class="ml-4" @click="printForm" :style="{ backgroundColor: 'blue', color: 'white' }">
                             Print
                         </jet-button> -->
-                        <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }"
-                                    :disabled="form.processing">
+                        <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                             Save
                         </jet-button>
                     </div>
@@ -130,7 +125,7 @@ const fetchUsers = async (query) => {
 
     const data = await response.json(); // Here you have the data that you need
     return data.map((item) => {
-        return {value: item.id, label: item.name + ('(#' + item.id + ')')}
+        return { value: item.id, label: item.name + ('(#' + item.id + ')') }
     })
 }
 const fetchMembers = async (query) => {
@@ -184,7 +179,8 @@ export default {
         return {
             form: this.$inertia.form({
                 member_type: 'member',
-                member_id:null,
+                member_id: null,
+                Loan_id: null,
                 amount: null,
                 account_number: null,
                 repayment_type: null,
@@ -234,7 +230,7 @@ export default {
     },
     methods: {
         submit() {
-            this.form.post(this.route('loans.repayments.store'), {})
+            this.form.post(this.route('loans.repayments.storeRepayment'), {})
 
         },
         printForm() {
@@ -262,12 +258,12 @@ export default {
             this.updateItems();
         },
         changeMember() {
-//             receipt
-// cheque
-// bank
+            //             receipt
+            // cheque
+            // bank
             //this.form.cheque = this.selectedMember.account_number;
             this.form.member_id = this.selectedMember.id;
-            this.form.receipt = this.selectedMember.first_name+' '+this.selectedMember.middle_name+' '+this.selectedMember.last_name;
+            // this.form.receipt = this.selectedMember.first_name+' '+this.selectedMember.middle_name+' '+this.selectedMember.last_name;
             //this.form.description = this.selectedMember.description;
         },
         changeLoanProduct() {
@@ -304,6 +300,4 @@ export default {
     watch: {}
 }
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>

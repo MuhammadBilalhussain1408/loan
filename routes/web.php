@@ -340,6 +340,8 @@ Route::group(['prefix' => 'loan', 'as' => 'loans.'], function () {
         Route::get('/', [LoanRepaymentController::class, 'index'])->name('index');
         Route::get('create', [LoanRepaymentController::class, 'create'])->name('create');
         Route::post('store', [LoanRepaymentController::class, 'store'])->name('store');
+        Route::get('add', [LoanRepaymentController::class, 'add'])->name('add');
+        Route::post('store-payment', [LoanRepaymentController::class, 'storeRepayment'])->name('storeRepayment');
         Route::get('bulk/create', [LoanRepaymentController::class, 'createBulkRepayment'])->name('create_bulk_repayment');
         Route::post('bulk/store', [LoanRepaymentController::class, 'storeBulkRepayment'])->name('store_bulk_repayments');
         Route::get('{repayment}/show', [LoanRepaymentController::class, 'show'])->name('show');

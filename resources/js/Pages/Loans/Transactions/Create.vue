@@ -41,7 +41,7 @@
                             <jet-input-error :message="form.errors.payment_type_id" class="mt-2"/>
                         </div>
                         <div>
-                            <jet-label for="receipt" value="Receipt#"/>
+                            <jet-label for="receipt" value="Reference Name"/>
                             <jet-input id="receipt" type="text" class="mt-1 block w-full"
                                        v-model="form.receipt"/>
                             <jet-input-error :message="form.errors.receipt" class="mt-2"/>
@@ -53,13 +53,13 @@
                             <jet-input-error :message="form.errors.account_number" class="mt-2"/>
                         </div>
                         <div>
-                            <jet-label for="cheque_number" value="Cheque#"/>
+                            <jet-label for="cheque_number" value="Transaction Number"/>
                             <jet-input id="cheque_number" type="text" class="mt-1 block w-full"
                                        v-model="form.cheque_number"/>
                             <jet-input-error :message="form.errors.cheque_number" class="mt-2"/>
                         </div>
                         <div>
-                            <jet-label for="routing_code" value="Routing Code"/>
+                            <jet-label for="routing_code" value="Branch Code"/>
                             <jet-input id="routing_code" type="text" class="mt-1 block w-full"
                                        v-model="form.routing_code"/>
                             <jet-input-error :message="form.errors.routing_code" class="mt-2"/>
