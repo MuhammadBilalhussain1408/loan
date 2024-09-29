@@ -79,7 +79,7 @@
                     <tr v-if="transaction.payment_detail && transaction.payment_detail.cheque_number"
                         class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t px-6 py-4">
-                            Cheque Number
+                            Transaction Number
                         </td>
                         <td class="border-t px-6 py-4">
                             {{ transaction.payment_detail.cheque_number }}
@@ -88,7 +88,7 @@
                     <tr v-if="transaction.payment_detail && transaction.payment_detail.routing_code"
                         class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t px-6 py-4">
-                            Routing Code
+                            Branch Code
                         </td>
                         <td class="border-t px-6 py-4">
                             {{ transaction.payment_detail.routing_code }}
