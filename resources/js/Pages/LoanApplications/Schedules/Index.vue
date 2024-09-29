@@ -36,7 +36,7 @@
                         </thead>
                         <tbody>
 
-                        <tr>
+                        <!-- <tr>
                             <td scope="row"></td>
                             <td>{{ loan_details["disbursement_date"] }}</td>
                             <td class="lefthighlightcolheader">
@@ -45,10 +45,12 @@
                             <td class="righthighlightcolheader">
                                 {{ $filters.formatNumber(loan_details["principal"], loan_details["decimals"]) }}
                             </td>
-                            <td class="lefthighlightcolheader"></td>
-                            <td>{{ $filters.formatNumber(loan_details["disbursement_fees"], loan_details["decimals"]) }}</td>
-                            <td>{{ $filters.formatNumber(loan_details["disbursement_fees"], loan_details["decimals"]) }}</td>
-                        </tr>
+                            <td class="lefthighlightcolheader">
+                                {{ $filters.formatNumber(loan_details['total_interest'],loan_details["decimals"]) }}
+                            </td>
+                            <td>{{ $filters.formatNumber(loan_details["total_fees"], loan_details["decimals"]) }}</td>
+                            <td>{{ $filters.formatNumber(loan_details["total_due"], loan_details["decimals"]) }}</td>
+                        </tr> -->
                         <!-- {{ schedules }} -->
                         <tr v-for="(item,index) in schedules">
                             <td scope="row">{{ index+1 }}</td>
