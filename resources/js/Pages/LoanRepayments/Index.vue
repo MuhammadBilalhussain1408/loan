@@ -16,11 +16,11 @@
                 <span>Add </span>
                 <span class="hidden md:inline">Bulk Repayments</span>
             </inertia-link>
-            <inertia-link v-if="can('loans.transactions.create')" class="btn btn-blue ml-1"
+            <!-- <inertia-link v-if="can('loans.transactions.create')" class="btn btn-blue ml-1"
                           :href="route('loans.repayments.add')">
                 <span>Add </span>
                 <span class="hidden md:inline">Add Transaction</span>
-            </inertia-link>
+            </inertia-link> -->
             </div>
         </div>
         <div class=" mx-auto">
