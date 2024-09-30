@@ -52,6 +52,15 @@
                             {{ $filters.currency(transaction.amount) }}
                         </td>
                     </tr>
+                    <tr
+                        class="hover:bg-gray-100 focus-within:bg-gray-100">
+                        <td class="border-t px-6 py-4">
+                            Bank
+                        </td>
+                        <td class="border-t px-6 py-4">
+                            {{ transaction.payment_detail.bank_name }}
+                        </td>
+                    </tr>
                     <tr v-if="transaction.payment_detail"
                         class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t px-6 py-4" colspan="2">

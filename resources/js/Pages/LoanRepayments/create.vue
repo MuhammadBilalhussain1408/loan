@@ -6,7 +6,7 @@
                     Loan/Repayment
                 </inertia-link>
                 <span class="text-indigo-400 font-medium">/</span>
-                Add Transection
+                Add Transaction
             </h2>
         </template>
         <div class=" mx-auto">
@@ -46,7 +46,7 @@
                                 <jet-input-error :message="form.errors.repayment_type" class="mt-2" />
                             </div>
                             <div>
-                                <jet-label for="receipt" value="Receipt #" />
+                                <jet-label for="receipt" value="Reference Name" />
                                 <jet-input id="receipt" type="text" class="block w-full" v-model="form.receipt" />
                                 <jet-input-error :message="form.errors.receipt" class="mt-2" />
                             </div>
@@ -61,7 +61,7 @@
                                 <jet-input-error :message="form.errors.account_number" class="mt-2" />
                             </div>
                             <div>
-                                <jet-label for="cheque" value="Cheque #" />
+                                <jet-label for="cheque" value="Transaction Number" />
                                 <jet-input id="cheque" type="text" class="block w-full" v-model="form.cheque" />
                                 <jet-input-error :message="form.errors.cheque" class="mt-2" />
                             </div>
@@ -69,7 +69,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
 
                             <div>
-                                <jet-label for="routing_code" value="Banking Code" />
+                                <jet-label for="routing_code" value="Branch Code" />
                                 <jet-input id="routing_code" type="text" class="block w-full"
                                     v-model="form.routing_code" />
                                 <jet-input-error :message="form.errors.routing_code" class="mt-2" />
@@ -230,7 +230,7 @@ export default {
     },
     methods: {
         submit() {
-            this.form.post(this.route('loans.repayments.storeRepayment'), {})
+            this.form.post(this.route('loans.repayments.store'), {})
 
         },
         printForm() {

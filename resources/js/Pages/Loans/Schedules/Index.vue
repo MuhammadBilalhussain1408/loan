@@ -111,9 +111,10 @@
                                 <span style="color: rgb(235, 36, 66);"></span>
                             </td>
                             <td>&nbsp;</td>
-                            <td class="lefthighlightcolheader">{{ $filters.currency(loan.principal) }}</td>
+                            <!-- $filters.formatNumber(item['fees'], loan_details["decimals"]) -->
+                            <td class="lefthighlightcolheader">{{ $filters.formatNumber(loan.principal, 2) }}</td>
                             <td></td>
-                            <td class="righthighlightcolheader">{{ $filters.currency(loan.principal) }}</td>
+                            <td class="righthighlightcolheader">{{ $filters.formatNumber(loan.principal, 2) }}</td>
                             <td class="lefthighlightcolheader"></td>
                             <td>0</td>
                             <td class="righthighlightcolheader"></td>
