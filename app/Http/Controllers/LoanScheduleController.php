@@ -49,6 +49,7 @@ class LoanScheduleController extends Controller
         $interestOverdue = 0;
         $feesOverdue = 0;
         $penaltiesOverdue = 0;
+        $totaladmincharges = 0;
         $totalDueRepayments = $loan->schedules->where('due_date', '<', date("Y-m-d"))->where('total_due', '>', 0)->count();
         $arrearsLastSchedule = $loan->schedules->sortByDesc('due_date')->where('due_date', '<', date("Y-m-d"))->where('total_due', '>', 0)->first();
         if (!empty($arrearsLastSchedule)) {
@@ -59,7 +60,7 @@ class LoanScheduleController extends Controller
             $penaltiesOverdue = $overdueSchedules->sum('penalties') - $overdueSchedules->sum('penalties_written_off_derived') - $overdueSchedules->sum('penalties_repaid_derived') - $overdueSchedules->sum('penalties_waived_derived');
             $arrearsDays = $arrearsDays + Carbon::today()->diffInDays(Carbon::parse($overdueSchedules->sortBy('due_date')->first()->due_date));
         }
-        $loan->schedules->transform(function ($item) use (&$balance, &$arrearsDays, &$arrearsAmount, &$timelyRepayments) {
+        $loan->schedules->transform(function ($item) use ($totaladmincharges,&$balance, &$arrearsDays, &$arrearsAmount, &$timelyRepayments) {
             $item->total = $item->principal - $item->principal_written_off_derived + $item->interest - $item->interest_written_off_derived - $item->interest_waived_derived + $item->fees - $item->fees_written_off_derived - $item->fees_waived_derived + $item->penalties - $item->penalties_written_off_derived - $item->penalties_waived_derived;
             $item->total_paid = $item->principal_repaid_derived + $item->interest_repaid_derived + $item->fees_repaid_derived + $item->penalties_repaid_derived;
             if ($item->total_due <= 0) {
@@ -80,6 +81,9 @@ class LoanScheduleController extends Controller
             }
             $balance = $balance - $item->principal - $item->principal_written_off_derived;
             $item->balance = $balance;
+            $fee = ($balance) * (0.05) / 100;
+            // $totaladmincharges = $totaladmincharges + $fee;
+            $item->calculated_admin_fee = $fee;
             $item->days = Carbon::parse($item->due_date)->diffInDays(Carbon::parse($item->from_date));
             return $item;
         });
@@ -95,14 +99,15 @@ class LoanScheduleController extends Controller
         $loan->penalties_overdue = $penaltiesOverdue;
         return Inertia::render('Loans/Schedules/Index', [
             'loan' => $loan,
-            'totalPrincipal' => $loan->schedules->sum('principal') - $loan->schedules->sum('principal_written_off_derived'),
+            'totalAdminFee'=>$loan->schedules->sum('calculated_admin_fee'),
+            'totalPrincipal' => $loan->schedules->sum('principal') + $loan->schedules->sum('calculated_admin_fee') - $loan->schedules->sum('principal_written_off_derived'),
             'totalInterest' => $loan->schedules->sum('interest') - $loan->schedules->sum('interest_waived_derived') - $loan->schedules->sum('interest_written_off_derived'),
             'totalFees' => $loan->schedules->sum('fees') - $loan->schedules->sum('fees_waived_derived') - $loan->schedules->sum('fees_written_off_derived'),
             'totalPenalties' => $loan->schedules->sum('penalties') - $loan->schedules->sum('penalties_waived_derived') - $loan->schedules->sum('penalties_written_off_derived'),
             'totalPaid' => $loan->schedules->sum('principal_repaid_derived') + $loan->schedules->sum('interest_repaid_derived') + $loan->schedules->sum('penalties_written_off_derived') + $loan->schedules->sum('fees_repaid_derived'),
             'totalDue' => $loan->schedules->sum('total_due'),
             'totalDays' => $loan->schedules->sum('days'),
-            'totalAmount' => $loan->schedules->sum('total'),
+            'totalAmount' => $loan->schedules->sum('total')+$loan->schedules->sum('calculated_admin_fee'),
             'paymentTypes' => PaymentType::where('active', 1)->get(),
         ]);
     }

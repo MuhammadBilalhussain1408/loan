@@ -138,24 +138,28 @@
                                 <font-awesome-icon v-if="item.paid_by_date" icon="check-circle"/>
                             </td>
                             <td class="lefthighlightcolheader"></td>
-                            <td>{{ $filters.currency(item.principal) }}</td>
-                            <td class="righthighlightcolheader">{{ $filters.currency(item.balance) }}</td>
+                            <td>{{ $filters.formatNumber(item.principal) }}</td>
+                            <td class="righthighlightcolheader">{{ $filters.formatNumber(item.balance) }}</td>
                             <td class="lefthighlightcolheader">
                                 {{
-                                    $filters.currency(item.interest - item.interest_written_off_derived - item.interest_waived_derived)
+                                    $filters.formatNumber(item.interest - item.interest_written_off_derived - item.interest_waived_derived)
                                 }}
                             </td>
-                            <td>{{
-                                    $filters.currency(item.fees - item.fees_written_off_derived - item.fees_waived_derived)
+                            <td>
+                                {{
+                                    $filters.formatNumber(item.calculated_admin_fee - item.fees_written_off_derived - item.fees_waived_derived)
                                 }}
+                                <!-- {{
+                                    $filters.formatNumber(item.fees - item.fees_written_off_derived - item.fees_waived_derived)
+                                }} -->
                             </td>
                             <td class="righthighlightcolheader">{{
                                     $filters.currency(item.penalties - item.penalties_written_off_derived - item.penalties_waived_derived)
                                 }}
                             </td>
-                            <td>{{ $filters.currency(item.total) }}</td>
-                            <td>{{ $filters.currency(item.total_paid) }}</td>
-                            <td>{{ $filters.currency(item.total_due) }}</td>
+                            <td>{{ $filters.formatNumber(item.total) }}</td>
+                            <td>{{ $filters.formatNumber(item.total_paid) }}</td>
+                            <td>{{ $filters.formatNumber(item.total_due) }}</td>
                         </tr>
                         </tbody>
                         <tfoot class="ui-widget-header">
@@ -164,15 +168,15 @@
                             <th>{{ totalDays }}</th>
                             <th></th>
                             <th></th>
-                            <th class="lefthighlightcolheader">{{ $filters.currency(totalPrincipal) }}</th>
-                            <th>{{ $filters.currency(totalPrincipal) }}</th>
+                            <th class="lefthighlightcolheader">{{ $filters.formatNumber(totalPrincipal) }}</th>
+                            <th>{{ $filters.formatNumber(totalPrincipal) }}</th>
                             <th class="righthighlightcolheader">&nbsp;</th>
-                            <th class="lefthighlightcolheader">{{ $filters.currency(totalInterest) }}</th>
-                            <th>{{ $filters.currency(totalFees) }}</th>
-                            <th class="righthighlightcolheader">{{ $filters.currency(totalPenalties) }}</th>
-                            <th>{{ $filters.currency(totalAmount) }}</th>
-                            <th>{{ $filters.currency(totalPaid) }}</th>
-                            <th>{{ $filters.currency(totalDue) }}</th>
+                            <th class="lefthighlightcolheader">{{ $filters.formatNumber(totalInterest) }}</th>
+                            <th>{{ $filters.formatNumber(totalAdminFee) }}</th>
+                            <th class="righthighlightcolheader">{{ $filters.formatNumber(totalPenalties) }}</th>
+                            <th>{{ $filters.formatNumber(totalAmount) }}</th>
+                            <th>{{ $filters.formatNumber(totalPaid) }}</th>
+                            <th>{{ $filters.formatNumber(totalDue) }}</th>
                         </tr>
                         </tfoot>
                     </table>
@@ -231,6 +235,7 @@ export default {
         loan: Object,
         paymentTypes: Object,
         totalPrincipal: Number,
+        totalAdminFee:Number,
         totalInterest: Number,
         totalFees: Number,
         totalPenalties: Number,
