@@ -30,7 +30,6 @@ class LoanScheduleController extends Controller
         $this->middleware(['permission:loans.schedules.create'])->only(['create', 'store']);
         $this->middleware(['permission:loans.schedules.update'])->only(['edit', 'update']);
         $this->middleware(['permission:loans.schedules.destroy'])->only(['destroy']);
-
     }
 
     /**
@@ -60,9 +59,19 @@ class LoanScheduleController extends Controller
             $penaltiesOverdue = $overdueSchedules->sum('penalties') - $overdueSchedules->sum('penalties_written_off_derived') - $overdueSchedules->sum('penalties_repaid_derived') - $overdueSchedules->sum('penalties_waived_derived');
             $arrearsDays = $arrearsDays + Carbon::today()->diffInDays(Carbon::parse($overdueSchedules->sortBy('due_date')->first()->due_date));
         }
-        $loan->schedules->transform(function ($item) use ($totaladmincharges,&$balance, &$arrearsDays, &$arrearsAmount, &$timelyRepayments) {
-            $item->total = $item->principal - $item->principal_written_off_derived + $item->interest - $item->interest_written_off_derived - $item->interest_waived_derived + $item->fees - $item->fees_written_off_derived - $item->fees_waived_derived + $item->penalties - $item->penalties_written_off_derived - $item->penalties_waived_derived;
-            $item->total_paid = $item->principal_repaid_derived + $item->interest_repaid_derived + $item->fees_repaid_derived + $item->penalties_repaid_derived;
+        foreach ($loan->schedules as $ind=>$item) {
+            $item->total = $item->principal - $item->principal_written_off_derived
+                + $item->interest - $item->interest_written_off_derived
+                - $item->interest_waived_derived + $item->fees
+                - $item->fees_written_off_derived - $item->fees_waived_derived
+                + $item->penalties - $item->penalties_written_off_derived
+                - $item->penalties_waived_derived;
+
+            $item->total_paid = $item->principal_repaid_derived
+                + $item->interest_repaid_derived
+                + $item->fees_repaid_derived
+                + $item->penalties_repaid_derived;
+
             if ($item->total_due <= 0) {
                 if (Carbon::parse($item->paid_by_date)->greaterThan(Carbon::parse($item->due_date))) {
                     $item->late_payment = true;
@@ -79,14 +88,19 @@ class LoanScheduleController extends Controller
                     $item->late_payment = false;
                 }
             }
+
             $balance = $balance - $item->principal - $item->principal_written_off_derived;
             $item->balance = $balance;
-            $fee = ($balance) * (0.05) / 100;
-            // $totaladmincharges = $totaladmincharges + $fee;
+if($ind==0){
+    $fee = ($loan->principal) * (0.05) / 100;
+}else{
+    $fee = ($balance) * (0.05) / 100;
+}
+            // $totaladmincharges += $fee; // Uncomment if you want to accumulate admin charges
             $item->calculated_admin_fee = $fee;
             $item->days = Carbon::parse($item->due_date)->diffInDays(Carbon::parse($item->from_date));
-            return $item;
-        });
+        }
+
         if ($totalDueRepayments > 0) {
             $timelyRepayments = round($timelyRepayments * 100 / $totalDueRepayments);
         }
@@ -99,7 +113,7 @@ class LoanScheduleController extends Controller
         $loan->penalties_overdue = $penaltiesOverdue;
         return Inertia::render('Loans/Schedules/Index', [
             'loan' => $loan,
-            'totalAdminFee'=>$loan->schedules->sum('calculated_admin_fee'),
+            'totalAdminFee' => $loan->schedules->sum('calculated_admin_fee'),
             'totalPrincipal' => $loan->schedules->sum('principal') + $loan->schedules->sum('calculated_admin_fee') - $loan->schedules->sum('principal_written_off_derived'),
             'totalInterest' => $loan->schedules->sum('interest') - $loan->schedules->sum('interest_waived_derived') - $loan->schedules->sum('interest_written_off_derived'),
             'totalFees' => $loan->schedules->sum('fees') - $loan->schedules->sum('fees_waived_derived') - $loan->schedules->sum('fees_written_off_derived'),
@@ -107,7 +121,7 @@ class LoanScheduleController extends Controller
             'totalPaid' => $loan->schedules->sum('principal_repaid_derived') + $loan->schedules->sum('interest_repaid_derived') + $loan->schedules->sum('penalties_written_off_derived') + $loan->schedules->sum('fees_repaid_derived'),
             'totalDue' => $loan->schedules->sum('total_due'),
             'totalDays' => $loan->schedules->sum('days'),
-            'totalAmount' => $loan->schedules->sum('total')+$loan->schedules->sum('calculated_admin_fee'),
+            'totalAmount' => $loan->schedules->sum('total') + $loan->schedules->sum('calculated_admin_fee'),
             'paymentTypes' => PaymentType::where('active', 1)->get(),
         ]);
     }
@@ -154,7 +168,8 @@ class LoanScheduleController extends Controller
         ]);
         foreach ($request->schedules as $key) {
             LoanRepaymentSchedule::where('id', $key['id'])->update(
-                ['due_date' => $key['due_date'],
+                [
+                    'due_date' => $key['due_date'],
                     'principal' => $key['principal'],
                     'interest' => $key['interest'],
                     'fees' => $key['fees'],
@@ -169,25 +184,24 @@ class LoanScheduleController extends Controller
 
     public function email(Loan $loan)
     {
-        $loan->load(['schedules','member','product']);
+        $loan->load(['schedules', 'member', 'product']);
         //return Inertia::render('loan::loan_schedule.email', compact('loan'));
     }
 
     public function pdf(Loan $loan)
     {
-        $loan->load(['schedules','member','product']);
+        $loan->load(['schedules', 'member', 'product']);
         $pdf = Pdf::loadView('loan_schedule.pdf', [
-            'loan'=>$loan
+            'loan' => $loan
         ])->setPaper('a4', 'landscape');
         return $pdf->download("repayment_schedule.pdf");
     }
 
     public function printSchedule(Loan $loan)
     {
-        $loan->load(['schedules','member','product']);
+        $loan->load(['schedules', 'member', 'product']);
         return view('loan_schedule.print', [
             'loan' => $loan
         ]);
     }
-
 }
