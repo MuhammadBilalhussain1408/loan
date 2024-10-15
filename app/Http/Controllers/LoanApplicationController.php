@@ -580,6 +580,11 @@ class LoanApplicationController extends Controller
         $application->disbursed_on_date = $request->disbursed_on_date;
         $application->disbursement_notes = $request->description;
         $application->payment_type_id = $request->payment_type_id;
+        $application->dis_bank_name = $request->bank_name;
+        $application->dis_account_holder_name = $request->account_holder_name;
+        $application->dis_bank_account = $request->bank_account;
+        $application->dis_branch_code = $request->branch_code;
+
         $application->save();
         $applicationHistory = new LoanApplicationHistory();
         $applicationHistory->loan_application_id = $application->id;
