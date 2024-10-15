@@ -428,6 +428,34 @@
                     <jet-input-error :message="statusForm.errors.description" class="mt-2"/>
 
                 </div>
+                <div>
+                    <jet-label for="bank_name" value="Bank Name"/>
+                    <jet-input type="text" id="bank_name" class="block w-full"
+                               v-model="statusForm.bank_name" required/>
+                    <jet-input-error :message="statusForm.errors.bank_name"
+                                        class="mt-2"/>
+                </div>
+                <div>
+                    <jet-label for="account_holder_name" value="Account Holder name"/>
+                    <jet-input type="text" id="account_holder_name" class="block w-full"
+                               v-model="statusForm.account_holder_name" required/>
+                    <jet-input-error :message="statusForm.errors.account_holder_name"
+                                        class="mt-2"/>
+                </div>
+                <div>
+                    <jet-label for="bank_account" value="Bank Account"/>
+                    <jet-input type="text" id="bank_account" class="block w-full"
+                               v-model="statusForm.bank_account" required/>
+                    <jet-input-error :message="statusForm.errors.bank_account"
+                                        class="mt-2"/>
+                </div>
+                <div>
+                    <jet-label for="branch_code" value="Branch code"/>
+                    <jet-input type="text" id="branch_code" class="block w-full"
+                               v-model="statusForm.branch_code" required/>
+                    <jet-input-error :message="statusForm.errors.branch_code"
+                                        class="mt-2"/>
+                </div>
             </div>
         </template>
 
@@ -759,6 +787,10 @@ export default {
                 disbursed_on_date: this.loan.expected_disbursement_date ? this.loan.expected_disbursement_date : moment().format("YYYY-MM-DD"),
                 description: ``,
                 payment_type_id: null,
+                bank_name:'',
+                account_holder_name:'',
+                bank_account:'',
+                branch_code:''
             }),
             undoStatusForm: this.$inertia.form({
                 status: '',
