@@ -667,7 +667,13 @@ function generate_loan_application_schedule(LoanApplication $application)
     $loan_principal = $application->applied_amount;
     $interest_rate = determine_period_interest_rate($application->interest_rate, $application->repayment_frequency_type, $application->interest_rate_type);
     $balance = round($loan_principal, $application->decimals);
-    $period = floor($application->loan_term / $application->repayment_frequency);
+    if($application->repayment_frequency_type == 'ballon_payment'){
+        $period = 48;
+    }else{
+        $period = floor($application->loan_term / $application->repayment_frequency);
+    }
+
+    // dd($period);
     $payment_from_date = Carbon::today()->format('Y-m-d');
     $next_payment_date = Carbon::today()->format('Y-m-d');
     $total_principal = 0;
