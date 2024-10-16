@@ -756,7 +756,12 @@ function generate_loan_application_schedule(LoanApplication $application)
             $schedule['fees'] = $fee;
             $totaladmincharges = $totaladmincharges + $fee;
             $payment_from_date = Carbon::parse($next_payment_date)->add(1, 'day')->format("Y-m-d");
-            $next_payment_date = Carbon::parse($next_payment_date)->add($application->repayment_frequency, $application->repayment_frequency_type)->format("Y-m-d");
+            if($application->repayment_frequency_type == 'ballon_payment'){
+                $frequency = 'months';
+            }else{
+                $frequency = $application->repayment_frequency_type;
+            }
+            $next_payment_date = Carbon::parse($next_payment_date)->add($application->repayment_frequency, $frequency)->format("Y-m-d");
             $total_principal = $total_principal + $schedule['principal'];
             $total_interest = $total_interest + $schedule['interest'];
             $schedules[] = $schedule;
@@ -846,15 +851,20 @@ function generate_loan_application_schedule(LoanApplication $application)
         foreach ($schedules as $key => $value) {
             $schedules[$key]['total_due'] = $value['principal'] + $value['interest'] + $value['fees'];
         }
+        $ballon_admin_fee=0;
+        if($application->repayment_frequency_type == 'ballon_payment'){
+            $ballon_admin_fee = (($application->applied_amount * 0.05)/ 100) * 48;
+        }
         $loan_details['total_days'] = $total_days;
         $loan_details['total_principal'] = $total_principal;
         $loan_details['principal'] = $loan_details['principal'];
         $loan_details['total_interest'] = $total_interest;
         $loan_details['decimals'] = $application->decimals;
         $loan_details['disbursement_fees'] = $disbursement_fees;
-        $loan_details['total_fees'] = $disbursement_fees + $installment_fees + $totaladmincharges;
-        $loan_details['total_due'] = $disbursement_fees + $installment_fees + $total_interest + $total_principal  + $totaladmincharges;
+        $loan_details['total_fees'] = $disbursement_fees + $installment_fees + $totaladmincharges + $ballon_admin_fee;
+        $loan_details['total_due'] = $disbursement_fees + $installment_fees + $total_interest + $total_principal  + $totaladmincharges + $ballon_admin_fee;
         $loan_details['maturity_date'] = $next_payment_date;
+
 
         // dd($loan_details,$totaladmincharges, $total_principal, $schedules);
     // } else {
@@ -889,5 +899,6 @@ function generate_loan_application_schedule(LoanApplication $application)
     return [
         'loan_details' => $loan_details,
         'schedules' => $schedules,
+        'ballon_admin_fee'=>$ballon_admin_fee
     ];
 }

@@ -65,6 +65,19 @@
                             <td>{{ $filters.formatNumber(item['fees'], loan_details["decimals"]) }}</td>
                             <td>{{ $filters.formatNumber(item['total_due'], loan_details["decimals"]) }}</td>
                         </tr>
+                        <tr v-if="ballon_admin_fee">
+                            <td scope="row"></td>
+                            <td></td>
+                            <td></td>
+                            <td class="righthighlightcolheader">
+
+                            </td>
+                            <td class="lefthighlightcolheader">
+
+                            </td>
+                            <td>{{ $filters.formatNumber(ballon_admin_fee, loan_details["decimals"]) }}</td>
+                            <td></td>
+                        </tr>
                         </tbody>
                         <tfoot class="ui-widget-header">
                         <tr>
@@ -120,6 +133,7 @@ export default {
         application: Object,
         schedules: Object,
         loan_details: Object,
+        ballon_admin_fee: Number,
         paymentTypes: Object,
     },
     components: {

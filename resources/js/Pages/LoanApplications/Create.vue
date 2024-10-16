@@ -77,7 +77,7 @@
                                     <option value="days">Days</option>
                                     <option value="weeks">Weeks</option>
                                     <option value="months">Months</option>
-                                    <!-- <option value="ballon_payment">Ballon Payment</option> -->
+                                    <option value="ballon_payment">Ballon Payment</option>
                                 </select-input>
                                 <jet-input-error :message="form.errors.repayment_frequency_type" class="mt-2"/>
                             </div>

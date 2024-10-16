@@ -147,7 +147,7 @@ class LoanApplicationController extends Controller
         $application->applied_amount = $request->applied_amount;
 
         $application->loan_term = $request->loan_term;
-        $application->repayment_frequency = $request->repayment_frequency;
+        $application->repayment_frequency = $request->repayment_frequency_type == 'ballon_payment' ? 48 : $request->repayment_frequency;
         $application->repayment_frequency_type = $request->repayment_frequency_type;
         $application->interest_rate = $product->disallow_interest_rate_adjustment ? $product->default_interest_rate : $request->interest_rate;
         $application->interest_rate_type = $product->interest_rate_type;
@@ -421,6 +421,7 @@ class LoanApplicationController extends Controller
             'application' => $application,
             'loan_details' => $schedule['loan_details'],
             'schedules' => $schedule['schedules'],
+            'ballon_admin_fee' => $schedule['ballon_admin_fee'],
             'paymentTypes' => PaymentType::where('active', 1)->get(),
         ]);
     }
