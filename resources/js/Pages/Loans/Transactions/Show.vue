@@ -55,7 +55,7 @@
                     <tr
                         class="hover:bg-gray-100 focus-within:bg-gray-100">
                         <td class="border-t px-6 py-4">
-                            Bank
+                            Bank Name
                         </td>
                         <td class="border-t px-6 py-4">
                             {{ transaction.payment_detail.bank_name }}

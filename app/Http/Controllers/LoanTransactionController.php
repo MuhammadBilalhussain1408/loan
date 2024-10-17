@@ -42,7 +42,6 @@ class LoanTransactionController extends Controller
      */
     public function index(Loan $loan)
     {
-        // dd($loan);
         $loan->load(['member', 'product', 'currency', 'loanOfficer', 'purpose', 'fund']);
         $balance = $loan->principal;
         //arrears
