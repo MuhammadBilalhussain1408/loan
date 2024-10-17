@@ -421,7 +421,7 @@ class LoanApplicationController extends Controller
             'application' => $application,
             'loan_details' => $schedule['loan_details'],
             'schedules' => $schedule['schedules'],
-            'ballon_admin_fee' => $schedule['ballon_admin_fee'],
+            // 'ballon_admin_fee' => $schedule['ballon_admin_fee'],
             'paymentTypes' => PaymentType::where('active', 1)->get(),
         ]);
     }
@@ -593,7 +593,7 @@ class LoanApplicationController extends Controller
         $applicationHistory->user = Auth::user()->name;
         $applicationHistory->action = 'Loan Application disbursed by ' . Auth::user()->name;
         $applicationHistory->save();
-        event(new LoanApplicationStatusChanged($application, 'approved'));
+        // event(new LoanApplicationStatusChanged($application, 'approved'));
 
         return redirect()->back()->with('success', 'Successfully disbursed application. Loan is now processing in the background.');
     }

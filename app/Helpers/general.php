@@ -680,7 +680,7 @@ function generate_loan_application_schedule(LoanApplication $application)
     $total_interest = 0;
     $total_days = 0;
     $totaladmincharges = 0;
-    // if ($application->repayment_frequency_type != 'ballon_payment') {
+    if ($application->repayment_frequency_type != 'ballon_payment') {
         for ($i = 1; $i <= $period; $i++) {
             $schedule = [];
 
@@ -858,9 +858,9 @@ function generate_loan_application_schedule(LoanApplication $application)
             $schedules[$key]['total_due'] = $value['principal'] + $value['interest'] + $value['fees'];
         }
         $ballon_admin_fee=0;
-        if($application->repayment_frequency_type == 'ballon_payment'){
-            $ballon_admin_fee = (($application->applied_amount * 0.05)/ 100) * 48;
-        }
+        // if($application->repayment_frequency_type == 'ballon_payment'){
+        //     $ballon_admin_fee = (($application->applied_amount * 0.05)/ 100) * 48;
+        // }
         $loan_details['total_days'] = $total_days;
         $loan_details['total_principal'] = $total_principal;
         $loan_details['principal'] = $loan_details['principal'];
@@ -873,38 +873,39 @@ function generate_loan_application_schedule(LoanApplication $application)
 
 
         // dd($loan_details,$totaladmincharges, $total_principal, $schedules);
-    // } else {
+    } else {
 
-    //     $loan_principal = $application->applied_amount;
-    //     $interest_rate = determine_period_interest_rate($application->interest_rate, $application->repayment_frequency_type, $application->interest_rate_type);
-    //     $balance = round($loan_principal, $application->decimals);
-    //     $interest = round($interest_rate * $balance, $application->decimals);
-    //     $fee = (($loan_principal * 0.05) / 100) * 48;
-    //     $schedules[0] = [
-    //         'installment' => 1,
-    //         'due_date' => '',
-    //         'from_date' => '',
-    //         'fees' => $fee,
-    //         'days' => 365 * 48,
-    //         'interest' => $interest,
-    //         'principal' => $loan_principal,
-    //         'balance' => $balance,
-    //         'total_due' => $loan_principal + $fee,
-    //     ];
-    //     $loan_details['total_days'] = 48 * 365;
-    //     $loan_details['total_principal'] =  $loan_principal;
-    //     $loan_details['principal'] =  $loan_principal;
-    //     $loan_details['total_interest'] = $interest;
-    //     $loan_details['decimals'] = $application->decimals;
-    //     $loan_details['disbursement_fees'] = 0;
-    //     $loan_details['total_fees'] = $fee;
-    //     $loan_details['total_due'] = $loan_principal + $fee;
-    //     $loan_details['maturity_date'] = '';
-    // }
+        $loan_principal = $application->applied_amount;
+        // $interest_rate = (($application->interest_rate/100) * $loan_principal)*4;
+        // dd($interest_rate)
+        $balance = round($loan_principal, $application->decimals);
+        $interest = round((($application->interest_rate/100) * $loan_principal)*4);
+        $fee = (($loan_principal * 0.05) / 100) * 48;
+        $schedules[0] = [
+            'installment' => 1,
+            'due_date' => '',
+            'from_date' => '',
+            'fees' => $fee,
+            'days' => 365 * 48,
+            'interest' => $interest,
+            'principal' => $loan_principal,
+            'balance' => $balance,
+            'total_due' => $loan_principal + $fee+$interest,
+        ];
+        $loan_details['total_days'] = 48 * 365;
+        $loan_details['total_principal'] =  $loan_principal;
+        $loan_details['principal'] =  $loan_principal;
+        $loan_details['total_interest'] = $interest;
+        $loan_details['decimals'] = $application->decimals;
+        $loan_details['disbursement_fees'] = 0;
+        $loan_details['total_fees'] = $fee;
+        $loan_details['total_due'] = $loan_principal + $fee + $interest;
+        $loan_details['maturity_date'] = '';
+    }
     // dd($loan_details, $schedules);
     return [
         'loan_details' => $loan_details,
         'schedules' => $schedules,
-        'ballon_admin_fee'=>$ballon_admin_fee
+        // 'ballon_admin_fee'=>$ballon_admin_fee
     ];
 }
