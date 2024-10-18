@@ -632,10 +632,6 @@ class LoanController extends Controller
             $loan->principal = $loan->approved_amount;
             $loan->payment_type_id = $request->payment_type_id;
             $loan->disbursed_notes = $request->description;
-            $loan->dis_bank_name = $request->bank_name;
-            $loan->dis_account_holder_name = $request->account_holder_name;
-            $loan->dis_bank_account = $request->bank_account;
-            $loan->dis_branch_code = $request->branch_code;
         }
         $loan->status = $request->status;
         $loan->save();

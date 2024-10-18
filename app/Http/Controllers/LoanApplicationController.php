@@ -147,7 +147,7 @@ class LoanApplicationController extends Controller
         $application->applied_amount = $request->applied_amount;
 
         $application->loan_term = $request->loan_term;
-        $application->repayment_frequency = $request->repayment_frequency_type == 'ballon_payment' ? 48 : $request->repayment_frequency;
+        $application->repayment_frequency = $request->repayment_frequency;
         $application->repayment_frequency_type = $request->repayment_frequency_type;
         $application->interest_rate = $product->disallow_interest_rate_adjustment ? $product->default_interest_rate : $request->interest_rate;
         $application->interest_rate_type = $product->interest_rate_type;
@@ -157,9 +157,11 @@ class LoanApplicationController extends Controller
         $application->interest_methodology = $product->interest_methodology;
         $application->amortization_method = $product->amortization_method;
         $application->auto_disburse = $product->auto_disburse;
+
         if ($request->admin_charges) {
             $application->admin_charges = $request->admin_charges;
         }
+     
         $application->status = 'pending';
         $application->save();
         //save custom fields
@@ -421,7 +423,6 @@ class LoanApplicationController extends Controller
             'application' => $application,
             'loan_details' => $schedule['loan_details'],
             'schedules' => $schedule['schedules'],
-            // 'ballon_admin_fee' => $schedule['ballon_admin_fee'],
             'paymentTypes' => PaymentType::where('active', 1)->get(),
         ]);
     }
@@ -581,11 +582,6 @@ class LoanApplicationController extends Controller
         $application->disbursed_on_date = $request->disbursed_on_date;
         $application->disbursement_notes = $request->description;
         $application->payment_type_id = $request->payment_type_id;
-        $application->dis_bank_name = $request->bank_name;
-        $application->dis_account_holder_name = $request->account_holder_name;
-        $application->dis_bank_account = $request->bank_account;
-        $application->dis_branch_code = $request->branch_code;
-
         $application->save();
         $applicationHistory = new LoanApplicationHistory();
         $applicationHistory->loan_application_id = $application->id;
@@ -593,7 +589,7 @@ class LoanApplicationController extends Controller
         $applicationHistory->user = Auth::user()->name;
         $applicationHistory->action = 'Loan Application disbursed by ' . Auth::user()->name;
         $applicationHistory->save();
-        // event(new LoanApplicationStatusChanged($application, 'approved'));
+        event(new LoanApplicationStatusChanged($application, 'approved'));
 
         return redirect()->back()->with('success', 'Successfully disbursed application. Loan is now processing in the background.');
     }

@@ -120,7 +120,6 @@ export default {
         application: Object,
         schedules: Object,
         loan_details: Object,
-        // ballon_admin_fee: Number,
         paymentTypes: Object,
     },
     components: {

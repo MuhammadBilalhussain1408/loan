@@ -49,12 +49,7 @@
                     <font-awesome-icon icon="wrench" class="w-4 h-4 mr-2"></font-awesome-icon>
                     Other Settings
                 </inertia-link>
-                <inertia-link v-if="can('settings.other')"
-                    class="w-full border-t-2 border-gray-100 font-medium text-gray-600 py-2 px-4 w-full block hover:bg-gray-100 transition duration-150"
-                    :href="route('users.roles.index')">
-                    <font-awesome-icon icon="wrench" class="w-4 h-4 mr-2"></font-awesome-icon>
-                    Role Setting
-                </inertia-link>
+
             </div>
         </div>
         <teleport to="head">

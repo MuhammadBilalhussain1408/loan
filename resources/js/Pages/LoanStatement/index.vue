@@ -79,10 +79,10 @@
                                         <th class="empty"></th>
                                         <th>Contract</th>
                                         <th>Paid</th>
-                                        <!-- <th>Waived</th> -->
-                                        <!-- <th>Written off</th> -->
+                                        <th>Waived</th>
+                                        <th>Written off</th>
                                         <th>Outstanding</th>
-                                        <!-- <th>Overdue</th> -->
+                                        <th>Overdue</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -90,37 +90,37 @@
                                         <th>Principal</th>
                                         <td>{{ $filters.formatNumber(loan.principal_disbursed_derived) }}</td>
                                         <td>{{ $filters.formatNumber(loan.principal_repaid_derived) }}</td>
-                                        <!-- <td>0</td> -->
-                                        <!-- <td>{{ $filters.formatNumber(loan.principal_written_off_derived) }}</td> -->
+                                        <td>0</td>
+                                        <td>{{ $filters.formatNumber(loan.principal_written_off_derived) }}</td>
                                         <td>{{ $filters.formatNumber(loan.principal_outstanding_derived) }}</td>
-                                        <!-- <td>{{ $filters.formatNumber(loan.principal_overdue) }}</td> -->
+                                        <td>{{ $filters.formatNumber(loan.principal_overdue) }}</td>
                                     </tr>
                                     <tr>
                                         <th>Interest</th>
                                         <td>{{ $filters.formatNumber(loan.interest_disbursed_derived) }}</td>
                                         <td>{{ $filters.formatNumber(loan.interest_repaid_derived) }}</td>
-                                        <!-- <td>{{ $filters.formatNumber(loan.interest_waived_derived) }}</td> -->
-                                        <!-- <td>{{ $filters.formatNumber(loan.interest_written_off_derived) }}</td> -->
+                                        <td>{{ $filters.formatNumber(loan.interest_waived_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.interest_written_off_derived) }}</td>
                                         <td>{{ $filters.formatNumber(loan.interest_outstanding_derived) }}</td>
-                                        <!-- <td>{{ $filters.formatNumber(loan.interest_overdue) }}</td> -->
+                                        <td>{{ $filters.formatNumber(loan.interest_overdue) }}</td>
                                     </tr>
                                     <tr>
                                         <th>Fees</th>
                                         <td>{{ $filters.formatNumber(loan.fees_disbursed_derived) }}</td>
                                         <td>{{ $filters.formatNumber(loan.fees_repaid_derived) }}</td>
-                                        <!-- <td>{{ $filters.formatNumber(loan.fees_waived_derived) }}</td> -->
-                                        <!-- <td>{{ $filters.formatNumber(loan.fees_written_off_derived) }}</td> -->
+                                        <td>{{ $filters.formatNumber(loan.fees_waived_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.fees_written_off_derived) }}</td>
                                         <td>{{ $filters.formatNumber(loan.fees_outstanding_derived) }}</td>
-                                        <!-- <td>{{ $filters.formatNumber(loan.fees_overdue) }}</td> -->
+                                        <td>{{ $filters.formatNumber(loan.fees_overdue) }}</td>
                                     </tr>
                                     <tr>
                                         <th>Penalties</th>
                                         <td>{{ $filters.formatNumber(loan.penalties_disbursed_derived) }}</td>
                                         <td>{{ $filters.formatNumber(loan.penalties_repaid_derived) }}</td>
-                                        <!-- <td>{{ $filters.formatNumber(loan.penalties_waived_derived) }}</td> -->
-                                        <!-- <td>{{ $filters.formatNumber(loan.penalties_written_off_derived) }}</td> -->
+                                        <td>{{ $filters.formatNumber(loan.penalties_waived_derived) }}</td>
+                                        <td>{{ $filters.formatNumber(loan.penalties_written_off_derived) }}</td>
                                         <td>{{ $filters.formatNumber(loan.penalties_outstanding_derived) }}</td>
-                                        <!-- <td>{{ $filters.formatNumber(loan.penalties_overdue) }}</td> -->
+                                        <td>{{ $filters.formatNumber(loan.penalties_overdue) }}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
@@ -128,10 +128,10 @@
                                         <th>Total</th>
                                         <th>{{ $filters.formatNumber(loan.total_disbursed_derived) }}</th>
                                         <th>{{ $filters.formatNumber(loan.total_repaid_derived) }}</th>
-                                        <!-- <th>{{ $filters.formatNumber(loan.total_waived_derived) }}</th> -->
-                                        <!-- <th>{{ $filters.formatNumber(loan.total_written_off_derived) }}</th> -->
+                                        <th>{{ $filters.formatNumber(loan.total_waived_derived) }}</th>
+                                        <th>{{ $filters.formatNumber(loan.total_written_off_derived) }}</th>
                                         <th>{{ $filters.formatNumber(loan.total_outstanding_derived) }}</th>
-                                        <!-- <th>{{ $filters.formatNumber(loan.arrears_amount) }}</th> -->
+                                        <th>{{ $filters.formatNumber(loan.arrears_amount) }}</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -141,9 +141,9 @@
                                 <thead class="bg-gray-50">
                                     <tr class="text-left font-bold">
                                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">ID</th>
-                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Submitted On</th>
-                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Transaction Date</th>
-                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Transaction Description</th>
+                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Date</th>
+                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Submitted on</th>
+                                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Transaction Type</th>
                                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Debit</th>
                                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Credit</th>
                                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Balance</th>
@@ -179,17 +179,17 @@
                                         </td>
                                         <td class="border-t px-6 py-4">
                                             <span>
-                                                {{ $filters.formatNumber(result.debit,2) }}
+                                                {{ $filters.currency(result.debit) }}
                                             </span>
                                         </td>
                                         <td class="border-t px-6 py-4">
                                             <span>
-                                                {{ $filters.formatNumber(result.credit,2) }}
+                                                {{ $filters.currency(result.credit) }}
                                             </span>
                                         </td>
                                         <td class="border-t px-6 py-4">
                                             <span>
-                                                {{ $filters.formatNumber(result.balance,2) }}
+                                                {{ $filters.currency(result.balance) }}
                                             </span>
                                         </td>
                                     </tr>

@@ -78,6 +78,7 @@ class MemberPortalLoanApplicationsController extends Controller
         $application->created_by_id = Auth::id();
         $application->branch_id = $member->branch_id;
         $application->applied_amount = $request->applied_amount;
+        
         $application->description = $request->description;
         $application->currency_id = $product->currency_id;
         $application->loan_product_id = $product->id;
@@ -89,8 +90,10 @@ class MemberPortalLoanApplicationsController extends Controller
         $application->interest_methodology = $product->interest_methodology;
         $application->amortization_method = $product->amortization_method;
         $application->auto_disburse = $product->auto_disburse;
+      
         $application->status = 'pending';
         $application->source = 'member';
+        
         $application->save();
         foreach ($product->charges as $key) {
             if (!empty($key->charge)) {

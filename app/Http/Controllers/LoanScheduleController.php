@@ -91,11 +91,11 @@ class LoanScheduleController extends Controller
 
             $balance = $balance - $item->principal - $item->principal_written_off_derived;
             $item->balance = $balance;
-            if($ind==0){
-                $fee = ($loan->principal) * (0.05) / 100;
-            }else{
-                $fee = ($balance) * (0.05) / 100;
-            }
+if($ind==0){
+    $fee = ($loan->principal) * (0.05) / 100;
+}else{
+    $fee = ($balance) * (0.05) / 100;
+}
             // $totaladmincharges += $fee; // Uncomment if you want to accumulate admin charges
             $item->calculated_admin_fee = $fee;
             $item->days = Carbon::parse($item->due_date)->diffInDays(Carbon::parse($item->from_date));
