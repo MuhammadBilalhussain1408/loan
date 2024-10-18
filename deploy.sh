@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /www/wwwroot/mopado.co.sz/clone/MOPADO
+cd /var/www/html/mopado.com
 # activate maintenance mode
 echo "Activating maintenance mode";
 php artisan down
