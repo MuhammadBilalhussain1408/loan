@@ -1,2 +1,0 @@
-#Mopado
-MOPADO system
