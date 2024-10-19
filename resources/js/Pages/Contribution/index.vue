@@ -97,14 +97,14 @@
                                 {{ result.id_no }}
                             </td>
                             <td class="border-t px-6 py-4 ">
-                                {{ result.contri_15_per.toFixed(2) }}
+                                {{ $filters.formatNumber(result.contri_15_per) }}
                             </td>
 
                             <td class="border-t">
-                                {{ result.contri_30_per.toFixed(2) }}
+                                {{ $filters.formatNumber(result.contri_30_per) }}
                             </td>
                             <td class="border-t">
-                                {{ result.total_contribution }}
+                                {{  $filters.formatNumber(result.total_contribution) }}
                             </td>
                             <td class="border-t w-px pr-2">
                                 <div class=" flex gap-4">

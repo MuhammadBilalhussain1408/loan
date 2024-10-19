@@ -245,8 +245,8 @@ export default {
             // member_branch_code
             //this.form.member_account_number = this.selectedMember.account_number;
             this.form.member_id = this.selectedMember.id;
-            this.form.name = this.selectedMember.first_name + ' ' + this.selectedMember.middle_name + ' ' + this.selectedMember.last_name;
-            this.form.surname = this.selectedMember.first_name;
+            this.form.name = this.selectedMember.first_name??'' + ' ' + (this.selectedMember.middle_name ?? '') + ' ' + this.selectedMember.last_name??'' ;
+            this.form.surname = this.selectedMember.first_name??'';
             this.form.member_category = this.selectedMember.category?.name;
             this.form.gender = this.selectedMember.gender;
             this.form.id_no = this.selectedMember.identification_number;
