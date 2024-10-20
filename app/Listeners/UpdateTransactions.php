@@ -34,7 +34,8 @@ class UpdateTransactions implements ShouldQueue
     {
         $loan = $event->loan;
         $schedules = $loan->schedules;
-        $original_transactions = LoanTransaction::where('loan_id', $loan->id)->whereIn('loan_transaction_type_id', LoanTransactionType::whereIn('name', ['Repayment', 'Write Off', 'Recovery Repayment'])->get()->pluck('id')->toArray())->orderBy('submitted_on', 'asc')->orderBy('id', 'asc')->get();
+        $type=LoanTransactionType::whereIn('name', ['Repayment', 'Write Off', 'Recovery Repayment'])->get()->pluck('id')->toArray();
+        $original_transactions = LoanTransaction::where('loan_id', $loan->id)->whereIn('loan_transaction_type_id', $type)->orderBy('submitted_on', 'asc')->orderBy('id', 'asc')->get();
         $transactions = LoanTransaction::where('loan_id', $loan->id)->whereIn('loan_transaction_type_id', LoanTransactionType::whereIn('name', ['Repayment', 'Write Off', 'Recovery Repayment'])->get()->pluck('id')->toArray())->orderBy('submitted_on', 'asc')->orderBy('id', 'asc')->get();
         //set paid derived to zero in repayment schedules
         foreach ($schedules as &$schedule) {

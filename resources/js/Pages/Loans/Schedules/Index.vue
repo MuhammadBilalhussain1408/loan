@@ -131,7 +131,7 @@
                                       :class="item.late_payment?'text-red-600':'text-green-600'">{{
                                         item.paid_by_date
                                     }}</span>
-                                <span v-if="!item.paid_by_date && item.late_payment"
+                                <span v-if="!item.paid_by_date && (new Date(item.due_date) < new Date())"
                                       class="text-red-600">Overdue</span>
                             </td>
                             <td>

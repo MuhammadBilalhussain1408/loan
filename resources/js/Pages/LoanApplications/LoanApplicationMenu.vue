@@ -248,12 +248,15 @@
                     </div>
                     <div>
                         <jet-label for="first_payment_date" value="First Repayment Date"/>
-                        <flat-pickr
+                        <jet-input type="date" id="approved_amount" class="block w-full"
+                        v-model="disburseForm.first_payment_date" :min="disburseForm.disbursed_on_date"/>
+                        <!-- <flat-pickr
                             v-model="disburseForm.first_payment_date"
+                            :config="{ minDate: disburseForm.disbursed_on_date }"
                             class="form-control w-full"
                             placeholder="Select date"
                             name="date">
-                        </flat-pickr>
+                        </flat-pickr> -->
                         <jet-input-error :message="disburseForm.errors.first_payment_date"
                                          class="mt-2"/>
                     </div>

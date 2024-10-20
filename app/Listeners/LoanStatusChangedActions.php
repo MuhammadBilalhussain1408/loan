@@ -163,7 +163,7 @@ class LoanStatusChangedActions implements ShouldQueue
             $transaction->payment_detail_id = $paymentDetail->id;
             $transaction->name = 'Disbursement';
             $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Disbursement')->first()->id;
-            $transaction->submitted_on = $loan->disbursed_on_date;
+            $transaction->submitted_on = null;
             $transaction->created_on = date("Y-m-d");
             $transaction->amount = $loan->principal;
             $transaction->debit = $loan->principal;
@@ -181,7 +181,7 @@ class LoanStatusChangedActions implements ShouldQueue
             $transaction->loan_id = $loan->id;
             $transaction->name = 'Interest Applied';
             $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Apply Interest')->first()->id;
-            $transaction->submitted_on = $loan->disbursed_on_date;
+            $transaction->submitted_on = null;
             $transaction->created_on = date("Y-m-d");
             $transaction->amount = $total_interest;
             $transaction->debit = $total_interest;
@@ -271,7 +271,7 @@ class LoanStatusChangedActions implements ShouldQueue
                     $transaction->loan_id = $loan->id;
                     $transaction->name = 'Fee Applied';
                     $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Apply Charges')->first()->id;
-                    $transaction->submitted_on = $loan->disbursed_on_date;
+                    $transaction->submitted_on = null;
                     $transaction->created_on = date("Y-m-d");
                     $transaction->amount = $key->calculated_amount;
                     $transaction->debit = $key->calculated_amount;
@@ -302,7 +302,7 @@ class LoanStatusChangedActions implements ShouldQueue
                 $transaction->loan_id = $loan->id;
                 $transaction->name = 'Disbursement Charges';
                 $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Repayment At Disbursement')->first()->id;
-                $transaction->submitted_on = $loan->disbursed_on_date;
+                $transaction->submitted_on = null;
                 $transaction->created_on = date("Y-m-d");
                 $transaction->amount = $disbursement_fees;
                 $transaction->credit = $disbursement_fees;
