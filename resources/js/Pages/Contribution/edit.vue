@@ -246,7 +246,10 @@ export default {
             // member_branch_code
             //this.form.member_account_number = this.selectedMember.account_number;
             this.form.member_id = this.selectedMember.id;
-            this.form.member_account_holder = this.selectedMember.first_name + ' ' + this.selectedMember.middle_name + ' ' + this.selectedMember.last_name;
+            this.form.member_account_holder = (this.selectedMember.first_name ? this.selectedMember.first_name : '') + ' ' + 
+                                                (this.selectedMember.middle_name ? this.selectedMember.middle_name : '') + ' ' + 
+                                                (this.selectedMember.last_name ? this.selectedMember.last_name : '');
+
             //this.form.reference = this.selectedMember.reference;
         },
         changeLoanProduct() {
