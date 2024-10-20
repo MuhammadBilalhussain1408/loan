@@ -88,7 +88,8 @@
                                 </span>
                             </td>
                             <td class="border-t px-6 py-4 ">
-                                {{ result.name }}
+                                 {{result.name }}
+
                             </td>
                             <td class="border-t px-6 py-4 ">
                                 {{ result.member_category }}
