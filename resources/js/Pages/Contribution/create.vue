@@ -254,9 +254,9 @@ export default {
             this.form.member_category = this.selectedMember.category?.name;
             this.form.gender = this.selectedMember.gender;
             this.form.id_no = this.selectedMember.identification_number;
-            this.form.basic_salary = this.selectedMember.monthly_or_annual_salary;
-            this.form.contri_15_per = this.selectedMember.monthly_or_annual_salary*(15/100);
-            this.form.contri_30_per = this.selectedMember.monthly_or_annual_salary*(30/100);
+            this.form.basic_salary = parseFloat(this.selectedMember.monthly_or_annual_salary).toFixed(2);
+            this.form.contri_15_per = parseFloat((this.selectedMember.monthly_or_annual_salary * (15 / 100)).toFixed(2));
+            this.form.contri_30_per = parseFloat((this.selectedMember.monthly_or_annual_salary * (30 / 100)).toFixed(2));
 
         },
         changeLoanProduct() {
