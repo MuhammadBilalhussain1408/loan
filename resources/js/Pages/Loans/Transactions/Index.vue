@@ -66,17 +66,19 @@
                             </td>
                             <td class="border-t px-6 py-4">
                                     <span>
-                                    {{ $filters.currency(result.debit) }}
+                                        {{$filters.formatNumber(result.debit) }}
+
                                     </span>
                             </td>
                             <td class="border-t px-6 py-4">
                                     <span>
-                                    {{ $filters.currency(result.credit) }}
+                                    <!-- {{ $filters.currency(result.credit) }} -->
+                                    {{ $filters.formatNumber(result.credit) }}
                                     </span>
                             </td>
                             <td class="border-t px-6 py-4">
                                     <span>
-                                    {{ $filters.currency(result.balance) }}
+                                    {{ $filters.formatNumber(result.balance) }}
                                     </span>
                             </td>
                             <td class="border-t w-px pr-2">
