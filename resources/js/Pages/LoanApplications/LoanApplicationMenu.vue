@@ -10,7 +10,7 @@
                               title="View Loan">
                     View Loan
                 </inertia-link>
-                <button v-if="can('loans.applications.disburse') && application.status==='approved'" title="Disburse"
+                <button v-if="can('loans.applications.disburse') && (application.status==='approved' || (application.current_stage.name=='Board Chairman/Member' && disburseProofs))" title="Disburse"
                         class="px-4 py-2  text-white font-semibold bg-blue-600 hover:bg-blue-700"
                         @click="showDisburseLoanApplicationModal=true">
                     <font-awesome-icon icon="check"/>
@@ -468,9 +468,29 @@ export default {
             showRescheduleLoanModal: false,
             confirmingDeletion: false,
             processing: false,
+            disburseProofs:false
         }
     },
     methods: {
+        checkProofs(){
+            let proofOfResidence = false;
+            let ID = false;
+            let creditCheck = false;
+            this.application.checklist_items.forEach(i=>{
+                if(i.name == 'Proof of Residence'){
+                    proofOfResidence=true;
+                }
+                if(i.name == 'ID'){
+                    ID=true;
+                }
+                if(i.name == 'Credit check'){
+                    creditCheck=true;
+                }
+            });
+            if(proofOfResidence && ID && creditCheck){
+                this.disburseProofs = true
+            }
+        },
         disburse() {
             this.disburseForm.put(this.route('loans.applications.disburse', this.application.id), {
                 preserveState: false
@@ -531,6 +551,9 @@ export default {
             window.print();
         }
     },
+    created(){
+        this.checkProofs()
+    }
 }
 </script>
 
