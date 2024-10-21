@@ -76,6 +76,7 @@
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Member Account Holder</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Member Account No.</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Monthly Installment</th>
+                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Bank</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Reference</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Stop Order Date</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Action</th>
@@ -105,6 +106,9 @@
                         </td>
                         <td class="border-t">
                            {{ result.monthly_installment }}
+                        </td>
+                        <td class="border-t">
+                           {{ result.bank_name }}
                         </td>
                         <td class="border-t">
                            {{ result.reference }}

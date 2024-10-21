@@ -80,6 +80,12 @@
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
+                            <div>
+                                <jet-label for="bank_name" value="Bank Name"/>
+                                <jet-input id="bank_name" type="text"
+                                           class="block w-full" v-model="form.bank_name"/>
+                                <jet-input-error :message="form.errors.bank_name" class="mt-2"/>
+                            </div>
                               <div>
                                 <jet-label for="reference" value="Reference"/>
                                 <jet-input id="reference" type="text"
@@ -186,6 +192,7 @@ export default {
                 member_account_number: this.stop_loan.member_account_number,
                 member_branch_code: this.stop_loan.member_branch_code,
                 reference: this.stop_loan.reference,
+                bank_name:this.stop_loan.bank_name
             }),
             usersMultiSelect: {
                 placeholder: 'Search for Staff',

@@ -82,6 +82,12 @@
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
                               <div>
+                                <jet-label for="bank_name" value="Bank Name"/>
+                                <jet-input id="bank_name" type="text"
+                                           class="block w-full" v-model="form.bank_name"/>
+                                <jet-input-error :message="form.errors.bank_name" class="mt-2"/>
+                            </div>
+                              <div>
                                 <jet-label for="reference" value="Reference"/>
                                 <jet-input id="reference" type="text"
                                            class="block w-full" v-model="form.reference"/>
@@ -186,6 +192,7 @@ export default {
                 member_account_number: null,
                 member_branch_code: null,
                 reference: null,
+                bank_name:null
             }),
             usersMultiSelect: {
                 placeholder: 'Search for Staff',
@@ -259,9 +266,9 @@ export default {
 // member_branch_code
             //this.form.member_account_number = this.selectedMember.account_number;
             this.form.member_id = this.selectedMember.id;
-            this.form.member_account_holder = 
-  (this.selectedMember.first_name ? this.selectedMember.first_name : '') + ' ' + 
-  (this.selectedMember.middle_name ? this.selectedMember.middle_name : '') + ' ' + 
+            this.form.member_account_holder =
+  (this.selectedMember.first_name ? this.selectedMember.first_name : '') + ' ' +
+  (this.selectedMember.middle_name ? this.selectedMember.middle_name : '') + ' ' +
   (this.selectedMember.last_name ? this.selectedMember.last_name : '');
 
             //this.form.reference = this.selectedMember.reference;
