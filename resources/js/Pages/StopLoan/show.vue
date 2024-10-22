@@ -89,7 +89,15 @@
                                 <th class="border border-gray-200 p-2 font-medium text-gray-500">Member Account Number
                                 </th>
                                 <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
+                                    stopLoan.member_bank_name }}</td>
+
+                            </tr>
+                            <tr class="text-left bg-slate-50">
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Member Account Number
+                                </th>
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
                                     stopLoan.member_account_number }}</td>
+
                             </tr>
                        
                             <tr class="text-left bg-slate-50">
@@ -97,6 +105,7 @@
                                 </th>
                                 <td class="border border-gray-200 p-2 font-medium text-gray-500">
                                     {{stopLoan.member_branch_code }}</td>
+
                             </tr>
                             <tr class="text-left bg-slate-50">
                                 <th class="border border-gray-200 p-2 font-medium text-gray-500">Monthly Installment
