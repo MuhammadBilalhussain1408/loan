@@ -10,7 +10,7 @@
                               title="View Loan">
                     View Loan
                 </inertia-link>
-                <button v-if="can('loans.applications.disburse') && (application.status==='approved' || (application.current_stage.name=='Board Chairman/Member' && disburseProofs))" title="Disburse"
+                <button v-if="can('loans.applications.disburse') && (application.status==='approved' || (application?.current_stage?.name=='Board Chairman/Member' && disburseProofs))" title="Disburse"
                         class="px-4 py-2  text-white font-semibold bg-blue-600 hover:bg-blue-700"
                         @click="showDisburseLoanApplicationModal=true">
                     <font-awesome-icon icon="check"/>
