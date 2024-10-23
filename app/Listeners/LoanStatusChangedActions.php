@@ -328,6 +328,7 @@ class LoanStatusChangedActions implements ShouldQueue
                 $schedule->created_by_id = $loan->created_by_id;
                 $schedule->loan_id = $loan->id;
                 $schedule->fees = $fee;
+                $schedule->fees = $fee;
                 $schedule->installment = 1;
                 // $schedule->days = 365 * 48;
                 $schedule->interest = $interest;

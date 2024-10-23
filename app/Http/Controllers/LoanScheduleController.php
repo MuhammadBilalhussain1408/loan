@@ -59,7 +59,7 @@ class LoanScheduleController extends Controller
             $penaltiesOverdue = $overdueSchedules->sum('penalties') - $overdueSchedules->sum('penalties_written_off_derived') - $overdueSchedules->sum('penalties_repaid_derived') - $overdueSchedules->sum('penalties_waived_derived');
             $arrearsDays = $arrearsDays + Carbon::today()->diffInDays(Carbon::parse($overdueSchedules->sortBy('due_date')->first()->due_date));
         }
-        foreach ($loan->schedules as $ind=>$item) {
+        foreach ($loan->schedules as $ind => $item) {
             $item->total = $item->principal - $item->principal_written_off_derived
                 + $item->interest - $item->interest_written_off_derived
                 - $item->interest_waived_derived + $item->fees
@@ -91,10 +91,14 @@ class LoanScheduleController extends Controller
 
             $balance = $balance - $item->principal - $item->principal_written_off_derived;
             $item->balance = $balance;
-            if($ind==0){
-                $fee = ($loan->principal) * (0.05) / 100;
-            }else{
-                $fee = ($balance) * (0.05) / 100;
+            if ($loan->repayment_frequency_type == 'ballon_payment') {
+                $fee = $item->fees;
+            } else {
+                if ($ind == 0) {
+                    $fee = ($loan->principal) * (0.05) / 100;
+                } else {
+                    $fee = ($balance) * (0.05) / 100;
+                }
             }
             // $totaladmincharges += $fee; // Uncomment if you want to accumulate admin charges
             $item->calculated_admin_fee = $fee;
