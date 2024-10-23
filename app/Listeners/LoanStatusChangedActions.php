@@ -323,17 +323,48 @@ class LoanStatusChangedActions implements ShouldQueue
                 $applied_principal = $applied_principal + $year3_interest;
                 $year4_interest = round(($loan->interest_rate / 100) *  $applied_principal);
                 $interest = $year1_interest + $year2_interest + $year3_interest + $year4_interest;
-                $fee = (($loan_principal * 0.05) / 100) * 48;
+                $fee =((($loan_principal * 0.05) / 100) * 48);
                 $schedule = new LoanRepaymentSchedule();
                 $schedule->created_by_id = $loan->created_by_id;
                 $schedule->loan_id = $loan->id;
-                $schedule->fee = $fee;
+                $schedule->fees = $fee;
                 $schedule->installment = 1;
-                $schedule->days = 365 * 48;
+                // $schedule->days = 365 * 48;
                 $schedule->interest = $interest;
                 $schedule->principal = $loan_principal;
                 $schedule->balance = $balance;
                 $schedule->total_due = $loan_principal + $fee + $interest;
+                $schedule->save();
+                //
+                $transaction = new LoanTransaction();
+                $transaction->created_by_id = $loan->created_by_id;
+                $transaction->loan_id = $loan->id;
+                $transaction->payment_detail_id = $paymentDetail->id;
+                $transaction->name = 'Disbursement';
+                $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Disbursement')->first()->id;
+                $transaction->submitted_on = null;
+                $transaction->created_on = date("Y-m-d");
+                $transaction->amount = $loan->principal;
+                $transaction->debit = $loan->principal;
+                $disbursal_transaction_id = $transaction->id;
+                $transaction->save();
+                $loanHistory = new LoanHistory();
+                $loanHistory->loan_id = $loan->id;
+                $loanHistory->created_by_id = $loan->created_by_id ?? 0;
+                $loanHistory->user = $loan->createdBy->name ?? '';
+                $loanHistory->action = 'Loan Disbursed';
+                $loanHistory->save();;
+                //add interest transaction
+                $transaction = new LoanTransaction();
+                $transaction->created_by_id = $loan->created_by_id;
+                $transaction->loan_id = $loan->id;
+                $transaction->name = 'Interest Applied';
+                $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Apply Interest')->first()->id;
+                $transaction->submitted_on = null;
+                $transaction->created_on = date("Y-m-d");
+                $transaction->amount = $interest;
+                $transaction->debit = $interest;
+                $transaction->save();
             }
             //check if accounting is enabled
             if ($loan->product->accounting_rule == "cash" || $loan->product->accounting_rule == "accrual_periodic" || $loan->product->accounting_rule == "accrual_upfront") {
