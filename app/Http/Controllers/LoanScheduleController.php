@@ -125,7 +125,7 @@ class LoanScheduleController extends Controller
             'totalPaid' => $loan->schedules->sum('principal_repaid_derived') + $loan->schedules->sum('interest_repaid_derived') + $loan->schedules->sum('penalties_written_off_derived') + $loan->schedules->sum('fees_repaid_derived'),
             'totalDue' => $loan->schedules->sum('total_due'),
             'totalDays' => $loan->schedules->sum('days'),
-            'totalAmount' => $loan->schedules->sum('total') + $loan->schedules->sum('calculated_admin_fee'),
+            'totalAmount' => $loan->repayment_frequency_type == 'ballon_payment' ? $loan->schedules->sum('total')  :($loan->schedules->sum('total') + $loan->schedules->sum('calculated_admin_fee')),
             'paymentTypes' => PaymentType::where('active', 1)->get(),
         ]);
     }
