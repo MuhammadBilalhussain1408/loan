@@ -156,18 +156,18 @@ class LoanStatusChangedActions implements ShouldQueue
                 $loan->principal_disbursed_derived = $total_principal;
                 $loan->interest_disbursed_derived = $total_interest;
                 //add disbursal transaction
-                $transaction = new LoanTransaction();
-                $transaction->created_by_id = $loan->id;
-                $transaction->loan_id = $loan->id;
-                $transaction->payment_detail_id = $paymentDetail->id;
-                $transaction->name = 'Disbursement';
-                $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Disbursement')->first()->id;
-                $transaction->submitted_on = null;
-                $transaction->created_on = date("Y-m-d");
-                $transaction->amount = $loan->principal;
-                $transaction->debit = $loan->principal;
-                $disbursal_transaction_id = $transaction->id;
-                $transaction->save();
+                // $transaction = new LoanTransaction();
+                // $transaction->created_by_id = $loan->id;
+                // $transaction->loan_id = $loan->id;
+                // $transaction->payment_detail_id = $paymentDetail->id;
+                // $transaction->name = 'Disbursement';
+                // $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Disbursement')->first()->id;
+                // $transaction->submitted_on = null;
+                // $transaction->created_on = date("Y-m-d");
+                // $transaction->amount = $loan->principal;
+                // $transaction->debit = $loan->principal;
+                // $disbursal_transaction_id = $transaction->id;
+                // $transaction->save();
                 $loanHistory = new LoanHistory();
                 $loanHistory->loan_id = $loan->id;
                 $loanHistory->created_by_id = $loan->created_by_id ?? 0;
@@ -175,16 +175,16 @@ class LoanStatusChangedActions implements ShouldQueue
                 $loanHistory->action = 'Loan Disbursed';
                 $loanHistory->save();;
                 //add interest transaction
-                $transaction = new LoanTransaction();
-                $transaction->created_by_id = $loan->created_by_id;
-                $transaction->loan_id = $loan->id;
-                $transaction->name = 'Interest Applied';
-                $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Apply Interest')->first()->id;
-                $transaction->submitted_on = null;
-                $transaction->created_on = date("Y-m-d");
-                $transaction->amount = $total_interest;
-                $transaction->debit = $total_interest;
-                $transaction->save();
+                // $transaction = new LoanTransaction();
+                // $transaction->created_by_id = $loan->created_by_id;
+                // $transaction->loan_id = $loan->id;
+                // $transaction->name = 'Interest Applied';
+                // $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Apply Interest')->first()->id;
+                // $transaction->submitted_on = null;
+                // $transaction->created_on = date("Y-m-d");
+                // $transaction->amount = $total_interest;
+                // $transaction->debit = $total_interest;
+                // $transaction->save();
                 $installment_fees = 0;
                 $disbursement_fees = 0;
                 foreach ($loan->charges as $key) {
@@ -294,18 +294,18 @@ class LoanStatusChangedActions implements ShouldQueue
                     }
                 }
                 if ($disbursement_fees > 0) {
-                    $transaction = new LoanTransaction();
-                    $transaction->created_by_id = $loan->created_by_id;
-                    $transaction->loan_id = $loan->id;
-                    $transaction->name = 'Disbursement Charges';
-                    $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Repayment At Disbursement')->first()->id;
-                    $transaction->submitted_on = null;
-                    $transaction->created_on = date("Y-m-d");
-                    $transaction->amount = $disbursement_fees;
-                    $transaction->credit = $disbursement_fees;
-                    $transaction->fees_repaid_derived = $disbursement_fees;
-                    $transaction->save();
-                    $disbursement_fees_transaction_id = $transaction->id;
+                    // $transaction = new LoanTransaction();
+                    // $transaction->created_by_id = $loan->created_by_id;
+                    // $transaction->loan_id = $loan->id;
+                    // $transaction->name = 'Disbursement Charges';
+                    // $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Repayment At Disbursement')->first()->id;
+                    // $transaction->submitted_on = null;
+                    // $transaction->created_on = date("Y-m-d");
+                    // $transaction->amount = $disbursement_fees;
+                    // $transaction->credit = $disbursement_fees;
+                    // $transaction->fees_repaid_derived = $disbursement_fees;
+                    // $transaction->save();
+                    // $disbursement_fees_transaction_id = $transaction->id;
                 }
                 $loan->disbursement_charges = $disbursement_fees;
                 $loan->save();
@@ -337,18 +337,18 @@ class LoanStatusChangedActions implements ShouldQueue
                 $schedule->total_due = $loan_principal + $fee + $interest;
                 $schedule->save();
                 //
-                $transaction = new LoanTransaction();
-                $transaction->created_by_id = $loan->created_by_id;
-                $transaction->loan_id = $loan->id;
-                $transaction->payment_detail_id = $paymentDetail->id;
-                $transaction->name = 'Disbursement';
-                $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Disbursement')->first()->id;
-                $transaction->submitted_on = null;
-                $transaction->created_on = date("Y-m-d");
-                $transaction->amount = $loan->principal;
-                $transaction->debit = $loan->principal;
-                $disbursal_transaction_id = $transaction->id;
-                $transaction->save();
+                // $transaction = new LoanTransaction();
+                // $transaction->created_by_id = $loan->created_by_id;
+                // $transaction->loan_id = $loan->id;
+                // $transaction->payment_detail_id = $paymentDetail->id;
+                // $transaction->name = 'Disbursement';
+                // $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Disbursement')->first()->id;
+                // $transaction->submitted_on = null;
+                // $transaction->created_on = date("Y-m-d");
+                // $transaction->amount = $loan->principal;
+                // $transaction->debit = $loan->principal;
+                // $disbursal_transaction_id = $transaction->id;
+                // $transaction->save();
                 $loanHistory = new LoanHistory();
                 $loanHistory->loan_id = $loan->id;
                 $loanHistory->created_by_id = $loan->created_by_id ?? 0;
@@ -356,16 +356,16 @@ class LoanStatusChangedActions implements ShouldQueue
                 $loanHistory->action = 'Loan Disbursed';
                 $loanHistory->save();;
                 //add interest transaction
-                $transaction = new LoanTransaction();
-                $transaction->created_by_id = $loan->created_by_id;
-                $transaction->loan_id = $loan->id;
-                $transaction->name = 'Interest Applied';
-                $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Apply Interest')->first()->id;
-                $transaction->submitted_on = null;
-                $transaction->created_on = date("Y-m-d");
-                $transaction->amount = $interest;
-                $transaction->debit = $interest;
-                $transaction->save();
+                // $transaction = new LoanTransaction();
+                // $transaction->created_by_id = $loan->created_by_id;
+                // $transaction->loan_id = $loan->id;
+                // $transaction->name = 'Interest Applied';
+                // $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Apply Interest')->first()->id;
+                // $transaction->submitted_on = null;
+                // $transaction->created_on = date("Y-m-d");
+                // $transaction->amount = $interest;
+                // $transaction->debit = $interest;
+                // $transaction->save();
             }
             //check if accounting is enabled
             if ($loan->product->accounting_rule == "cash" || $loan->product->accounting_rule == "accrual_periodic" || $loan->product->accounting_rule == "accrual_upfront") {
@@ -445,18 +445,18 @@ class LoanStatusChangedActions implements ShouldQueue
                 $paymentDetail->payment_type_id = $loan->payment_type_id;
                 $paymentDetail->transaction_type = 'loan_transaction';
                 $paymentDetail->save();
-                $transaction = new LoanTransaction();
-                $transaction->created_by_id = $loan->created_by_id;
-                $transaction->loan_id = $loan->id;
-                $transaction->payment_detail_id = $paymentDetail->id;
-                $transaction->name = 'Repayments';
-                $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Repayment')->first()->id;
-                $transaction->submitted_on = null;
-                $transaction->created_on = date("Y-m-d");
-                $transaction->amount = $loan->interest_disbursed_derived;
-                $transaction->credit = $loan->interest_disbursed_derived;
-                $transaction->interest_repaid_derived = $loan->interest_disbursed_derived;
-                $transaction->save();
+                // $transaction = new LoanTransaction();
+                // $transaction->created_by_id = $loan->created_by_id;
+                // $transaction->loan_id = $loan->id;
+                // $transaction->payment_detail_id = $paymentDetail->id;
+                // $transaction->name = 'Repayments';
+                // $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Repayment')->first()->id;
+                // $transaction->submitted_on = null;
+                // $transaction->created_on = date("Y-m-d");
+                // $transaction->amount = $loan->interest_disbursed_derived;
+                // $transaction->credit = $loan->interest_disbursed_derived;
+                // $transaction->interest_repaid_derived = $loan->interest_disbursed_derived;
+                // $transaction->save();
                 $loan->interest_repaid_derived = $loan->interest_disbursed_derived;
                 $loan->save();
             }
@@ -478,16 +478,16 @@ class LoanStatusChangedActions implements ShouldQueue
             $penalties = $loan->schedules->sum('penalties') - $loan->schedules->sum('penalties_written_off_derived') - $loan->schedules->sum('penalties_repaid_derived') - $loan->schedules->sum('penalties_waived_derived');
             $balance = $principal + $interest + $fees + $penalties;
 
-            $loan_transaction = new LoanTransaction();
-            $loan_transaction->created_by_id = $loan->written_off_by_user_id;
-            $loan_transaction->loan_id = $loan->id;
-            $loan_transaction->name = 'Write Off';
-            $loan_transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Write Off')->first()->id;
-            $loan_transaction->submitted_on = null;
-            $loan_transaction->created_on = date("Y-m-d");
-            $loan_transaction->amount = $balance;
-            $loan_transaction->credit = $balance;
-            $loan_transaction->save();
+            // $loan_transaction = new LoanTransaction();
+            // $loan_transaction->created_by_id = $loan->written_off_by_user_id;
+            // $loan_transaction->loan_id = $loan->id;
+            // $loan_transaction->name = 'Write Off';
+            // $loan_transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Write Off')->first()->id;
+            // $loan_transaction->submitted_on = null;
+            // $loan_transaction->created_on = date("Y-m-d");
+            // $loan_transaction->amount = $balance;
+            // $loan_transaction->credit = $balance;
+            // $loan_transaction->save();
             //check if accounting is enabled
             if ($loan->product->accounting_rule == "cash" || $loan->product->accounting_rule == "accrual_periodic" || $loan->product->accounting_rule == "accrual_upfront") {
                 //credit account
