@@ -207,7 +207,7 @@ class UpdateTransactions implements ShouldQueue
                 }
                 $schedule->total_due = ($schedule->principal - $schedule->principal_written_off_derived - $schedule->principal_repaid_derived) + ($schedule->interest - $schedule->interest_written_off_derived - $schedule->interest_repaid_derived - $schedule->interest_waived_derived) + ($schedule->fees - $schedule->fees_written_off_derived - $schedule->fees_repaid_derived - $schedule->fees_waived_derived) + ($schedule->penalties - $schedule->penalties_written_off_derived - $schedule->penalties_repaid_derived - $schedule->penalties_waived_derived);
                 $schedule->balance = $schedule->total_due;
-                $schedule->save();
+                // $schedule->save();
                 if ($amount <= 0) {
                     break;
                 }
