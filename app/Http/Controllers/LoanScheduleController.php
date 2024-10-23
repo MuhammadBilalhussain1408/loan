@@ -102,14 +102,14 @@ class LoanScheduleController extends Controller
             }
             // $totaladmincharges += $fee; // Uncomment if you want to accumulate admin charges
             $item->calculated_admin_fee = $fee;
-            $item->days = Carbon::parse($item->due_date)->diffInDays(Carbon::parse($item->from_date));
+            $item->days = $loan->repayment_frequency_type == 'ballon_payment' ? 48*365 : Carbon::parse($item->due_date)->diffInDays(Carbon::parse($item->from_date));
         }
 
         if ($totalDueRepayments > 0) {
             $timelyRepayments = round($timelyRepayments * 100 / $totalDueRepayments);
         }
         $loan->timely_repayments = $timelyRepayments;
-        $loan->arrears_days = $arrearsDays;
+        $loan->arrears_days = $loan->repayment_frequency_type == 'ballon_payment' ? 48*365 :$arrearsDays;
         $loan->arrears_amount = $arrearsAmount;
         $loan->principal_overdue = $principalOverdue;
         $loan->interest_overdue = $interestOverdue;
