@@ -477,13 +477,13 @@ export default {
             let ID = false;
             let creditCheck = false;
             this.application.checklist_items.forEach(i=>{
-                if(i.name == 'Proof of Residence'){
+                if(i.name == 'Proof of Residence' && i.completed){
                     proofOfResidence=true;
                 }
-                if(i.name == 'ID'){
+                if(i.name == 'ID'&& i.completed){
                     ID=true;
                 }
-                if(i.name == 'Credit check'){
+                if(i.name == 'Credit check'&& i.completed){
                     creditCheck=true;
                 }
             });
