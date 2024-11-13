@@ -133,6 +133,9 @@ class LoanApplicationController extends Controller
         ]);
         $member = Member::find($request->member_id);
         $application = new LoanApplication();
+        $application->dec_institution = $request->dec_institution;
+        $application->dec_loan_amount = $request->dec_loan_amount;
+        $application->dec_monthly_installment = $request->dec_monthly_installment;
         $application->currency_id = $product->currency_id;
         $application->loan_product_id = $product->id;
         $application->member_id = $member->id;
@@ -285,6 +288,9 @@ class LoanApplicationController extends Controller
         $application->loan_application_checklist_id = $request->loan_application_checklist_id;
         $application->applied_amount = $request->applied_amount;
         $application->loan_term = $request->loan_term;
+        $application->dec_institution = $request->dec_institution;
+        $application->dec_loan_amount = $request->dec_loan_amount;
+        $application->dec_monthly_installment = $request->dec_monthly_installment;
         $application->repayment_frequency = $request->repayment_frequency;
         $application->repayment_frequency_type = $request->repayment_frequency_type;
         if (!$application->product->disallow_interest_rate_adjustment) {

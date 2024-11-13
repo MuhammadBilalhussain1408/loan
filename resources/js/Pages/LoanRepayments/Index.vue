@@ -31,7 +31,7 @@
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">ID</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Amount</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Date</th>
-                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Client</th>
+                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Member</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Loan #</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Action</th>
                     </tr>
@@ -57,11 +57,11 @@
                             </span>
                         </td>
                         <td class="border-t px-6 py-4">
-                            <inertia-link v-if="result.loan && result.loan.client"
-                                          :href="route('clients.show', result.loan.client.id)"
+                            <span v-if="result.loan && result.loan.member"
+
                                           tabindex="-1" class="text-indigo-600 hover:text-indigo-900">
-                                {{ result.loan.client.name }}
-                            </inertia-link>
+                                {{ result.loan.member.first_name }}
+                            </span>
                         </td>
                         <td class="border-t px-6 py-4">
                             <inertia-link v-if="result.loan "

@@ -16,15 +16,15 @@
         </div>
         <div class=" mx-auto main-div">
             <div class="bg-white rounded shadow p-6">
-               
+
                 <div class="grid grid-cols-1 md:grid-cols-1 gap-2 mt-4">
-            
+
                         <h1><strong>Member of Parliment And Desiginated Office Bearers Pension Fund</strong></h1>
                         <table style="width: 100%;">
                             <tr>
                                 <td class="p-2 font-medium text-gray-500" style="width: 50%;">
-                                    <img :src="this.assetUrl + 'images/mopado-high-resolution-logo-1.png'" 
-                                        style="height: 200px; margin:0; padding: 0;" 
+                                    <img :src="this.assetUrl + 'images/mopado-high-resolution-logo-1.png'"
+                                        style="height: 200px; margin:0; padding: 0;"
                                         alt="">
                                 </td>
                                 <td class="p-2 font-medium text-gray-500" style="width: 50%;">
@@ -57,7 +57,7 @@
 
                 </div>
                 <hr />
-               
+
 
                 <div class="grid grid-cols-1 md:grid-cols-1 gap-2 mt-4">
                     <div id="printDiv">
@@ -76,7 +76,7 @@
                             </tr>
                             <tr class="text-left bg-slate-50">
                                 <th class="border border-gray-200 p-2 font-medium text-gray-500">Branch Code</th>
-                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.member_branch_code
+                                <td class="border border-gray-200 p-2 font-medium text-gray-500">{{ stopLoan.branch_code
                                     }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
@@ -99,7 +99,7 @@
                                     stopLoan.member_account_number }}</td>
 
                             </tr>
-                       
+
                             <tr class="text-left bg-slate-50">
                                 <th class="border border-gray-200 p-2 font-medium text-gray-500">Member Branch Code
                                 </th>
@@ -147,7 +147,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                  
+
                                 </td>
                                 <td colspan="2">
                                     <div style="border: 1px solid black; height: 100px; width: 150px; text-align: center;">BANK

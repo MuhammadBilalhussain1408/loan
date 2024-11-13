@@ -160,10 +160,52 @@
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4 mb-4">
                                     <div class=" ">
-                                    <jet-label for="Signature" value="Signature"/>
+                                    <jet-label for="Signature" value="Member Signature"/>
                                     <jet-label for="" value="___________________"/>
 
                                   </div>
+                                    <div class=" ">
+                                    <jet-label for="Signature" value="Loan Officer Signature"/>
+                                    <jet-label for="" value="___________________"/>
+
+                                  </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4 mb-4">
+                                    <div class=" ">
+                                    <jet-label for="loan_created_date" value="Loan Created Date"/>
+                                    <input type="date" class="form-control" v-model="todayDate"/>
+
+                                  </div>
+                                  <div class=" ">
+                                    <jet-label for="signed_date" value="Signed Date"/>
+                                    <input type="date" class="form-control" v-model="todayDate"/>
+
+                                  </div>
+                            </div>
+
+                        </div>
+                        <h3 class="mt-4 font-bold">Declaration</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-4 mb-4">
+                            <div>
+                                <jet-label for="Institution" value="Institution"/>
+                                <jet-input type="text" id="Institution" class="block w-full"
+                                           v-model="form.dec_institution"/>
+                                <jet-input-error :message="form.errors.dec_institution"
+                                                 class="mt-2"/>
+                            </div>
+                            <div>
+                                <jet-label for="dec_loan_amount" value="Loan Amount"/>
+                                <jet-input type="text" id="dec_loan_amount" class="block w-full"
+                                           v-model="form.dec_loan_amount"/>
+                                <jet-input-error :message="form.errors.dec_loan_amount"
+                                                 class="mt-2"/>
+                            </div>
+                            <div>
+                                <jet-label for="dec_monthly_installment" value="Monthly Installment"/>
+                                <jet-input type="text" id="dec_monthly_installment" class="block w-full"
+                                           v-model="form.dec_monthly_installment"/>
+                                <jet-input-error :message="form.errors.dec_monthly_installment"
+                                                 class="mt-2"/>
                             </div>
                         </div>
                         <div class="mt-4 mb-4 overflow-x-auto">
@@ -288,7 +330,7 @@
 
                                  <!-- Print Button -->
                    <!-- Print Button -->
-                        <jet-button class="ml-4" @click="printForm" :style="{ backgroundColor: 'blue', color: 'white' }">
+                        <jet-button class="ml-4" type="button" @click="printForm" :style="{ backgroundColor: 'blue', color: 'white' }">
                             Print
                         </jet-button>
                         <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }"
@@ -390,6 +432,9 @@ export default {
                 selected_charges: [],
                 admin_charges:0.05,
                 custom_fields: this.customFields,
+                dec_institution: null,
+                dec_loan_amount: null,
+                dec_monthly_installment: null,
             }),
             usersMultiSelect: {
                 placeholder: 'Search for Staff',
@@ -422,6 +467,7 @@ export default {
             selectedCharge: null,
             pageTitle: "Create Loan Application",
             pageDescription: "Create Loan Application",
+            todayDate:null
         }
 
     },
@@ -429,6 +475,22 @@ export default {
 
     },
     methods: {
+    getCurrentDate(){
+        // Get current date
+        const currentDate = new Date();
+
+        // Format the date as YYYY-MM-DD
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Add leading zero if month < 10
+        const day = String(currentDate.getDate()).padStart(2, '0'); // Add leading zero if day < 10
+
+        // Combine into the format YYYY-MM-DD
+        const formattedDate = `${year}-${month}-${day}`;
+
+        // Set the value of the input field
+        this.todayDate = formattedDate;
+
+    },
         submit() {
             this.form.post(this.route('loans.applications.store'), {})
 
@@ -493,7 +555,10 @@ export default {
             return charges;
         },
     },
-    watch: {}
+    watch: {},
+    created(){
+        this.getCurrentDate()
+    }
 }
 </script>
 <style scoped>
