@@ -185,27 +185,27 @@
 
                         </div>
                         <h3 class="mt-4 font-bold">Declaration</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-4 mb-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-4 mb-4" v-for="dec in form.declations">
                             <div>
                                 <jet-label for="Institution" value="Institution"/>
                                 <jet-input type="text" id="Institution" class="block w-full"
-                                           v-model="form.dec_institution"/>
-                                <jet-input-error :message="form.errors.dec_institution"
-                                                 class="mt-2"/>
+                                           v-model="dec.dec_institution"/>
+                                <!-- <jet-input-error :message="dec.errors.dec_institution"
+                                                 class="mt-2"/> -->
                             </div>
                             <div>
                                 <jet-label for="dec_loan_amount" value="Loan Amount"/>
                                 <jet-input type="text" id="dec_loan_amount" class="block w-full"
-                                           v-model="form.dec_loan_amount"/>
-                                <jet-input-error :message="form.errors.dec_loan_amount"
-                                                 class="mt-2"/>
+                                           v-model="dec.dec_loan_amount"/>
+                                <!-- <jet-input-error :message="dec.errors.dec_loan_amount"
+                                                 class="mt-2"/> -->
                             </div>
                             <div>
                                 <jet-label for="dec_monthly_installment" value="Monthly Installment"/>
                                 <jet-input type="text" id="dec_monthly_installment" class="block w-full"
-                                           v-model="form.dec_monthly_installment"/>
-                                <jet-input-error :message="form.errors.dec_monthly_installment"
-                                                 class="mt-2"/>
+                                           v-model="dec.dec_monthly_installment"/>
+                                <!-- <jet-input-error :message="dec.errors.dec_monthly_installment"
+                                                 class="mt-2"/> -->
                             </div>
                         </div>
                         <div class="mt-4 mb-4 overflow-x-auto">
@@ -432,9 +432,23 @@ export default {
                 selected_charges: [],
                 admin_charges:0.05,
                 custom_fields: this.customFields,
-                dec_institution: null,
-                dec_loan_amount: null,
-                dec_monthly_installment: null,
+                declations:[
+                    {
+                        dec_institution: null,
+                        dec_loan_amount: null,
+                        dec_monthly_installment: null,
+                    },
+                    {
+                        dec_institution: null,
+                        dec_loan_amount: null,
+                        dec_monthly_installment: null,
+                    },
+                    {
+                        dec_institution: null,
+                        dec_loan_amount: null,
+                        dec_monthly_installment: null,
+                    }
+                ]
             }),
             usersMultiSelect: {
                 placeholder: 'Search for Staff',

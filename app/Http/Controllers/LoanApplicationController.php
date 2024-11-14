@@ -24,6 +24,7 @@ use App\Models\CustomFieldMeta;
 use App\Models\Fund;
 use App\Models\Loan;
 use App\Models\LoanApplication;
+use App\Models\LoanApplicationDeclaration;
 use App\Models\LoanCharge;
 use App\Models\LoanHistory;
 use App\Models\LoanLinkedCharge;
@@ -133,9 +134,9 @@ class LoanApplicationController extends Controller
         ]);
         $member = Member::find($request->member_id);
         $application = new LoanApplication();
-        $application->dec_institution = $request->dec_institution;
-        $application->dec_loan_amount = $request->dec_loan_amount;
-        $application->dec_monthly_installment = $request->dec_monthly_installment;
+        // $application->dec_institution = $request->dec_institution;
+        // $application->dec_loan_amount = $request->dec_loan_amount;
+        // $application->dec_monthly_installment = $request->dec_monthly_installment;
         $application->currency_id = $product->currency_id;
         $application->loan_product_id = $product->id;
         $application->member_id = $member->id;
@@ -181,6 +182,16 @@ class LoanApplicationController extends Controller
                     'value' => $value
                 ]
             )->save();
+        }
+        foreach($request->declations as $dec){
+            $dec = (object) $dec;
+            LoanApplicationDeclaration::create([
+                'member_id'=>$application->member_id,
+                'loan_id'=>$application->id,
+                'dec_institution'=>$dec->dec_institution,
+                'dec_loan_amount'=>$dec->dec_loan_amount,
+                'dec_monthly_installment'=>$dec->dec_monthly_installment,
+            ]);
         }
         //save charges
         // if (!empty($request->selected_charges)) {
