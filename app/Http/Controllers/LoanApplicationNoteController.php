@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Loan;
 use App\Models\LoanApplication;
+use App\Models\LoanApplicationDeclaration;
 use App\Models\LoanNote;
 use App\Models\Note;
 use App\Models\PaymentType;
@@ -41,6 +42,19 @@ class LoanApplicationNoteController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(20);
         return Inertia::render('LoanApplications/Notes/Index', [
+            'application' => $application,
+            'results' => $results,
+            'paymentTypes' => PaymentType::where('active', 1)->get(),
+        ]);
+    }
+    public function declarations(LoanApplication $application)
+    {
+        $application->load(['member','declarations','loan','product', 'product.charges', 'product.charges.charge', 'product.charges.charge.option', 'product.charges.charge.type']);
+        $results = LoanApplicationDeclaration::where('loan_id', $application->id)
+            // ->where('category', 'loan_application')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+        return Inertia::render('LoanApplications/Declarations/Index', [
             'application' => $application,
             'results' => $results,
             'paymentTypes' => PaymentType::where('active', 1)->get(),

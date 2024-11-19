@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('loan_application_declarations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('member_id')->nullable();
-            $table->unsignedBigInteger('loan_id')->nullable();
+            $table->unsignedBigInteger('loan_id')->nullable(); // loan application
             $table->text('dec_institution')->nullable();
             $table->text('dec_loan_amount')->nullable();
             $table->text('dec_monthly_installment')->nullable();

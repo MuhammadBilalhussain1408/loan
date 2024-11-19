@@ -216,6 +216,13 @@
                         History
                     </inertia-link>
                 </li>
+                <li>
+                    <inertia-link :href="route('loans.applications.declarations.index',application.id)"
+                                  :class="route().current('loans.applications.declarations.index')?'text-blue-600 border-blue-600  active':'border-transparent hover:text-gray-600 hover:border-gray-300'"
+                                  class="inline-flex items-center justify-center p-4 border-b-2  rounded-t-lg group">
+                        Declaration
+                    </inertia-link>
+                </li>
             </ul>
         </div>
     </div>
@@ -476,7 +483,7 @@ export default {
             let proofOfResidence = false;
             let ID = false;
             let creditCheck = false;
-            this.application.checklist_items.forEach(i=>{
+            this.application.checklist_items?.forEach(i=>{
                 if(i.name == 'Proof of Residence' && i.completed){
                     proofOfResidence=true;
                 }

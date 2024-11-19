@@ -288,6 +288,9 @@ Route::group(['prefix' => 'loan', 'as' => 'loans.'], function () {
         Route::get('note/{note}/edit', [LoanApplicationNoteController::class, 'edit'])->name('notes.edit');
         Route::put('note/{note}/update', [LoanApplicationNoteController::class, 'update'])->name('notes.update');
         Route::delete('note/{note}/destroy', [LoanApplicationNoteController::class, 'destroy'])->name('notes.destroy');
+        //declaration
+        Route::get('{application}/dec', [LoanApplicationNoteController::class, 'declarations'])->name('declarations.index');
+
     });
     //loan files
     Route::get('{loan}/file', [LoanFileController::class, 'index'])->name('files.index');

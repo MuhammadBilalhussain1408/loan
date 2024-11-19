@@ -96,6 +96,10 @@ class LoanApplication extends Model
     {
         return $this->hasMany(LoanApplicationLinkedCharge::class, 'loan_application_id', 'id');
     }
+    public function declarations(): HasMany
+    {
+        return $this->hasMany(LoanApplicationDeclaration::class, 'loan_id', 'id');
+    }
 
     public function checklistItems(): HasMany
     {
