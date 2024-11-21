@@ -86,10 +86,10 @@
                                         {{ stopLoan.member_account_holder }}</td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Member Account Number
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Member Bank Name
                                 </th>
                                 <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
-                                    stopLoan.member_bank_name }}</td>
+                                    stopLoan.bank_name }}</td>
 
                             </tr>
                             <tr class="text-left bg-slate-50">
