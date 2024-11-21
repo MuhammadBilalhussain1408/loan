@@ -49,7 +49,7 @@
                             Amount
                         </td>
                         <td class="border-t px-6 py-4">
-                            {{ $filters.currency(transaction.amount) }}
+                            {{ $filters.formatNumber(transaction.amount) }}
                         </td>
                     </tr>
                     <tr

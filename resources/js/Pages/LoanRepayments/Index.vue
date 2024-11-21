@@ -8,6 +8,24 @@
         <div class=" mx-auto mb-4 flex justify-between items-center">
             <filter-search v-model="form.search" class="w-full max-w-md mr-4" @reset="reset">
                 <div class="w-80 mt-2 px-4 py-6 shadow-xl bg-white rounded">
+                    <div class="mb-2">
+                        <jet-label for="filter_date_range" value="Date Start"/>
+                        <flat-pickr
+                            v-model="form.start_date"
+                            class="form-control w-full"
+                            placeholder="Select Start Date"
+                            name="date_range">
+                        </flat-pickr>
+                    </div>
+                    <div class="mb-2">
+                        <jet-label for="end_date" value="Date End"/>
+                        <flat-pickr
+                            v-model="form.end_date"
+                            class="form-control w-full"
+                            placeholder="Select End Date"
+                            name="end_date">
+                        </flat-pickr>
+                    </div>
                 </div>
             </filter-search>
             <div>
@@ -162,6 +180,7 @@ export default {
         form: {
             handler: _.debounce(function () {
                 let query = pickBy(this.form)
+                if((this.form.start_date && this.form.end_date) || this.form.search)
                 this.$inertia.get(this.route('loans.repayments.index', Object.keys(query).length ? query : {}))
             }, 500),
             deep: true,

@@ -46,6 +46,8 @@ class LoanRepaymentController extends Controller
      */
     public function index(Request $request)
     {
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
         $perPage = $request->per_page ?: 20;
         $orderBy = $request->order_by ?: 'created_at';
         $orderByDir = $request->order_by_dir ?: 'desc';
@@ -53,6 +55,9 @@ class LoanRepaymentController extends Controller
             ->with(['createdBy', 'type', 'createdBy', 'paymentDetail', 'paymentDetail.payment_type', 'loan', 'loan.member'])
             ->when($orderBy, function (Builder $query) use ($orderBy, $orderByDir) {
                 $query->orderBy($orderBy, $orderByDir);
+            })
+            ->when(($startDate && $endDate), function (Builder $query) use ($startDate, $endDate) {
+                $query->whereBetween('created_at',[$startDate, $endDate]);
             })
             ->where('loan_transaction_type_id', LoanTransactionType::where('name', 'Repayment')->first()->id)
             ->paginate($perPage)
