@@ -162,7 +162,7 @@
                                 Application Date
                             </td>
                             <td class="border border-gray-200 p-2 font-medium text-gray-500">
-                                {{ $filters.date(application.created_at) }}
+                                <input type="date" :value="$filters.date(application.created_at)" class="form-control" />
                             </td>
                         </tr>
                         </tbody>

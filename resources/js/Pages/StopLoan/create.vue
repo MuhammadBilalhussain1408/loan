@@ -39,55 +39,63 @@
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
-                              <div>
+                            <div>
                                 <jet-label for="branch_code" value="Branch Code"/>
                                 <jet-input id="branch_code" type="text"
                                            class="block w-full" v-model="form.branch_code"/>
                                 <jet-input-error :message="form.errors.branch_code" class="mt-2"/>
                             </div>
                             <div>
+                                <jet-label for="mp_bank_name" value="Mopada Bank Name"/>
+                                <jet-input id="mp_bank_name" type="text"
+                                           class="block w-full" v-model="form.mp_bank_name"/>
+                                <jet-input-error :message="form.errors.mp_bank_name" class="mt-2"/>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
+                            <div>
                                 <jet-label for="member_account_holder" value="Member Account Holder"/>
                                 <jet-input id="member_account_holder" type="text"
                                            class="block w-full" v-model="form.member_account_holder"/>
                                 <jet-input-error :message="form.errors.member_account_holder" class="mt-2"/>
                             </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
                             <div>
                                 <jet-label for="member_account_number" value="Member Account Number"/>
                                 <jet-input id="member_account_number" type="text"
                                            class="block w-full" v-model="form.member_account_number"/>
                                 <jet-input-error :message="form.errors.member_account_number" class="mt-2"/>
                             </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
                             <div>
                                 <jet-label for="monthly_installment" value="Monthly Installment"/>
                                 <jet-input id="monthly_installment" type="text"
                                            class="block w-full" v-model="form.monthly_installment"/>
                                 <jet-input-error :message="form.errors.monthly_installment" class="mt-2"/>
                             </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
                             <div>
                                 <jet-label for="stop_order_date" value="Stop Order Date"/>
                                 <jet-input id="stop_order_date" type="date"
                                            class="block w-full" v-model="form.stop_order_date"/>
                                 <jet-input-error :message="form.errors.stop_order_date" class="mt-2"/>
                             </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
                             <div>
                                 <jet-label for="member_branch_code" value="Member Branch code"/>
                                 <jet-input id="member_branch_code" type="text"
                                            class="block w-full" v-model="form.member_branch_code"/>
                                 <jet-input-error :message="form.errors.member_branch_code" class="mt-2"/>
                             </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
                               <div>
                                 <jet-label for="bank_name" value="Bank Name"/>
                                 <jet-input id="bank_name" type="text"
                                            class="block w-full" v-model="form.bank_name"/>
                                 <jet-input-error :message="form.errors.bank_name" class="mt-2"/>
                             </div>
-                              <div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
+                            <div>
                                 <jet-label for="reference" value="Reference"/>
                                 <jet-input id="reference" type="text"
                                            class="block w-full" v-model="form.reference"/>
@@ -192,7 +200,8 @@ export default {
                 member_account_number: null,
                 member_branch_code: null,
                 reference: null,
-                bank_name:null
+                bank_name:null,
+                mp_bank_name:null
             }),
             usersMultiSelect: {
                 placeholder: 'Search for Staff',
