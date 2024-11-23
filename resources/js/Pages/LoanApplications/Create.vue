@@ -198,13 +198,7 @@
                             </div>
                           
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4 mb-4">
-                                    <div class=" ">
-                                    
-                                  </div>
-                                  <div class=" ">
-                                  </div>
-                            </div>
+                    
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4 mb-4">
                                     <div class=" ">
                                     <jet-label for="Signature" value="Member Signature"/>
