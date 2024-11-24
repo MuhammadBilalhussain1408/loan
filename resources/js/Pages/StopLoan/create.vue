@@ -40,17 +40,18 @@
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
                             <div>
+                                <jet-label for="mp_bank_name" value="Funding Bank Name"/>
+                                <jet-input id="mp_bank_name" type="text"
+                                           class="block w-full" v-model="form.mp_bank_name"/>
+                                <jet-input-error :message="form.errors.mp_bank_name" class="mt-2"/>
+                            </div>
+                            <div>
                                 <jet-label for="branch_code" value="Branch Code"/>
                                 <jet-input id="branch_code" type="text"
                                            class="block w-full" v-model="form.branch_code"/>
                                 <jet-input-error :message="form.errors.branch_code" class="mt-2"/>
                             </div>
-                            <div>
-                                <jet-label for="mp_bank_name" value="Mopada Bank Name"/>
-                                <jet-input id="mp_bank_name" type="text"
-                                           class="block w-full" v-model="form.mp_bank_name"/>
-                                <jet-input-error :message="form.errors.mp_bank_name" class="mt-2"/>
-                            </div>
+                            
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4">
                             <div>

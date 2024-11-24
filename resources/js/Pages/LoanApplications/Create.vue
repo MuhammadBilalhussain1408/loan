@@ -158,18 +158,7 @@
                                     ref="chargesMultiselectField"
                                 />
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4 mb-4">
-                                    <div class=" ">
-                                    <jet-label for="Signature" value="Member Signature"/>
-                                    <jet-label for="" value="___________________"/>
-
-                                  </div>
-                                    <div class=" ">
-                                    <jet-label for="Signature" value="Loan Officer Signature"/>
-                                    <jet-label for="" value="___________________"/>
-
-                                  </div>
-                            </div>
+                            
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4 mb-4">
                                     <div class=" ">
                                     <jet-label for="loan_created_date" value="Loan Created Date"/>
@@ -201,13 +190,27 @@
                                                  class="mt-2"/> -->
                             </div>
                             <div>
-                                <jet-label for="dec_monthly_installment" value="Monthly Installment"/>
+                                <jet-label for="dec_monthly_installment" value="Year of Loan"/>
                                 <jet-input type="text" id="dec_monthly_installment" class="block w-full"
                                            v-model="dec.dec_monthly_installment"/>
                                 <!-- <jet-input-error :message="dec.errors.dec_monthly_installment"
                                                  class="mt-2"/> -->
                             </div>
+                          
                         </div>
+                    
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4 mb-4">
+                                    <div class=" ">
+                                    <jet-label for="Signature" value="Member Signature"/>
+                                    <jet-label for="" value="___________________"/>
+
+                                  </div>
+                                    <div class=" ">
+                                    <jet-label for="Signature" value="Loan Officer Signature"/>
+                                    <jet-label for="" value="___________________"/>
+
+                                  </div>
+                            </div>
                         <div class="mt-4 mb-4 overflow-x-auto">
                             <table class="w-full whitespace-no-wrap">
                                 <thead class="bg-gray-50">
