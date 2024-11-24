@@ -26,6 +26,15 @@
                             name="end_date">
                         </flat-pickr>
                     </div>
+                    <div class="mb-2">
+                        <jet-label for="filter_member_id" value="Member"/>
+                        <Multiselect
+                            v-model="form.member_id"
+                            mode="single"
+                            :required="true"
+                            v-bind="membersMultiSelect"
+                        />
+                    </div>
                 </div>
             </filter-search>
             <div>
@@ -133,6 +142,19 @@
 </template>
 
 <script>
+const fetchMembers = async (query) => {
+    let where = ''
+
+    const response = await fetch(
+        route('members.search') + '?s=' + query,
+        {}
+    );
+
+    const data = await response.json(); // Here you have the data that you need
+    return data.map((item) => {
+        return {value: item.id, label: item.name + '(#' + item.id + ')'}
+    })
+}
 import AppLayout from '@/Layouts/AppLayout.vue'
 import Pagination from '@/Jetstream/Pagination.vue'
 import FilterSearch from '@/Jetstream/FilterSearch.vue'
@@ -173,6 +195,17 @@ export default {
             selectedRecord: null,
             pageTitle: "Loan Repayments",
             pageDescription: "Manage  Loan Repayments",
+            membersMultiSelect: {
+                placeholder: 'Search for Member',
+                filterResults: false,
+                minChars: 2,
+                resolveOnLoad: true,
+                delay: 4,
+                searchable: true,
+                options: async (query) => {
+                    return await fetchMembers(query || this.filters.member_id)
+                }
+            },
 
         }
     },
@@ -180,7 +213,7 @@ export default {
         form: {
             handler: _.debounce(function () {
                 let query = pickBy(this.form)
-                if((this.form.start_date && this.form.end_date) || this.form.search)
+                if((this.form.start_date && this.form.end_date) || this.form.search || this.form.member_id)
                 this.$inertia.get(this.route('loans.repayments.index', Object.keys(query).length ? query : {}))
             }, 500),
             deep: true,
