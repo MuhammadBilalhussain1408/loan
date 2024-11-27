@@ -256,6 +256,7 @@ Route::group(['prefix' => 'loan', 'as' => 'loans.'], function () {
     //applications
     Route::group(['prefix' => 'application', 'as' => 'applications.'], function () {
         Route::get('/', [LoanApplicationController::class, 'index'])->name('index');
+        Route::get('/update-applied-date', [LoanApplicationController::class, 'updateAppliedDate'])->name('updateAppliedDate');
         Route::get('/create', [LoanApplicationController::class, 'create'])->name('create');
         Route::post('/store', [LoanApplicationController::class, 'store'])->name('store');
         Route::get('/{application}/show', [LoanApplicationController::class, 'show'])->name('show');

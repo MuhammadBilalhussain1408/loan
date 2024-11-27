@@ -162,7 +162,7 @@
                                 Application Date
                             </td>
                             <td class="border border-gray-200 p-2 font-medium text-gray-500">
-                                <input type="date" :value="$filters.date(application.created_at)" class="form-control" />
+                                <input type="date" v-model="appliedDate" class="form-control" @input="updateDate()"/>
                             </td>
                         </tr>
                         </tbody>
@@ -455,7 +455,7 @@ export default {
                 loan_officer_id: this.application.loan_officer_id,
                 description: ``,
             }),
-
+            appliedDate:this.$filters.date(this.application.created_at),
 
             usersMultiSelect: {
                 placeholder: 'Search for Staff',
@@ -556,6 +556,9 @@ export default {
         },
         printSection(){
             window.print();
+        },
+        updateDate(){
+            this.$inertia.get(this.route('loans.applications.updateAppliedDate',{'newDate': this.appliedDate,'id':this.application.id}))
         }
     },
     created(){

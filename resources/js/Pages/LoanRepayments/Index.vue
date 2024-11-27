@@ -236,7 +236,6 @@ export default {
             this.selectedRecord = id
         },
         destroy() {
-
             this.$inertia.delete(this.route('loans.repayments.destroy', this.selectedRecord))
             this.confirmingDeletion = false
         },

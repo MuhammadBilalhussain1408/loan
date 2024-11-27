@@ -615,4 +615,11 @@ class LoanApplicationController extends Controller
 
         return redirect()->back()->with('success', 'Successfully disbursed application. Loan is now processing in the background.');
     }
+    public function updateAppliedDate()
+    {
+        LoanApplication::where('id',request('id'))->update([
+            'created_at'=>Carbon::parse(request('newDate'))
+        ]);
+        // return redirect()->back()->with('success', 'Successfully up');
+    }
 }
