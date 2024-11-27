@@ -95,7 +95,7 @@
                                         <td>{{ $filters.formatNumber(loan.principal_disbursed_derived) }}</td>
                                         <td>{{ $filters.formatNumber(loan.principal_repaid_derived) }}</td>
 
-                                 
+
                                         <!-- <td>{{ $filters.formatNumber(loan.principal_written_off_derived) }}</td> -->
                                         <!-- <td>0</td> -->
                                         <!-- <td>{{ $filters.formatNumber(loan.principal_written_off_derived) }}</td> -->
@@ -147,7 +147,7 @@
 
                                     </tr>
                                 </tbody>
-                            
+
                                 <tfoot>
                                     <tr>
                                         <th>Total</th>
@@ -244,6 +244,26 @@
                 </div>
             </form>
         </div>
+        <jet-confirmation-modal :show="confirmingDeletion" @close="confirmingDeletion = false">
+            <template #title>
+                Delete Record
+            </template>
+
+            <template #content>
+                Are you sure you want to delete record?
+            </template>
+
+            <template #footer>
+                <jet-secondary-button @click.native="confirmingDeletion = false">
+                    Nevermind
+                </jet-secondary-button>
+
+                <jet-danger-button class="ml-2" @click.native="destroy" :class="{ 'opacity-25': form.processing }"
+                                   :disabled="form.processing">
+                    Delete Record
+                </jet-danger-button>
+            </template>
+        </jet-confirmation-modal>
         <teleport to="head">
             <title>{{ pageTitle }}</title>
             <meta property="og:description" :content="pageDescription">
@@ -289,6 +309,9 @@ import JetLabel from "@/Jetstream/Label.vue";
 import SelectInput from "@/Jetstream/SelectInput.vue";
 import FileInput from "@/Jetstream/FileInput.vue";
 import TextareaInput from "@/Jetstream/TextareaInput.vue";
+import JetConfirmationModal from '@/Jetstream/ConfirmationModal.vue'
+import JetDangerButton from '@/Jetstream/DangerButton.vue'
+import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
 
 
 export default {

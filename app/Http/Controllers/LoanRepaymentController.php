@@ -102,4 +102,9 @@ class LoanRepaymentController extends Controller
         //fire loan status changed event
         return redirect()->route('loans.repayments.index')->with('success', 'Import now running in the background');
     }
+    public function destroy($repayment)
+    {
+        LoanTransaction::where('id',$repayment)->delete();
+        return redirect()->route('loans.repayments.index', $repayment)->with('success', 'Successfully deleted');
+    }
 }
