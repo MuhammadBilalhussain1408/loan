@@ -674,8 +674,8 @@ function generate_loan_application_schedule(LoanApplication $application)
     }
 
     // dd($period);
-    $payment_from_date = Carbon::today()->format('Y-m-d');
-    $next_payment_date = Carbon::today()->format('Y-m-d');
+    $payment_from_date = $application->created_at->format('Y-m-d');
+    $next_payment_date = $application->created_at->format('Y-m-d');
     $total_principal = 0;
     $total_interest = 0;
     $total_days = 0;
