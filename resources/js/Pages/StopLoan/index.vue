@@ -78,7 +78,7 @@
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Monthly Installment</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Member Bank</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Reference</th>
-                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Funding BankName</th>
+                        <th class="px-6 pt-4 pb-4 font-medium text-gray-500">BankName MOPADO</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Stop Order Date</th>
                         <th class="px-6 pt-4 pb-4 font-medium text-gray-500">Action</th>
                     </tr>
