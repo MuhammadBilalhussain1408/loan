@@ -173,7 +173,7 @@ class LoanStatusChangedActions implements ShouldQueue
                 $loanHistory->created_by_id = $loan->created_by_id ?? 0;
                 $loanHistory->user = $loan->createdBy->name ?? '';
                 $loanHistory->action = 'Loan Disbursed';
-                $loanHistory->save();;
+                $loanHistory->save();
                 //add interest transaction
                 $transaction = new LoanTransaction();
                 $transaction->created_by_id = $loan->created_by_id;
@@ -185,6 +185,18 @@ class LoanStatusChangedActions implements ShouldQueue
                 $transaction->amount = $total_interest;
                 $transaction->debit = $total_interest;
                 $transaction->save();
+                $adminFee = (($loan->principal * 0.05) / 100) * 48;
+                $transaction = new LoanTransaction();
+                $transaction->created_by_id = $loan->created_by_id;
+                $transaction->loan_id = $loan->id;
+                $transaction->name = 'Admin Fee';
+                $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Admin Fee')->first()?->id;
+                $transaction->submitted_on = null;
+                $transaction->created_on = date("Y-m-d");
+                $transaction->amount = $adminFee;
+                $transaction->debit = $adminFee;
+                $transaction->save();
+
                 $installment_fees = 0;
                 $disbursement_fees = 0;
                 foreach ($loan->charges as $key) {
@@ -364,6 +376,17 @@ class LoanStatusChangedActions implements ShouldQueue
                 $transaction->created_on = date("Y-m-d");
                 $transaction->amount = $interest;
                 $transaction->debit = $interest;
+                $transaction->save();
+                $adminFee = ($loan->principal * 0.05) / 100;
+                $transaction = new LoanTransaction();
+                $transaction->created_by_id = $loan->created_by_id;
+                $transaction->loan_id = $loan->id;
+                $transaction->name = 'Admin Fee';
+                $transaction->loan_transaction_type_id = LoanTransactionType::where('name', 'Admin Fee')->first()?->id;
+                $transaction->submitted_on = null;
+                $transaction->created_on = date("Y-m-d");
+                $transaction->amount = $adminFee;
+                $transaction->debit = $adminFee;
                 $transaction->save();
             }
             //check if accounting is enabled
