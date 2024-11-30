@@ -102,7 +102,7 @@ class LoanTransactionController extends Controller
             ->get();
         $balance = $loan->principal;
         $results->transform(function ($item) use (&$balance) {
-            if ($item->type->name === 'Apply Charges' || $item->type->name === 'Apply Interest') {
+            if ($item->type->name === 'Apply Charges' || $item->type->name === 'Apply Interest' || $item->type->name === 'Admin Fee') {
                 $balance = $balance + $item->amount;
             }
             if ($item->type->name === 'Repayment' || $item->type->name === 'Waive Interest' || $item->type->name === 'Recovery Repayment' || $item->type->name === 'Waive Charges' || $item->type->name === 'Write Off') {
