@@ -75,7 +75,7 @@
                                 </td>
                             </tr>
                             <tr class="text-left bg-slate-50">
-                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Bank Name for Fund </th>
+                                <th class="border border-gray-200 p-2 font-medium text-gray-500">Bank Name for MOPADO</th>
                                 <td class="border border-gray-200 p-2 font-medium text-gray-500">{{
                                     stopLoan.mp_bank_name }}
                                 </td>

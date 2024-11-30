@@ -41,7 +41,7 @@
                                 <jet-input-error :message="form.errors.branch_code" class="mt-2" />
                             </div>
                             <div>
-                                <jet-label for="mp_bank_name" value="Mopada Bank Name" />
+                                <jet-label for="mp_bank_name" value="Bank Name MOPADO" />
                                 <jet-input id="mp_bank_name" type="text" class="block w-full"
                                     v-model="form.mp_bank_name" />
                                 <jet-input-error :message="form.errors.mp_bank_name" class="mt-2" />
