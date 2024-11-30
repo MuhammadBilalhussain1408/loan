@@ -662,7 +662,7 @@ function generate_loan_application_schedule(LoanApplication $application)
     $loan_details = [];
     $admincharges = $application->admin_charges;
     $loan_details['principal'] = $application->applied_amount;
-    $loan_details['disbursement_date'] = Carbon::today()->format('Y-m-d');
+    $loan_details['disbursement_date'] = $application->created_at->format('Y-m-d');
     $schedules = [];
     $loan_principal = $application->applied_amount;
     $interest_rate = determine_period_interest_rate($application->interest_rate, $application->repayment_frequency_type, $application->interest_rate_type);
